@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="viewModel"
+            type="com.zorona.liverooms.viewModel.ReelsViewModel" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/black_back"
+        tools:context=".reels.VideoListFragment">
+
+     <com.scwang.smartrefresh.layout.SmartRefreshLayout
+         android:id="@+id/swipe_refresh"
+         android:layout_width="match_parent"
+         android:layout_height="match_parent">
+
+         <com.scwang.smartrefresh.layout.header.ClassicsHeader
+             android:id="@+id/header"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             app:layout_srlSpinnerStyle="Translate"
+             app:srlAccentColor="@color/pink"
+             app:srlDrawableArrow="@drawable/ic_back"
+             app:srlEnableLastTime="false"
+             app:srlEnablePullToCloseTwoLevel="false"
+             app:srlEnableTwoLevel="false"
+             app:srlPrimaryColor="@color/black_back" />
+
+         <androidx.recyclerview.widget.RecyclerView
+             android:id="@+id/rvReels"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:orientation="vertical"
+             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+             tools:listitem="@layout/item_reels" />
+
+         <com.scwang.smartrefresh.layout.footer.ClassicsFooter
+             android:layout_width="match_parent"
+             android:layout_height="40dp"
+             android:gravity="center" />
+
+
+     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+
+        <LinearLayout
+            android:id="@+id/lyttop"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:orientation="horizontal"
+            android:weightSum="3">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvLive"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/amidum"
+                    android:gravity="center"
+                    android:text="Live"
+                    android:textColor="@color/white"
+                    android:textSize="18dp" />
+
+                <View
+                    android:id="@+id/line1"
+                    android:layout_width="20dp"
+                    android:layout_height="3dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/bg_20dp"
+                    android:backgroundTint="@color/pink"
+                    android:visibility="invisible" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvVideo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/abold"
+                    android:gravity="center"
+                    android:text="Relite"
+                    android:textColor="@color/white"
+                    android:textSize="18dp" />
+
+                <View
+                    android:id="@+id/line2"
+                    android:layout_width="20dp"
+                    android:layout_height="3dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/bg_20dp"
+                    android:backgroundTint="@color/pink" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvOnetoOne"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/aregular"
+                    android:gravity="center"
+                    android:text="1-to-1"
+                    android:textColor="@color/white"
+                    android:textSize="18dp" />
+
+                <View
+                    android:id="@+id/line3"
+                    android:layout_width="20dp"
+                    android:layout_height="3dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/bg_20dp"
+                    android:backgroundTint="@color/pink"
+                    android:visibility="invisible" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/imgMedia"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_centerInParent="true"
+            android:alpha=".7" />
+
+        <ProgressBar
+            android:indeterminateTint="@color/pink"
+            android:id="@+id/pd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:visibility="gone" />
+
+        <com.google.android.material.progressindicator.LinearProgressIndicator
+            android:layout_alignParentBottom="true"
+            android:id="@+id/buffering"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:indeterminateOnly="true"
+            app:indicatorColor="@android:color/white"
+            app:trackColor="#11ffffff" />
+
+        <RelativeLayout
+            android:id="@+id/noData"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="70dp"
+            android:visibility="@{viewModel.noData?View.VISIBLE : View.GONE}">
+
+            <include layout="@layout/lyt_no_data" />
+        </RelativeLayout>
+
+    </RelativeLayout>
+</layout>

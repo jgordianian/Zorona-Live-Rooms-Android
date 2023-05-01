@@ -1,0 +1,57 @@
+<resources>
+
+
+    <string name="app_name">Zorona Liverooms</string>
+
+    <string name="facebook_app_id">874383896560753</string>
+    <string name="fb_login_protocol_scheme">fb874383896560753</string>
+
+    <string name="count_clips" formatted="false">%s clips</string>
+    <string name="match_guide_click">"Tap the Screen to match "</string>
+    <string name="image">Image</string>
+    <string name="dummytext">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using \'Content here, content here\', making it look like readable English.</string>
+    <string name="purchase_decription">Regular renewal, cancel at any time \n The payment of purchasing the subscription will be charged from your Google Play account.\nYour subscription will be automatically renewed for the same package duration with same price until you cancel it in the Google Play store settings at least 24 hours before the end of the current subscription.By confirming your subscription you agree to our Terms of Use and Privacy Policy</string>
+    <string name="whaitis_rcoin">1.When you receive gifts , like a Lamborghini or Castle, you immediately earn the same amount of Rcoins as the gift\'s price in the Gift Store.\n\n2.You can convert Rcoins to both diamonds and cash.\n\n3.Rcoins balance Available+Withdrawing\n</string>
+    <string name="bio">𝐋𝐢𝐟𝐞 𝐝𝐨𝐞𝐬𝐧’𝐭 𝐚𝐥𝐰𝐚𝐲𝐬 𝐠𝐢𝐯𝐞 𝐮 𝐚 𝐬𝐞𝐜𝐨𝐧𝐝 𝐜𝐡𝐚𝐧𝐜𝐞🤗💞💙 𝐔 𝐧𝐞𝐯𝐞𝐫 𝐠𝐞𝐭 𝐚 𝐬𝐞𝐜𝐨𝐧𝐝 𝐜𝐡𝐚𝐧𝐜𝐞 𝐭𝐨 𝐜𝐫𝐞𝐚𝐭𝐞 𝐭𝐡𝐞 𝐟𝐢𝐫𝐬𝐭 𝐢𝐦𝐩𝐫𝐞𝐬𝐬𝐢𝐨𝐧😊💛💚💜 𝐒𝐨 𝐦𝐚𝐤𝐞 𝐮𝐫 𝐟𝐢𝐫𝐬𝐭 𝐜𝐡𝐚𝐧𝐜𝐞 𝐜𝐨𝐮𝐧𝐭☺️💝💖❤️</string>
+    <string name="dummyname">@Mia Malkova</string>
+    <string name="timer_hint">To cancel timer before it starts, click here.</string>
+    <string name="mmss">00:00</string>
+    <string name="sound_hint">Click to choose a song.</string>
+    <string name="no_internet_connection">No Internet Connection</string>
+    <string name="back_online">Back Online</string>
+
+    <string name="notification_preview_description">This will take just a few moments.</string>
+    <string name="notification_preview_title">Preparing for upload…</string>
+    <string name="notification_upload_description">Just a few moments before it goes on air.</string>
+    <string name="notification_upload_title">Uploading Relite…</string>
+    <string name="notification_upload_failed_description">The video has to been saved to drafts.</string>
+    <string name="notification_upload_failed_title">Failed to upload.</string>
+    <string name="notification_watermark_description">This will take a while, we\'ll notify you when done.</string>
+    <string name="notification_watermark_title">Optimizing clip…</string>
+
+    <string name="audio_from_clip">Custom audio from clip.</string>
+    <string name="browse_file_title">Browse file</string>
+    <string name="cancel_button">Cancel</string>
+    <string name="message_song_change">You cannot change songDummy after recording has started.</string>
+    <string name="message_song_select">You cannot select songDummy after recording has started.</string>
+    <string name="message_trim_too_long" formatted="false">Please select no more that %d seconds to cut.</string>
+    <string name="message_trim_too_short" formatted="false">Please select at least %d seconds to cut.</string>
+    <string name="notification_channel_name">Default</string>
+    <string name="notification_download_description">Should not taker longer than a few seconds.</string>
+    <string name="notification_download_title">Download file…</string>
+
+    <string name="pan_audio_hint">You may use this option to synchronize audio and video by adjusting audio to start a little earlier or later.</string>
+    <string name="permission_rationale_upload">To pick and upload video from Gallery, storage permission is needed.</string>
+    <string name="progress_title">Please wait…</string>
+    <string name="recorder_error_in_progress">To do this, please stop recording first.</string>
+    <string name="recorder_error_maxed_out">You have already recorded for maximum duration.</string>
+    <string name="recorder_error_no_clips">Please record your clip first to continue.</string>
+    <string name="song_volume_label">song volume</string>
+
+    <string name="video_volume_label">video volume</string>
+    <string name="volume_hint">You may use these options to control intensity of audio between recorded video and (optional) chosen song.</string>
+    <string name="notification_channel_id">default</string>
+    <string name="confirmation_delete_draft">Do you really want to permanently delete this draft clip? It cannot be undone.</string>
+    <string name="uploading_message">Your clip will be uploaded shortly.</string>
+
+</resources>

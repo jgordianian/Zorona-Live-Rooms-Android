@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/black_back"
+        tools:context=".activity.SearchForNewFriendsActivity">
+
+        <RelativeLayout
+            android:id="@+id/rl_main"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+            <ImageView
+                android:id="@+id/back"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginStart="25dp"
+                android:layout_marginTop="45dp"
+                android:background="@drawable/ic_back"
+                android:backgroundTint="@color/white"
+                android:onClick="onClickBack"
+                android:padding="8dp" />
+
+            <TextView
+                android:id="@+id/lytStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="130dp"
+                android:fontFamily="@font/amidum"
+                android:text="Searching for new Friends..."
+                android:textColor="@color/white"
+                android:textSize="20dp" />
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/iv_match"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginHorizontal="15dp"
+                android:visibility="visible"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="true"
+                app:lottie_rawRes="@raw/match_earth_anim" />
+
+            <LinearLayout
+                android:id="@+id/lytCenter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:orientation="horizontal">
+
+                <com.zorona.liverooms.utils.UserProfileImageView
+                    android:id="@+id/iv_user"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:background="@drawable/bg_round_pink"
+                    android:padding="3dp" />
+
+                <com.zorona.liverooms.utils.UserProfileImageView
+                    android:id="@+id/ivUser2"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_marginStart="-20dp"
+                    android:background="@drawable/bg_round_pink"
+                    android:padding="3dp"
+                    android:visibility="gone" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/lytbuttons"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+
+                android:layout_centerHorizontal="true"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/btnCall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_greadent_round"
+                    android:fontFamily="@font/abold"
+                    android:paddingHorizontal="50dp"
+                    android:paddingVertical="10dp"
+                    android:text="Call Now"
+                    android:textColor="@color/white"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/btnMatch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="50dp"
+                    android:fontFamily="@font/amidum"
+                    android:paddingHorizontal="50dp"
+                    android:paddingVertical="7dp"
+                    android:text="Match again"
+                    android:textColor="@color/white"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:fontFamily="@font/alight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="50dp"
+                    android:text="Go meet people around the world"
+                    android:textColor="@color/white"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <include layout="@layout/layout_no_internet" />
+    </RelativeLayout>
+</layout>

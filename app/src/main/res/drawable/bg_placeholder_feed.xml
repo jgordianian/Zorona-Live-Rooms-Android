@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--
+        <item>
+            <shape>
+                <stroke
+                    android:width="1dp"
+                    android:color="#000000" />
+            </shape>
+        </item>
+    -->
+    <item
+        android:bottom="75dp"
+        android:drawable="@drawable/placeholder_feed"
+        android:left="75dp"
+        android:right="75dp"
+        android:top="75dp" />
+</layer-list>

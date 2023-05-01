@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+    <declare-styleable name="BackColor">
+        <attr name="backColor" format="color" />
+    </declare-styleable>
+
+
+    <declare-styleable name="LoadingView">
+        <attr name="loading_view_size" format="dimension" />
+        <attr name="android:color" />
+    </declare-styleable>
+
+    <attr name="LoadingStyle" format="reference" />
+
+    -
+    <declare-styleable name="SocialViewStyle">
+
+        <attr name="socialViewStyle" format="reference" />
+
+    </declare-styleable>
+
+
+    -
+    <declare-styleable name="SocialView">
+
+        <!-- Determine whether each feature should be turned on/off.Default is all true. -->
+
+
+        -
+        <attr name="socialFlags">
+
+            <flag name="hashtag" value="1" />
+
+            <flag name="mention" value="2" />
+
+            <flag name="hyperlink" value="4" />
+
+        </attr>
+
+        <!-- Color of each feature.If particular feature is not enabled, this value will be ignored.Default is color accent of current theme. -->
+
+
+        <attr name="hashtagColor" format="color" />
+
+        <attr name="mentionColor" format="color" />
+
+        <attr name="hyperlinkColor" format="color" />
+
+    </declare-styleable>
+    <declare-styleable name="Loading_view_size" />
+    <declare-styleable name="Loading_View_android_color">
+
+    </declare-styleable>
+    <declare-styleable name="LikeButton">
+        <attr name="dot_color_1" format="color" />
+        <attr name="dot_color_2" format="color" />
+        <attr name="circle_startColor" format="color" />
+        <attr name="circle_endColor" format="color" />
+        <attr name="like_icon" format="reference" />
+        <attr name="unlike_icon" format="reference" />
+        <attr name="follow" format="boolean" />
+        <attr name="dot_active" format="boolean" />
+        <attr name="circle_active" format="boolean" />
+    </declare-styleable>
+
+
+    <declare-styleable name="LoadingDots">
+        <attr name="LoadingDots_auto_play" format="boolean" />
+
+        <attr name="LoadingDots_dots_color" format="color" />
+        <attr name="LoadingDots_dots_count" format="integer" />
+        <attr name="LoadingDots_dots_size" format="dimension" />
+        <attr name="LoadingDots_dots_space" format="dimension" />
+
+        <attr name="LoadingDots_loop_duration" format="integer" />
+        <attr name="LoadingDots_loop_start_delay" format="integer" />
+
+        <attr name="LoadingDots_jump_duration" format="integer" />
+        <attr name="LoadingDots_jump_height" format="dimension" />
+    </declare-styleable>
+
+
+    <declare-styleable name="Picker">
+        <attr name="offset" format="integer" />
+        <attr name="darkModeEnabled" format="boolean" />
+        <attr name="textSize" format="integer" />
+        <attr name="pickerMode" format="enum">
+            <enum name="monthFirst" value="0" />
+
+            <enum name="dayFirst" value="1" />
+        </attr>
+    </declare-styleable>
+</resources>

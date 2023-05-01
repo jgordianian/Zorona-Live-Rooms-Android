@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@color/black_back"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/imguser"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginStart="5dp"
+                android:background="@drawable/bg_round_pink"
+                android:backgroundTint="@color/shimmarColor" />
+
+            <RelativeLayout
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="10dp"
+                android:layout_toEndOf="@id/imguser"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/lytname"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tvusername"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@color/shimmarColor"
+                        android:fontFamily="@font/abold"
+                        android:text="Johnny Rios"
+                        android:textColor="@color/shimmarColor" />
+
+                    <TextView
+                        android:id="@+id/tvcountry"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="10dp"
+                        android:background="@drawable/bg_5dp"
+                        android:backgroundTint="@color/shimmarColor"
+                        android:fontFamily="@font/alight"
+                        android:paddingHorizontal="5dp"
+                        android:paddingVertical="2dp"
+                        android:text="COUNTRY"
+                        android:textColor="@color/shimmarColor"
+                        android:textSize="10sp" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tvlastchet"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/lytname"
+                    android:layout_gravity="bottom"
+                    android:layout_marginTop="5dp"
+                    android:background="@color/shimmarColor"
+                    android:fontFamily="@font/alight"
+                    android:text="Hay, how was going?"
+                    android:textColor="@color/shimmarColor" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/tvtime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_margin="5dp"
+                android:background="@color/shimmarColor"
+                android:fontFamily="@font/alight"
+                android:text="12:33 PM"
+                android:textColor="@color/shimmarColor"
+
+                android:textSize="10sp" />
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height=".3dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/graylight"
+            android:visibility="gone" />
+    </LinearLayout>
+</layout>

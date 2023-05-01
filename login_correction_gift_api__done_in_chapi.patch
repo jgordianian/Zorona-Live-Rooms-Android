@@ -1,0 +1,707 @@
+Index: app/src/main/java/com/example/rayzi/emoji/EmojiBottomsheetFragment.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/rayzi/emoji/EmojiBottomsheetFragment.java b/app/src/main/java/com/example/rayzi/emoji/EmojiBottomsheetFragment.java
+--- a/app/src/main/java/com/example/rayzi/emoji/EmojiBottomsheetFragment.java	(revision c0b07bfc7054239eaec9ad52c22212e4b91b1737)
++++ b/app/src/main/java/com/example/rayzi/emoji/EmojiBottomsheetFragment.java	(revision 17c897182b8a66ed628101080bb9c66c1efd7e5e)
+@@ -18,16 +18,21 @@
+ import com.zorona.liverooms.R;
+ import com.zorona.liverooms.databinding.FragmentEmojiBottomsheetBinding;
+ import com.zorona.liverooms.databinding.ItemEmojiGridBinding;
+-import com.zorona.liverooms.models.GiftCategory_dummy;
++import com.zorona.liverooms.modelclass.GiftCategoryRoot;
++import com.zorona.liverooms.modelclass.GiftRoot;
++import com.zorona.liverooms.retrofit.RetrofitBuilder;
+ import com.zorona.liverooms.viewModel.EmojiSheetViewModel;
+ import com.zorona.liverooms.viewModel.ViewModelFactory;
+-import com.zorona.liverooms.z_demo.Demo_contents;
+ import com.google.android.material.bottomsheet.BottomSheetBehavior;
+ import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+ import com.google.android.material.tabs.TabLayout;
+ 
+ import java.util.List;
+ 
++import retrofit2.Call;
++import retrofit2.Callback;
++import retrofit2.Response;
++
+ public class EmojiBottomsheetFragment extends BottomSheetDialogFragment {
+ 
+ 
+@@ -36,7 +41,9 @@
+     private EmojiViewPagerAdapter emojiViewPagerAdapter;
+     private ItemEmojiGridBinding lastBinding = null;
+ 
+-    List<GiftCategory_dummy> giftCategories = Demo_contents.getGiftCategory();
++
++    private GiftRoot.GiftItem lastGift;
++
+     public EmojiBottomsheetFragment() {
+         // Required empty public constructor
+     }
+@@ -50,12 +57,34 @@
+         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_emoji_bottomsheet, container, false);
+         viewModel = ViewModelProviders.of(this, new ViewModelFactory(new EmojiSheetViewModel()).createFor()).get(EmojiSheetViewModel.class);
+         initMain();
++        getGiftCategory();
+         initListner();
+         return binding.getRoot();
+ 
+ 
+     }
+ 
++    private void getGiftCategory() {
++        Call<GiftCategoryRoot> call = RetrofitBuilder.create().getGiftCategory();
++        call.enqueue(new Callback<GiftCategoryRoot>() {
++            @Override
++            public void onResponse(Call<GiftCategoryRoot> call, Response<GiftCategoryRoot> response) {
++                if (response.code() == 200) {
++                    if (response.body().isStatus() && !response.body().getCategory().isEmpty()) {
++                        emojiViewPagerAdapter.addData(response.body().getCategory());
++                        settab(response.body().getCategory());
++                    }
++                }
++            }
++
++            @Override
++            public void onFailure(Call<GiftCategoryRoot> call, Throwable t) {
++
++            }
++        });
++    }
++
++
+     @Override
+     public void onStart() {
+         super.onStart();
+@@ -76,11 +105,16 @@
+ 
+     private void initListner() {
+         emojiViewPagerAdapter.setOnEmojiSelectLister((binding1, giftRoot) -> {
+-            if (lastBinding!=null) {
++            if (lastBinding != null) {
+                 lastBinding.itememoji.setBackground(null);
+-                binding1.itememoji.setBackground(ContextCompat.getDrawable(getActivity(), R.drawable.bg_selected_5dp));
+-            }
++            }
++            if (lastGift != null && !lastGift.getId().equalsIgnoreCase(giftRoot.getId())) {
++            }
++
++
++            binding1.itememoji.setBackground(ContextCompat.getDrawable(getActivity(), R.drawable.bg_selected_5dp));
+             lastBinding = binding1;
++            lastGift = giftRoot;
+         });
+ 
+ 
+@@ -118,7 +152,7 @@
+     }
+ 
+     private void initMain() {
+-        emojiViewPagerAdapter = new EmojiViewPagerAdapter(getChildFragmentManager(), giftCategories);
++        emojiViewPagerAdapter = new EmojiViewPagerAdapter(getChildFragmentManager());
+         binding.viewPager.setAdapter(emojiViewPagerAdapter);
+         binding.tablayout1.setupWithViewPager(binding.viewPager);
+         binding.tablayout1.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+@@ -161,12 +195,12 @@
+ //ll
+             }
+         });
+-        settab(giftCategories);
++
+ 
+ 
+     }
+ 
+-    private void settab(List<GiftCategory_dummy> contry) {
++    private void settab(List<GiftCategoryRoot.CategoryItem> contry) {
+         binding.tablayout1.setTabGravity(TabLayout.GRAVITY_FILL);
+         binding.tablayout1.removeAllTabs();
+         for (int i = 0; i < contry.size(); i++) {
+Index: app/src/main/java/com/example/rayzi/emoji/EmojiFragment.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/rayzi/emoji/EmojiFragment.java b/app/src/main/java/com/example/rayzi/emoji/EmojiFragment.java
+--- a/app/src/main/java/com/example/rayzi/emoji/EmojiFragment.java	(revision c0b07bfc7054239eaec9ad52c22212e4b91b1737)
++++ b/app/src/main/java/com/example/rayzi/emoji/EmojiFragment.java	(revision 17c897182b8a66ed628101080bb9c66c1efd7e5e)
+@@ -10,10 +10,13 @@
+ import com.zorona.liverooms.R;
+ import com.zorona.liverooms.activity.BaseFragment;
+ import com.zorona.liverooms.databinding.FragmentEmojiBinding;
+-import com.zorona.liverooms.models.GiftRoot_dummy;
++import com.zorona.liverooms.modelclass.GiftCategoryRoot;
++import com.zorona.liverooms.modelclass.GiftRoot;
++import com.zorona.liverooms.retrofit.RetrofitBuilder;
+ 
+-import java.util.ArrayList;
+-import java.util.List;
++import retrofit2.Call;
++import retrofit2.Callback;
++import retrofit2.Response;
+ 
+ 
+ public class EmojiFragment extends BaseFragment {
+@@ -24,11 +27,13 @@
+ 
+     EmojiGridAdapter emojiGridAdapter = new EmojiGridAdapter();
+     private OnEmojiSelectLister onEmojiSelectLister;
+-    private List<GiftRoot_dummy> giftRootDummy = new ArrayList<>();
++    private GiftCategoryRoot.CategoryItem categoryRoot;
+ 
+-    public EmojiFragment(List<GiftRoot_dummy> giftRootDummy) {
++
++    public EmojiFragment(GiftCategoryRoot.CategoryItem categoryRoot) {
+         // Required empty public constructor
+-        this.giftRootDummy = giftRootDummy;
++
++        this.categoryRoot = categoryRoot;
+     }
+ 
+     public OnEmojiSelectLister getOnEmojiSelectLister() {
+@@ -45,12 +50,32 @@
+         // Inflate the layout for this fragment
+         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_emoji, container, false);
+         initMain();
++        getData();
+         return binding.getRoot();
+     }
+ 
++    private void getData() {
++        Call<GiftRoot> call = RetrofitBuilder.create().getGiftsByCategory(categoryRoot.getId());
++        call.enqueue(new Callback<GiftRoot>() {
++            @Override
++            public void onResponse(Call<GiftRoot> call, Response<GiftRoot> response) {
++                if (response.code() == 200) {
++                    if (response.body().isStatus() && !response.body().getGift().isEmpty()) {
++                        emojiGridAdapter.addData(response.body().getGift());
++                    }
++                }
++            }
++
++            @Override
++            public void onFailure(Call<GiftRoot> call, Throwable t) {
++
++            }
++        });
++    }
++
+     private void initMain() {
+ 
+-        emojiGridAdapter.addData(giftRootDummy);
++
+         binding.rvEmoji.setAdapter(emojiGridAdapter);
+         emojiGridAdapter.setOnEmojiSelectLister((binding1, giftRoot) -> onEmojiSelectLister.onEmojiSelect(binding1, giftRoot));
+ 
+Index: app/src/main/java/com/example/rayzi/emoji/EmojiGridAdapter.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/rayzi/emoji/EmojiGridAdapter.java b/app/src/main/java/com/example/rayzi/emoji/EmojiGridAdapter.java
+--- a/app/src/main/java/com/example/rayzi/emoji/EmojiGridAdapter.java	(revision c0b07bfc7054239eaec9ad52c22212e4b91b1737)
++++ b/app/src/main/java/com/example/rayzi/emoji/EmojiGridAdapter.java	(revision 17c897182b8a66ed628101080bb9c66c1efd7e5e)
+@@ -8,9 +8,10 @@
+ import androidx.recyclerview.widget.RecyclerView;
+ 
+ import com.bumptech.glide.Glide;
++import com.zorona.liverooms.BuildConfig;
+ import com.zorona.liverooms.R;
+ import com.zorona.liverooms.databinding.ItemEmojiGridBinding;
+-import com.zorona.liverooms.models.GiftRoot_dummy;
++import com.zorona.liverooms.modelclass.GiftRoot;
+ 
+ import java.util.ArrayList;
+ import java.util.List;
+@@ -19,7 +20,7 @@
+ 
+     private Context context;
+     OnEmojiSelectLister onEmojiSelectLister;
+-    List<GiftRoot_dummy> giftRootDummies = new ArrayList<>();
++    List<GiftRoot.GiftItem> giftRootDummies = new ArrayList<>();
+     public OnEmojiSelectLister getOnEmojiSelectLister() {
+         return onEmojiSelectLister;
+     }
+@@ -45,7 +46,7 @@
+         return giftRootDummies.size();
+     }
+ 
+-    public void addData(List<GiftRoot_dummy> giftRootDummy) {
++    public void addData(List<GiftRoot.GiftItem> giftRootDummy) {
+         this.giftRootDummies.addAll(giftRootDummy);
+         notifyItemRangeInserted(this.giftRootDummies.size(), giftRootDummy.size());
+     }
+@@ -59,8 +60,10 @@
+         }
+ 
+         public void setData(int position) {
+-            Glide.with(binding.getRoot()).load(giftRootDummies.get(position).getUrl()).into(binding.imgEmoji);
+-            binding.tvCoin.setText(String.valueOf(giftRootDummies.get(position).getId()));
++            GiftRoot.GiftItem gift = giftRootDummies.get(position);
++
++            Glide.with(binding.getRoot()).load(BuildConfig.BASE_URL + gift.getImage()).into(binding.imgEmoji);
++            binding.tvCoin.setText(String.valueOf(giftRootDummies.get(position).getCoin()));
+             binding.getRoot().setOnClickListener(v -> {
+                 //  binding.itememoji.setBackground(ContextCompat.getDrawable(context, R.drawable.bg_selected_5dp));
+                 onEmojiSelectLister.onEmojiSelect(binding, giftRootDummies.get(position));
+Index: app/src/main/java/com/example/rayzi/emoji/EmojiViewPagerAdapter.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/rayzi/emoji/EmojiViewPagerAdapter.java b/app/src/main/java/com/example/rayzi/emoji/EmojiViewPagerAdapter.java
+--- a/app/src/main/java/com/example/rayzi/emoji/EmojiViewPagerAdapter.java	(revision c0b07bfc7054239eaec9ad52c22212e4b91b1737)
++++ b/app/src/main/java/com/example/rayzi/emoji/EmojiViewPagerAdapter.java	(revision 17c897182b8a66ed628101080bb9c66c1efd7e5e)
+@@ -4,18 +4,18 @@
+ import androidx.fragment.app.FragmentManager;
+ import androidx.fragment.app.FragmentPagerAdapter;
+ 
+-import com.zorona.liverooms.models.GiftCategory_dummy;
++import com.zorona.liverooms.modelclass.GiftCategoryRoot;
+ 
++import java.util.ArrayList;
+ import java.util.List;
+ 
+ public class EmojiViewPagerAdapter extends FragmentPagerAdapter {
+ 
+ 
+-    private List<GiftCategory_dummy> giftCategories;
++    private List<GiftCategoryRoot.CategoryItem> category = new ArrayList<>();
+ 
+-    public EmojiViewPagerAdapter(FragmentManager fm, List<GiftCategory_dummy> giftCategories) {
++    public EmojiViewPagerAdapter(FragmentManager fm) {
+         super(fm);
+-        this.giftCategories = giftCategories;
+     }
+ 
+     private OnEmojiSelectLister onEmojiSelectLister;
+@@ -30,13 +30,19 @@
+ 
+     @Override
+     public Fragment getItem(int position) {
+-        EmojiFragment emojiFragment = new EmojiFragment(giftCategories.get(position).getGiftRoot());
++        EmojiFragment emojiFragment = new EmojiFragment(category.get(position));
+         emojiFragment.setOnEmojiSelectLister((binding, giftRoot) -> onEmojiSelectLister.onEmojiSelect(binding, giftRoot));
+         return emojiFragment;
+     }
+ 
+     @Override
+     public int getCount() {
+-        return giftCategories.size();
++        return category.size();
++    }
++
++    public void addData(List<GiftCategoryRoot.CategoryItem> category) {
++
++        this.category = category;
++        notifyDataSetChanged();
+     }
+ }
+Index: app/src/main/java/com/example/rayzi/emoji/OnEmojiSelectLister.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/rayzi/emoji/OnEmojiSelectLister.java b/app/src/main/java/com/example/rayzi/emoji/OnEmojiSelectLister.java
+--- a/app/src/main/java/com/example/rayzi/emoji/OnEmojiSelectLister.java	(revision c0b07bfc7054239eaec9ad52c22212e4b91b1737)
++++ b/app/src/main/java/com/example/rayzi/emoji/OnEmojiSelectLister.java	(revision 17c897182b8a66ed628101080bb9c66c1efd7e5e)
+@@ -1,8 +1,8 @@
+ package com.zorona.liverooms.emoji;
+ 
+ import com.zorona.liverooms.databinding.ItemEmojiGridBinding;
+-import com.zorona.liverooms.models.GiftRoot_dummy;
++import com.zorona.liverooms.modelclass.GiftRoot;
+ 
+ public interface OnEmojiSelectLister {
+-    void onEmojiSelect(ItemEmojiGridBinding binding, GiftRoot_dummy giftRootDummy);
++    void onEmojiSelect(ItemEmojiGridBinding binding, GiftRoot.GiftItem giftRootDummy);
+ }
+Index: app/src/main/java/com/example/rayzi/liveStreamming/HostLiveActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/rayzi/liveStreamming/HostLiveActivity.java b/app/src/main/java/com/example/rayzi/liveStreamming/HostLiveActivity.java
+--- a/app/src/main/java/com/example/rayzi/liveStreamming/HostLiveActivity.java	(revision c0b07bfc7054239eaec9ad52c22212e4b91b1737)
++++ b/app/src/main/java/com/example/rayzi/liveStreamming/HostLiveActivity.java	(revision 17c897182b8a66ed628101080bb9c66c1efd7e5e)
+@@ -53,6 +53,7 @@
+             handler.postDelayed(this, 2000);
+         }
+     };
++    EmojiBottomsheetFragment emojiBottomsheetFragment;
+     private VideoGridContainer mVideoGridContainer;
+     private VideoEncoderConfiguration.VideoDimensions mVideoDimension;
+     String token = "";
+@@ -75,9 +76,9 @@
+ 
+         viewModel.initLister();
+         initView();
++        getGiftCategories();
+         joinChannel();
+-        mVideoDimension = com.zorona.liverooms.agora.rtc.Constants.VIDEO_DIMENSIONS[
+-                config().getVideoDimenIndex()];
++        mVideoDimension = com.zorona.liverooms.agora.rtc.Constants.VIDEO_DIMENSIONS[config().getVideoDimenIndex()];
+ 
+         initLister();
+ 
+@@ -86,6 +87,10 @@
+ 
+     }
+ 
++    private void getGiftCategories() {
++
++    }
++
+     @Override
+     public void onBackPressed() {
+         endLive();
+@@ -145,7 +150,7 @@
+ 
+         mVideoGridContainer = binding.liveVideoGridLayout;
+         mVideoGridContainer.setStatsManager(statsManager());
+-
++        emojiBottomsheetFragment = new EmojiBottomsheetFragment();
+ 
+         startBroadcast();
+     }
+@@ -266,7 +271,7 @@
+     }
+ 
+     public void onclickGiftIcon(View view) {
+-        new EmojiBottomsheetFragment().show(getSupportFragmentManager(), "emojifragfmetn");
++        emojiBottomsheetFragment.show(getSupportFragmentManager(), "emojifragfmetn");
+     }
+ 
+     @Override
+Index: app/src/main/java/com/example/rayzi/modelclass/GiftCategoryRoot.java
+===================================================================
+diff --git a/app/src/main/java/com/example/rayzi/modelclass/GiftCategoryRoot.java b/app/src/main/java/com/example/rayzi/modelclass/GiftCategoryRoot.java
+new file mode 100644
+--- /dev/null	(revision 17c897182b8a66ed628101080bb9c66c1efd7e5e)
++++ b/app/src/main/java/com/example/rayzi/modelclass/GiftCategoryRoot.java	(revision 17c897182b8a66ed628101080bb9c66c1efd7e5e)
+@@ -0,0 +1,67 @@
++package com.zorona.liverooms.modelclass;
++
++import com.google.gson.annotations.SerializedName;
++
++import java.util.List;
++
++public class GiftCategoryRoot {
++
++    @SerializedName("message")
++    private String message;
++
++    @SerializedName("category")
++    private List<CategoryItem> category;
++
++    @SerializedName("status")
++    private boolean status;
++
++    public String getMessage() {
++        return message;
++    }
++
++    public List<CategoryItem> getCategory() {
++        return category;
++    }
++
++    public boolean isStatus() {
++        return status;
++    }
++
++    public static class CategoryItem {
++
++        @SerializedName("image")
++        private String image;
++
++        @SerializedName("createdAt")
++        private String createdAt;
++
++        @SerializedName("name")
++        private String name;
++
++        @SerializedName("giftCount")
++        private int giftCount;
++
++        @SerializedName("_id")
++        private String id;
++
++        public String getImage() {
++            return image;
++        }
++
++        public String getCreatedAt() {
++            return createdAt;
++        }
++
++        public String getName() {
++            return name;
++        }
++
++        public int getGiftCount() {
++            return giftCount;
++        }
++
++        public String getId() {
++            return id;
++        }
++    }
++}
+\ No newline at end of file
+Index: app/src/main/java/com/example/rayzi/modelclass/GiftRoot.java
+===================================================================
+diff --git a/app/src/main/java/com/example/rayzi/modelclass/GiftRoot.java b/app/src/main/java/com/example/rayzi/modelclass/GiftRoot.java
+new file mode 100644
+--- /dev/null	(revision 17c897182b8a66ed628101080bb9c66c1efd7e5e)
++++ b/app/src/main/java/com/example/rayzi/modelclass/GiftRoot.java	(revision 17c897182b8a66ed628101080bb9c66c1efd7e5e)
+@@ -0,0 +1,81 @@
++package com.zorona.liverooms.modelclass;
++
++import com.google.gson.annotations.SerializedName;
++
++import java.util.List;
++
++public class GiftRoot {
++
++    @SerializedName("gift")
++    private List<GiftItem> gift;
++
++    @SerializedName("message")
++    private String message;
++
++    @SerializedName("status")
++    private boolean status;
++
++    public List<GiftItem> getGift() {
++        return gift;
++    }
++
++    public String getMessage() {
++        return message;
++    }
++
++    public boolean isStatus() {
++        return status;
++    }
++
++    public static class GiftItem {
++
++        @SerializedName("image")
++        private String image;
++
++        @SerializedName("createdAt")
++        private String createdAt;
++
++        @SerializedName("_id")
++        private String id;
++
++        @SerializedName("type")
++        private int type;
++
++        @SerializedName("category")
++        private String category;
++
++        @SerializedName("coin")
++        private int coin;
++
++        @SerializedName("updatedAt")
++        private String updatedAt;
++
++        public String getImage() {
++            return image;
++        }
++
++        public String getCreatedAt() {
++            return createdAt;
++        }
++
++        public String getId() {
++            return id;
++        }
++
++        public int getType() {
++            return type;
++        }
++
++        public String getCategory() {
++            return category;
++        }
++
++        public int getCoin() {
++            return coin;
++        }
++
++        public String getUpdatedAt() {
++            return updatedAt;
++        }
++    }
++}
+\ No newline at end of file
+Index: app/src/main/java/com/example/rayzi/modelclass/ReliteRoot.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/rayzi/modelclass/ReliteRoot.java b/app/src/main/java/com/example/rayzi/modelclass/ReliteRoot.java
+--- a/app/src/main/java/com/example/rayzi/modelclass/ReliteRoot.java	(revision c0b07bfc7054239eaec9ad52c22212e4b91b1737)
++++ b/app/src/main/java/com/example/rayzi/modelclass/ReliteRoot.java	(revision 17c897182b8a66ed628101080bb9c66c1efd7e5e)
+@@ -36,9 +36,45 @@
+         @SerializedName("thumbnail")
+         private String thumbnail;
+ 
++
++        @SerializedName("name")
++        private String name;
++
++        @SerializedName("userImage")
++        private String userImage;
++
++        @SerializedName("time")
++        private String time;
++        @SerializedName("isVIP")
++        private boolean isVIP;
++
++        public String getName() {
++            return name;
++        }
++
++        public String getUserImage() {
++            return userImage;
++        }
++
++        public String getTime() {
++            return time;
++        }
++
++        public boolean isVIP() {
++            return isVIP;
++        }
++
++        public int getLike() {
++            return like;
++        }
++
+         @SerializedName("isLike")
+         private boolean isLike;
+ 
++        public boolean isOriginalAudio() {
++            return isOriginalAudio;
++        }
++
+         @SerializedName("like")
+         private int like;
+ 
+Index: app/src/main/java/com/example/rayzi/reels/ReelsAdapter.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/rayzi/reels/ReelsAdapter.java b/app/src/main/java/com/example/rayzi/reels/ReelsAdapter.java
+--- a/app/src/main/java/com/example/rayzi/reels/ReelsAdapter.java	(revision c0b07bfc7054239eaec9ad52c22212e4b91b1737)
++++ b/app/src/main/java/com/example/rayzi/reels/ReelsAdapter.java	(revision 17c897182b8a66ed628101080bb9c66c1efd7e5e)
+@@ -97,9 +97,11 @@
+         public void setData(int position) {
+ 
+             ReliteRoot.VideoItem reel = reels.get(position);
++            Glide.with(context).load(reel.getUserImage())
++                    .circleCrop().into(binding.imgUser);
+ 
+             //   Glide.with(binding.getRoot()).load(reel.getUser().getImage()).circleCrop().into(binding.imgUser);
+-            //  binding.tvUserName.setText(reel.getUser().getName());
++            binding.tvUserName.setText(reel.getName());
+             binding.tvDescreption.setText(reel.getCaption());
+ 
+             binding.tvLikeCount.setText(String.valueOf(reel.getLikeCount()));
+@@ -133,10 +135,6 @@
+                 }
+             });
+ 
+-/*
+-            Glide.with(context).load("https://images.unsplash.com/photo-1635620201960-a1cb77e51359?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=764&q=80")
+-                    .centerCrop().into(binding.image1);
+-*/
+             binding.imgUser.setOnClickListener(v -> onReelsVideoAdapterListner.onClickUser(reel));
+             binding.imgComment.setOnClickListener(v -> onReelsVideoAdapterListner.onClickCommentList(reel));
+ 
+Index: app/src/main/java/com/example/rayzi/retrofit/RetrofitService.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/rayzi/retrofit/RetrofitService.java b/app/src/main/java/com/example/rayzi/retrofit/RetrofitService.java
+--- a/app/src/main/java/com/example/rayzi/retrofit/RetrofitService.java	(revision c0b07bfc7054239eaec9ad52c22212e4b91b1737)
++++ b/app/src/main/java/com/example/rayzi/retrofit/RetrofitService.java	(revision 17c897182b8a66ed628101080bb9c66c1efd7e5e)
+@@ -3,6 +3,8 @@
+ import com.zorona.liverooms.modelclass.BannerRoot;
+ import com.zorona.liverooms.modelclass.ComplainRoot;
+ import com.zorona.liverooms.modelclass.DiamondPlanRoot;
++import com.zorona.liverooms.modelclass.GiftCategoryRoot;
++import com.zorona.liverooms.modelclass.GiftRoot;
+ import com.zorona.liverooms.modelclass.GuestProfileRoot;
+ import com.zorona.liverooms.modelclass.GuestUsersListRoot;
+ import com.zorona.liverooms.modelclass.HeshtagsRoot;
+@@ -31,6 +33,7 @@
+ import retrofit2.http.POST;
+ import retrofit2.http.Part;
+ import retrofit2.http.PartMap;
++import retrofit2.http.Path;
+ import retrofit2.http.Query;
+ 
+ public interface RetrofitService {
+@@ -179,4 +182,10 @@
+     @POST("/addReferralCode")
+     Call<UserRoot> reedemReferalCode(@Body JsonObject jsonObject);
+ 
++    @GET("/giftCategory")
++    Call<GiftCategoryRoot> getGiftCategory();
++
++    @GET("/gift/{cId}")
++    Call<GiftRoot> getGiftsByCategory(@Path("cId") String categoryId);
++
+ }
+Index: app/src/main/java/com/example/rayzi/viewModel/EmojiSheetViewModel.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/rayzi/viewModel/EmojiSheetViewModel.java b/app/src/main/java/com/example/rayzi/viewModel/EmojiSheetViewModel.java
+--- a/app/src/main/java/com/example/rayzi/viewModel/EmojiSheetViewModel.java	(revision c0b07bfc7054239eaec9ad52c22212e4b91b1737)
++++ b/app/src/main/java/com/example/rayzi/viewModel/EmojiSheetViewModel.java	(revision 17c897182b8a66ed628101080bb9c66c1efd7e5e)
+@@ -4,4 +4,5 @@
+ 
+ public class EmojiSheetViewModel extends ViewModel {
+ 
++
+ }
+Index: app/src/main/res/layout/item_reels.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/layout/item_reels.xml b/app/src/main/res/layout/item_reels.xml
+--- a/app/src/main/res/layout/item_reels.xml	(revision c0b07bfc7054239eaec9ad52c22212e4b91b1737)
++++ b/app/src/main/res/layout/item_reels.xml	(revision 17c897182b8a66ed628101080bb9c66c1efd7e5e)
+@@ -70,7 +70,7 @@
+                             android:background="@drawable/bg_gradient_round"
+                             android:backgroundTint="@color/pink"
+                             android:padding="1dp"
+-                            android:src="@drawable/dummy_user" />
++                          />
+ 
+                         <TextView
+                             android:id="@+id/tvUserName"
+@@ -114,6 +114,11 @@
+                         android:gravity="center_vertical"
+                         android:orientation="horizontal">
+ 
++                        <ImageView
++                            android:layout_width="15dp"
++                            android:layout_height="15dp"
++                            android:src="@drawable/ic_baseline_music_note_24"
++                            app:tint="@color/white" />
+ 
+                         <TextView
+                             android:id="@+id/tv_sound_name"

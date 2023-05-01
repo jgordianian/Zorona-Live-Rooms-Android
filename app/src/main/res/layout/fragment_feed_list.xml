@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="viewModel"
+            type="com.zorona.liverooms.viewModel.FeedListViewModel" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/black_back"
+        android:orientation="vertical"
+        tools:context=".postDummies.FeedListFragment">
+
+        <com.scwang.smartrefresh.layout.SmartRefreshLayout
+
+            android:id="@+id/swipe_refresh"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:srlAccentColor="@color/purple"
+            app:srlPrimaryColor="@color/pink">
+
+            <com.scwang.smartrefresh.layout.header.ClassicsHeader
+                android:id="@+id/header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_srlSpinnerStyle="Translate"
+                app:srlAccentColor="@color/pink"
+                app:srlDrawableArrow="@drawable/ic_back"
+                app:srlEnableLastTime="false"
+                app:srlEnablePullToCloseTwoLevel="false"
+                app:srlEnableTwoLevel="false"
+                app:srlPrimaryColor="@color/black_back" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvFeed"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="20dp"
+                android:adapter="@{viewModel.feedAdapter}"
+                android:orientation="vertical"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/item_feed" />
+
+            <com.scwang.smartrefresh.layout.footer.ClassicsFooter
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:gravity="center" />
+
+        </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:id="@+id/shimmer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="@{viewModel.isFirstTimeLoading?View.VISIBLE : View.GONE}"
+            app:shimmer_base_color="@color/shimmarColor"
+            app:shimmer_colored="false"
+
+            app:shimmer_highlight_color="@color/white"
+            tools:visibility="gone">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <include layout="@layout/shimmer_item_feed" />
+
+                    <include layout="@layout/shimmer_item_feed" />
+
+                    <include layout="@layout/shimmer_item_feed" />
+                </LinearLayout>
+
+
+            </LinearLayout>
+        </com.facebook.shimmer.ShimmerFrameLayout>
+
+        <RelativeLayout
+            android:id="@+id/noData"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="150dp"
+            android:visibility="@{viewModel.noData?View.VISIBLE : View.GONE}">
+
+            <include layout="@layout/lyt_no_data" />
+        </RelativeLayout>
+
+    </RelativeLayout>
+</layout>

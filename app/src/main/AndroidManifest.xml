@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.zorona.liverooms">
+
+    <uses-sdk tools:overrideLibrary="com.otaliastudios.transcoder" />
+
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="com.android.vending.BILLING" />
+    <uses-permission android:name="android.permission.PREVENT_POWER_KEY" />
+    <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
+    <uses-permission android:name="com.android.launcher.permission.UNINSTALL_SHORTCUT" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+
+    <permission android:name="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE" />
+    <permission
+        android:name="android.permission.CAPTURE_AUDIO_OUTPUT"
+        android:protectionLevel="signature|privileged" />
+
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+
+    <queries>
+        <package android:name="com.facebook.katana" />
+    </queries>
+
+    <application
+        android:name=".MainApplication"
+        android:exported="false"
+        android:icon="@drawable/logo"
+        android:label="@string/app_name"
+        android:launchMode="singleTask"
+        android:preserveLegacyExternalStorage="true"
+        android:requestLegacyExternalStorage="true"
+        android:roundIcon="@drawable/logo"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.Rayzi"
+        android:usesCleartextTraffic="true"
+        tools:replace="android:theme,icon,roundIcon">
+        <activity
+            android:name=".activity.TestVideoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.WebActivity"
+            android:exported="true" />
+        <activity
+            android:name=".activity.SpleshActivity"
+            android:launchMode="singleTask"
+            android:noHistory="true"
+            android:exported="true"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+            <!-- Branch App Links (optional) -->
+            <!-- Branch URI scheme -->
+            <intent-filter>
+                <data
+                    android:host="open"
+                    android:scheme="com.zorona.liverooms" />
+
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+            </intent-filter>
+
+            <!-- Branch App Links -->
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="zorona.app.link"
+                    android:scheme="https" />
+                <data
+                    android:host="zorona-alternate.app.link"
+                    android:scheme="https" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".user.complain.ComplainDetailsActivity"
+            android:exported="true" />
+        <activity
+            android:name=".user.complain.ComplainListActivity"
+            android:exported="true" />
+        <activity
+            android:name=".user.complain.CreateComplainActivity"
+            android:exported="true" />
+        <activity
+            android:name=".reels.ReelsActivity"
+            android:exported="true" />
+        <activity
+            android:name=".reels.record.PreviewActivity"
+            android:exported="true" />
+        <activity
+            android:name=".videocall.RandomMatchActivity"
+            android:exported="true" />
+        <activity
+            android:name=".user.wallet.HistoryActivity"
+            android:exported="true" />
+        <activity
+            android:name=".user.wallet.CashOutActivity"
+            android:exported="true" />
+        <activity
+            android:name=".videocall.VideoCallActivity"
+            android:exported="true" />
+        <activity
+            android:name=".videocall.CallRequestActivity"
+            android:exported="true" />
+        <activity
+            android:name=".videocall.CallIncomeActivity"
+            android:exported="true" />
+        <activity
+            android:name=".liveStreamming.LiveSummaryActivity"
+            android:exported="true" />
+        <activity
+            android:name=".user.guestUser.GuestActivity"
+            android:exported="true" />
+        <activity
+            android:name=".user.SearchActivity"
+            android:exported="true" />
+        <activity
+            android:name=".liveStreamming.HostLiveActivity"
+            android:exported="true" />
+        <activity
+            android:name=".posts.LocationChooseActivity"
+            android:exported="true" />
+        <activity
+            android:name=".posts.HashtagsActivity"
+            android:exported="true" />
+        <activity
+            android:name=".posts.FeedListActivity"
+            android:exported="true" />
+        <activity
+            android:name=".user.freeCoins.FreeDimondsActivity"
+            android:exported="true" />
+        <activity android:name=".user.wallet.MyWalletActivity" />
+        <activity android:name=".comments.CommentLikeListActivity" />
+        <activity android:name=".reels.record.RecorderActivity" />
+        <activity android:name=".reels.record.VolumeActivity" />
+        <activity android:name=".reels.record.FilterActivity" />
+        <activity android:name=".reels.record.UploadActivity" />
+        <activity android:name=".reels.record.PanAudioActivity" />
+        <activity android:name=".reels.record.songPicker.SongPickerActivity" />
+        <activity android:name=".reels.record.sticker.StickerPickerActivity" />
+        <activity android:name=".reels.record.TrimmerActivity" />
+        <activity android:name=".user.vip.VipPlanActivity" />
+        <activity android:name=".user.MyLevelListActivity" />
+        <activity
+            android:name=".user.EditProfileActivity"
+            android:windowSoftInputMode="adjustPan" />
+        <activity android:name=".user.FollowrsListActivity" />
+        <activity android:name=".reels.VideoListGridActivity" />
+        <activity android:name=".posts.FeedGridActivity" />
+        <activity android:name=".chat.ChatActivity" />
+        <activity android:name=".activity.SettingActivity" />
+        <activity android:name=".posts.UploadPostActivity" />
+        <activity android:name=".liveStreamming.WatchLiveActivity" />
+        <activity android:name=".liveStreamming.GotoLiveActivity" />
+        <activity
+            android:name=".activity.LoginActivityActivity"
+            android:noHistory="true" />
+        <activity android:name=".activity.MainActivity" />
+
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-3940256099942544~3347511713" />
+        <meta-data
+            android:name="com.google.android.gms.ads.flag.NATIVE_AD_DEBUGGER_ENABLED"
+            android:value="false" />
+
+        <activity
+            android:name="com.yalantis.ucrop.UCropActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
+
+        <activity
+            android:name="com.facebook.FacebookActivity"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:label="@string/app_name" />
+
+        <activity
+            android:name="com.facebook.CustomTabActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="@string/fb_login_protocol_scheme" />
+            </intent-filter>
+        </activity>
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths" />
+        </provider> <!-- Branch init -->
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-3940256099942544~3347511713" /> <!-- Branch testing (TestMode "true" to simulate fresh installs on dev environment) -->
+        <meta-data
+            android:name="io.branch.sdk.TestMode"
+            android:value="false" />
+
+        <service
+            android:name=".notification.FirebaseMessage"
+            android:directBootAware="true"
+            android:exported="false"
+            android:foregroundServiceType="phoneCall">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-3940256099942544~3347511713" />
+
+        <service android:name=".notification.HeadsUpNotificationService" />
+
+        <receiver
+            android:name=".notification.CallNotificationActionReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter android:priority="999">
+                <action android:name="ConstantApp.CALL_RECEIVE_ACTION" />
+                <action android:name="ConstantApp.CALL_CANCEL_ACTION" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name=".NetWorkChangeReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter android:priority="999">
+                <action android:name="android.intent.action." />
+            </intent-filter>
+        </receiver>
+    </application>
+
+</manifest>

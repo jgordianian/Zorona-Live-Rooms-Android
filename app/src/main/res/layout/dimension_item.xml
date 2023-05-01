@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="48dp"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/resolution"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_stok_round"
+        android:gravity="center"
+        android:textAlignment="gravity"
+        android:textColor="@color/graydark"
+        android:textSize="14sp" />
+</LinearLayout>

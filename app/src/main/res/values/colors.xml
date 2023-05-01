@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="blackpure">#000</color>
+    <color name="black_back">#111118</color>
+    <color name="grayinsta">#161622</color>
+    <color name="graymidum">#1C1C2E</color>
+    <color name="graydark">#1E1F2C</color>
+    <color name="bg_back_image">#1E212D</color>
+    <color name="blacklight">#282B39</color>
+    <color name="graylight">#686872</color>
+    <color name="offwhite">#C5C5D1</color>
+
+    <color name="white">#FFFFFFFF</color>
+    <color name="sky">#008AFF</color>
+    <color name="pink">#E7166B</color>
+    <color name="pinklight">#E8538F</color>
+    <color name="purple">#821CED</color>
+    <color name="yellow">#FEAD2A</color>
+
+
+    <color name="black_alpha_20">#33000000</color>
+    <color name="gre_alpha_20">#33878787</color>
+    <color name="black_alpha_60">#99000000</color>
+    <color name="match_guide_click_con">#bfffffff</color>
+
+    <color name="light_white">#f1f1f3</color>
+
+    <color name="transparent">#00000000</color>
+    <color name="colorTheme">#ff8000</color>
+
+    <color name="napier_green">#FFC36A</color>
+    <color name="india_red">#FFBBC3</color>
+    <color name="kellygreen">#D1FFA8</color>
+    <color name="tufs_blue">#ADD4FF</color>
+    <color name="tiffanyblue">#AAFFFB</color>
+    <color name="Sanddtorm">#FFE595</color>
+    <color name="salmonpink_1">#FFB8C1</color>
+
+    <color name="gray_icon">#686872</color>
+    <color name="text_gray">#A7A7B3</color>
+    <color name="lightblack">#463C3C3C</color>
+
+
+    <color name="color_text">#E7166B</color>
+    <color name="color_grey">#999999</color>
+    <color name="color_grey1">#bbbbbb</color>
+    <color name="color_grey2">#dfdfdf</color>
+    <color name="red">#E42828</color>
+    <color name="green">#4CAF50</color>
+    <color name="shimmarColor">#B3B3B3</color>
+</resources>

@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <RelativeLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".emoji.EmojiFragment">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvEmoji"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:spanCount="2"
+            tools:listitem="@layout/item_emoji_grid" />
+
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:id="@+id/shimmerTab"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="5dp"
+            android:visibility="visible"
+
+            app:shimmer_base_color="@color/shimmarColor"
+            app:shimmer_colored="true"
+            app:shimmer_highlight_color="@color/white">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="80dp"
+                        android:layout_height="100dp"
+                        android:background="@drawable/bg_10dp"
+                        android:backgroundTint="@color/shimmarColor" />
+
+                    <LinearLayout
+                        android:layout_width="80dp"
+                        android:layout_height="100dp"
+                        android:layout_marginStart="10dp"
+                        android:background="@drawable/bg_10dp"
+                        android:backgroundTint="@color/shimmarColor" />
+
+                    <LinearLayout
+                        android:layout_width="80dp"
+                        android:layout_height="100dp"
+                        android:layout_marginStart="10dp"
+                        android:background="@drawable/bg_10dp"
+                        android:backgroundTint="@color/shimmarColor" />
+
+                    <LinearLayout
+                        android:layout_width="80dp"
+                        android:layout_height="100dp"
+                        android:layout_marginStart="10dp"
+                        android:background="@drawable/bg_10dp"
+                        android:backgroundTint="@color/shimmarColor" />
+
+                    <LinearLayout
+                        android:layout_width="80dp"
+                        android:layout_height="100dp"
+                        android:layout_marginStart="10dp"
+                        android:background="@drawable/bg_10dp"
+                        android:backgroundTint="@color/shimmarColor" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="80dp"
+                        android:layout_height="100dp"
+                        android:background="@drawable/bg_10dp"
+                        android:backgroundTint="@color/shimmarColor" />
+
+                    <LinearLayout
+                        android:layout_width="80dp"
+                        android:layout_height="100dp"
+                        android:layout_marginStart="10dp"
+                        android:background="@drawable/bg_10dp"
+                        android:backgroundTint="@color/shimmarColor" />
+
+                    <LinearLayout
+                        android:layout_width="80dp"
+                        android:layout_height="100dp"
+                        android:layout_marginStart="10dp"
+                        android:background="@drawable/bg_10dp"
+                        android:backgroundTint="@color/shimmarColor" />
+
+                    <LinearLayout
+                        android:layout_width="80dp"
+                        android:layout_height="100dp"
+                        android:layout_marginStart="10dp"
+                        android:background="@drawable/bg_10dp"
+                        android:backgroundTint="@color/shimmarColor" />
+
+                    <LinearLayout
+                        android:layout_width="80dp"
+                        android:layout_height="100dp"
+                        android:layout_marginStart="10dp"
+                        android:background="@drawable/bg_10dp"
+                        android:backgroundTint="@color/shimmarColor" />
+                </LinearLayout>
+
+            </LinearLayout>
+        </com.facebook.shimmer.ShimmerFrameLayout>
+
+        <RelativeLayout
+            android:id="@+id/noData"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="150dp">
+
+            <include layout="@layout/lyt_no_data" />
+        </RelativeLayout>
+
+    </RelativeLayout>
+</layout>

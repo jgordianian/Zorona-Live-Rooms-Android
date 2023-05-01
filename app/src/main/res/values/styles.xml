@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="customStyle" parent="@android:style/Theme.Dialog">
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+
+    <style name="CustomBottomSheetDialogTheme" parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/CustomBottomSheetStyle</item>
+    </style>
+
+    <style name="CustomBottomSheetStyle" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@android:color/transparent</item>
+    </style>
+
+
+    <style name="mytab" parent="Widget.MaterialComponents.TabLayout">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">normal</item>
+
+    </style>
+
+    <declare-styleable name="ExpandableTextView">
+        <attr name="animation_duration" format="integer" />
+    </declare-styleable>
+
+    <style name="Widget.SocialView" parent="android:Widget.TextView">
+        <item name="hashtagColor">?colorAccent</item>
+        <item name="mentionColor">?colorAccent</item>
+        <item name="hyperlinkColor">?colorAccent</item>
+    </style>
+
+
+    <style name="TextOnShadow" parent="">
+        <item name="android:shadowColor">@android:color/black</item>
+        <item name="android:shadowDx">1</item>
+        <item name="android:shadowDy">1</item>
+        <item name="android:shadowRadius">1</item>
+    </style>
+
+    <style name="customSwitch" parent="TextAppearance.AppCompat.Widget.Switch">
+        <item name="trackTint">@color/white</item>
+        <item name="thumbTint">@color/pink</item>
+    </style>
+
+    <style name="Stripe.CardInputWidget.EditText" parent="Stripe.Base.CardInputWidget.EditText">
+        <item name="android:textColorHint">@color/graylight</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="background">@color/offwhite</item>
+    </style>
+</resources>

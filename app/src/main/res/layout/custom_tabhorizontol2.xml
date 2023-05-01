@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:paddingHorizontal="10dp"
+    android:paddingVertical="2dp">
+
+
+    <TextView
+        android:singleLine="true"
+        android:id="@+id/tvTab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginHorizontal="5dp"
+        android:fontFamily="@font/alight"
+        android:gravity="center"
+        android:text="name"
+        android:textColor="@color/black_back"
+        android:textSize="14sp"
+        android:textStyle="bold" />
+
+    <View
+        android:id="@+id/indicator"
+        android:layout_width="20dp"
+        android:layout_height="5dp"
+        android:background="@drawable/bg_round_pink" />
+</LinearLayout>

@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/black_back" />
+
+            <com.google.android.exoplayer2.ui.PlayerView
+
+                android:id="@+id/player_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:background="@color/transparent"
+                app:controller_layout_id="@layout/item_player_controler"
+                app:played_color="@color/transparent"
+                app:scrubber_color="@color/transparent"
+                app:show_timeout="1000"
+                app:shutter_background_color="@color/transparent"
+                app:surface_type="texture_view"
+                app:unplayed_color="@color/transparent" />
+
+<!--
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/image1"/>
+-->
+            <LinearLayout
+
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="bottom"
+                android:paddingBottom="5dp">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="15dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:paddingBottom="10dp">
+
+                    <LinearLayout
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical">
+
+                        <com.zorona.liverooms.utils.UserProfileImageView
+                            android:id="@+id/imgUser"
+                            android:layout_width="45dp"
+                            android:layout_height="45dp"
+                            custom:backColor="@color/pink" />
+
+                        <TextView
+                            android:id="@+id/tvUserName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="5dp"
+                            android:ellipsize="end"
+                            android:fontFamily="@font/amidum"
+                            android:maxLines="1"
+                            android:shadowColor="#000000"
+                            android:shadowDx="0"
+                            android:shadowDy="0"
+                            android:shadowRadius="0.5"
+                            android:text='Baku Mosambi'
+                            android:textColor="@color/light_white"
+                            android:textSize="15dp"
+                            tools:text="\@your_samantha" />
+
+
+                    </LinearLayout>
+
+
+                    <com.zorona.liverooms.utils.socialView.SocialTextView
+                        android:id="@+id/tv_descreption"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="3dp"
+                        android:layout_marginBottom="10dp"
+                        android:fontFamily="@font/amidum"
+                        android:maxWidth="250dp"
+                        android:maxLength="180"
+                        android:text="Nice Video on this app yeeeh too much"
+                        android:textColor="@color/white"
+                        android:textSize="13dp"
+                        app:animation_duration="500" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:elevation="3dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="15dp"
+                            android:layout_height="15dp"
+                            android:src="@drawable/ic_baseline_music_note_24"
+                            app:tint="@color/white" />
+
+                        <TextView
+                            android:id="@+id/tv_sound_name"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ellipsize="marquee"
+                            android:focusable="true"
+                            android:fontFamily="@font/amidum"
+                            android:marqueeRepeatLimit="marquee_forever"
+                            android:scrollHorizontally="true"
+                            android:singleLine="true"
+                            android:text="Mera Payar"
+                            android:textColor="@color/white"
+                            android:textSize="13dp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="2dp"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical"
+                    android:paddingTop="20dp"
+                    android:paddingBottom="10dp">
+
+
+                    <ImageView
+                        android:visibility="gone"
+                        android:id="@+id/lout_user"
+                        android:layout_width="45dp"
+                        android:layout_height="45dp"
+                        android:background="@drawable/ic_searchuser_dp_bg"
+                        android:backgroundTint="@color/pink"
+                        android:contentDescription="@string/image"
+                        android:padding="2dp"
+
+                        />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="70dp"
+                        android:layout_marginTop="5dp">
+
+                        <com.like.LikeButton
+                            android:id="@+id/likebtn"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            app:anim_scale_factor="2"
+                            app:circle_end_color="@color/white"
+                            app:circle_start_color="@color/pink"
+                            app:dots_primary_color="@color/white"
+                            app:dots_secondary_color="@color/purple"
+                            app:icon_size="35dp"
+                            app:icon_type="heart"
+                            app:like_drawable="@drawable/ic_heart_gradient"
+                            app:follow="false"
+                            app:unlike_drawable="@drawable/ic_unliked" />
+
+                        <TextView
+                            android:layout_marginTop="5dp"
+                            android:id="@+id/tv_likeCount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentBottom="true"
+                            android:layout_centerHorizontal="true"
+                            android:fontFamily="@font/amidum"
+                            android:textColor="@color/light_white"
+                            android:textSize="12dp" />
+                    </RelativeLayout>
+
+                    <LinearLayout
+                        android:id="@+id/lytComments"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:id="@+id/img_comment"
+                            android:layout_width="35dp"
+                            android:layout_height="35dp"
+                            android:layout_marginTop="20dp"
+                            android:src="@drawable/ic_comments"
+                            app:tint="@color/white" />
+
+                        <TextView
+                            android:id="@+id/tv_comment_count"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:fontFamily="@font/amidum"
+                            android:text="24"
+                            android:textColor="@color/light_white"
+                            android:textSize="12dp" />
+                    </LinearLayout>
+
+                    <ImageView
+                        android:id="@+id/img_share"
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:layout_marginTop="20dp"
+                        android:padding="2dp"
+                        android:src="@drawable/ic_share_fill"
+                        app:tint="@color/white" />
+
+                    <RelativeLayout
+                        android:id="@+id/lytSound"
+                        android:layout_width="45dp"
+                        android:layout_height="45dp"
+                        android:layout_marginTop="18dp"
+                        android:background="@drawable/ic_black_disk"
+                        android:orientation="vertical"
+                        android:padding="10dp"
+                        tools:src="@drawable/dummy_user">
+
+
+                        <ImageView
+                            android:background="@drawable/bg_gradient_round"
+                            android:layout_width="20dp"
+                            android:src="@drawable/ic_music_videolist"
+                            android:layout_height="20dp"
+                            android:layout_centerInParent="true"
+                            android:padding="5dp"
+                            app:tint="@color/white" />
+
+                        <ImageView
+                            android:id="@+id/imgSong"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_centerInParent="true"
+                            android:layout_marginEnd="5dp" />
+
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+            <RelativeLayout
+                android:id="@+id/rtl"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/transparent" />
+
+
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/btnRepot"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="70dp"
+            android:layout_marginEnd="15dp"
+            android:onClick="onClickReport"
+            android:src="@drawable/ic_baseline_info_24"
+            android:tooltipText="Report This Relite"
+            android:visibility="visible"
+            app:tint="@color/white" />
+
+    </RelativeLayout>
+</layout>

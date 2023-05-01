@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".activity.TestVideoActivity">
+
+        <com.google.android.exoplayer2.ui.PlayerView
+            android:id="@+id/playerview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            app:buffered_color="@color/pink"
+            app:resize_mode="fill"
+            app:use_controller="false" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

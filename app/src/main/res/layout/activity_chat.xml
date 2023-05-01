@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewmodel"
+            type="com.zorona.liverooms.viewModel.ChatViewModel" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/black_back"
+        tools:context=".chatDummy.ChatActivity">
+
+        <LinearLayout
+            android:id="@+id/lytTop"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="5dp"
+            android:background="@color/blackpure"
+            android:orientation="horizontal"
+            android:paddingTop="35dp"
+            android:paddingBottom="10dp">
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:onClick="onClickBack"
+                android:padding="5dp"
+                android:src="@drawable/ic_back"
+                app:tint="@color/white" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <com.zorona.liverooms.utils.UserProfileImageView
+                    android:id="@+id/imgUser"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:onClick="onClickUser"
+                    android:padding="1dp" />
+
+                <TextView
+                    android:id="@+id/tvUserNamew"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="10dp"
+                    android:fontFamily="@font/abold"
+                    android:onClick="onClickUser"
+                    android:text="Jhon Duo"
+                    android:textColor="@color/white"
+                    android:textSize="18sp" />
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/btnRepot"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_alignParentEnd="true"
+                android:layout_gravity="center"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:onClick="onClickReport"
+                android:src="@drawable/ic_baseline_info_24"
+                android:tooltipText="Report This User"
+                android:visibility="visible"
+                app:tint="@color/white" />
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:layout_marginEnd="10dp"
+                android:onClick="onClickVideoCall"
+                android:padding="2dp"
+                android:src="@drawable/videocamara"
+                android:tint="@color/white" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/lytBottom"
+            android:layout_below="@id/lytTop"
+            android:orientation="vertical">
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvChat"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:adapter="@{viewmodel.chatAdapter}"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:stackFromEnd="false"
+                tools:listitem="@layout/item_chat_image" />
+
+
+            <RelativeLayout
+                android:id="@+id/lytImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/bg_5dp"
+                android:backgroundTint="@color/white"
+                android:visibility="gone">
+
+                <ImageView
+                    android:id="@+id/imageview"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:adjustViewBounds="true"
+                    android:maxWidth="150dp"
+                    android:maxHeight="200dp" />
+
+                <ProgressBar
+                    android:id="@+id/pdImage"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_centerInParent="true"
+                    android:indeterminateTint="@color/pink"
+                    android:visibility="visible" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/btnScroll"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_above="@id/lytBottom"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/bg_round_pink"
+            android:backgroundTint="#941E1F2C"
+            android:padding="3dp"
+            android:rotation="90"
+            android:src="@drawable/ic_round_keyboard_arrow_right_24"
+            android:visibility="gone"
+            app:tint="@color/white" />
+
+        <LinearLayout
+            android:id="@+id/lytBottom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginHorizontal="10dp"
+            android:fitsSystemWindows="true"
+            android:orientation="horizontal"
+            android:padding=".5dp">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_round_pink"
+                android:backgroundTint="@color/blackpure"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_margin="5dp"
+                    android:background="@drawable/bg_round_pink"
+                    android:backgroundTint="#FF1D7E"
+                    android:onClick="onClickCamara"
+                    android:padding="10dp"
+                    android:src="@drawable/camara"
+                    app:tint="@color/white" />
+
+                <EditText
+                    android:id="@+id/etChat"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:background="@android:color/transparent"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/amidum"
+                    android:gravity="center_vertical|start"
+                    android:hint="Type a Message..."
+                    android:paddingHorizontal="5dp"
+                    android:paddingVertical="10dp"
+                    android:singleLine="true"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/graylight"
+                    android:textSize="14sp" />
+
+                <ImageView
+
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center_vertical"
+                    android:padding="10dp"
+                    android:src="@drawable/smile"
+                    android:tint="@color/white"
+                    android:visibility="gone" />
+
+                <ImageView
+
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center_vertical"
+                    android:padding="10dp"
+                    android:src="@drawable/microphone"
+                    android:tint="@color/white"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/tvSend"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="15dp"
+                    android:fontFamily="@font/abold"
+                    android:text="Send"
+                    android:textColor="@color/pink"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <include layout="@layout/layout_no_internet" />
+    </RelativeLayout>
+</layout>

@@ -1,0 +1,413 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="loader"
+            type="com.zorona.liverooms.MyLoader" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/black_back"
+        tools:context=".user.guestUserDummy.GuestActivity">
+
+        <LinearLayout
+
+            android:id="@+id/lytTop"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingTop="35dp"
+            android:paddingBottom="10dp">
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:onClick="onClickBack"
+                android:padding="5dp"
+                android:src="@drawable/ic_back"
+                app:tint="@color/white" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+
+                <TextView
+                    android:id="@+id/tvName"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="10dp"
+                    android:fontFamily="@font/abold"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    tools:text="Sofia adams" />
+
+                <ImageView
+                    android:id="@+id/btnRepot"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_gravity="end"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:onClick="onClickReport"
+                    android:src="@drawable/ic_baseline_info_24"
+                    android:tooltipText="Report This User"
+                    android:visibility="visible"
+                    app:tint="@color/white" />
+
+                <ImageView
+                    android:id="@+id/btnShare"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_marginEnd="10dp"
+                    android:onClick="onClickShare"
+                    android:padding="3dp"
+                    android:src="@drawable/share"
+                    app:tint="@color/white" />
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/lytTop">
+
+
+            <com.google.android.material.appbar.AppBarLayout
+                android:id="@+id/app_bar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/black_back"
+                android:orientation="vertical">
+
+                <com.google.android.material.appbar.CollapsingToolbarLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fitsSystemWindows="true"
+                    app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="fill_vertical"
+                            android:layout_marginTop="20dp"
+                            android:descendantFocusability="blocksDescendants"
+                            android:orientation="vertical"
+                            android:visibility="@{loader.isFristTimeLoading?View.GONE : View.VISIBLE}">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginHorizontal="20dp"
+                                android:orientation="horizontal">
+
+                                <ImageView
+                                    android:id="@+id/imgUser"
+                                    android:layout_width="70dp"
+                                    android:layout_height="70dp" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="20dp"
+                                    android:background="@drawable/bg_10dp_stockgray"
+                                    android:orientation="horizontal"
+                                    android:paddingVertical="15dp">
+
+                                    <LinearLayout
+                                        android:id="@+id/lytFollowrs"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:gravity="center"
+                                        android:orientation="vertical">
+
+                                        <TextView
+                                            android:id="@+id/tvFollowrs"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:fontFamily="@font/amidum"
+                                            android:textColor="@color/white"
+                                            android:textSize="16dp"
+                                            tools:text="0" />
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginTop="5dp"
+                                            android:fontFamily="@font/alight"
+                                            android:text="Followers"
+                                            android:textColor="@color/text_gray"
+                                            android:textSize="12dp" />
+
+                                    </LinearLayout>
+
+                                    <View
+                                        android:layout_width=".3dp"
+                                        android:layout_height="match_parent"
+                                        android:background="@color/text_gray" />
+
+                                    <LinearLayout
+                                        android:id="@+id/lytFollowing"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:gravity="center"
+                                        android:orientation="vertical">
+
+                                        <TextView
+                                            android:id="@+id/tvFollowing"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:fontFamily="@font/amidum"
+                                            android:textColor="@color/white"
+                                            android:textSize="16dp"
+                                            tools:text="0" />
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginTop="5dp"
+                                            android:fontFamily="@font/alight"
+                                            android:text="Following"
+                                            android:textColor="@color/text_gray"
+                                            android:textSize="12dp" />
+
+                                    </LinearLayout>
+                                </LinearLayout>
+
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginHorizontal="20dp"
+                                android:layout_marginTop="20dp"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:id="@+id/tvUserName"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/alight"
+                                    android:gravity="center"
+                                    android:textColor="@color/text_gray"
+                                    android:textSize="14sp"
+                                    tools:text="ID: 123123" />
+
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="20dp"
+                                android:layout_marginTop="10dp"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:id="@+id/tvCountry"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:background="@drawable/bg_5dp"
+                                    android:backgroundTint="@color/graylight"
+                                    android:fontFamily="@font/amidum"
+                                    android:gravity="center"
+                                    android:paddingHorizontal="10dp"
+                                    android:paddingVertical="2dp"
+                                    android:textColor="@color/white"
+                                    android:textSize="14sp"
+                                    tools:text="INDIA" />
+
+                                <TextView
+
+                                    android:id="@+id/tvLevel"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="10dp"
+                                    android:background="@drawable/bg_5dp"
+                                    android:backgroundTint="@color/pink"
+                                    android:paddingHorizontal="7dp"
+                                    android:paddingVertical="1dp"
+                                    android:textColor="@color/white"
+                                    tools:text="Lv. 1" />
+
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="10dp"
+                                    android:background="@drawable/bg_5dp"
+                                    android:backgroundTint="@color/purple"
+                                    android:orientation="horizontal">
+
+                                    <ImageView
+                                        android:id="@+id/imgGender"
+                                        android:layout_width="17dp"
+                                        android:layout_height="17dp"
+                                        android:layout_gravity="center"
+                                        android:layout_marginStart="3dp"
+                                        android:padding="2dp"
+                                        android:src="@drawable/female"
+                                        app:tint="@color/white" />
+
+                                    <TextView
+                                        android:id="@+id/tvAge"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:paddingHorizontal="7dp"
+                                        android:paddingVertical="1dp"
+                                        android:textColor="@color/white"
+                                        tools:text="21" />
+                                </LinearLayout>
+                            </LinearLayout>
+
+                            <TextView
+                                android:id="@+id/tvBio"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginHorizontal="20dp"
+                                android:layout_marginTop="10dp"
+                                android:fontFamily="@font/amidum"
+                                android:textColor="@color/white"
+                                tools:text="@string/bio" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginHorizontal="15dp"
+                                android:layout_marginTop="20dp"
+                                android:orientation="horizontal">
+
+                                <RelativeLayout
+                                    android:id="@+id/lytFollowUnfollow"
+                                    android:layout_width="0dp"
+                                    android:layout_height="35dp"
+                                    android:layout_marginHorizontal="5dp"
+                                    android:layout_weight="1"
+                                    android:background="@drawable/bg_5dp"
+                                    android:backgroundTint="@color/pink">
+
+                                    <TextView
+                                        android:id="@+id/tvFollowStatus"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:layout_centerInParent="true"
+                                        android:fontFamily="@font/abold"
+                                        android:gravity="center"
+                                        android:paddingVertical="5dp"
+                                        android:singleLine="true"
+                                        android:text="FOLLOW"
+                                        android:textColor="@color/white"
+                                        android:textSize="16dp" />
+
+                                    <ProgressBar
+                                        android:id="@+id/pdFollow"
+                                        android:layout_width="25dp"
+                                        android:layout_height="25dp"
+                                        android:layout_centerInParent="true"
+                                        android:indeterminateTint="@color/white" />
+                                </RelativeLayout>
+
+                                <TextView
+                                    android:id="@+id/tvMessages"
+                                    android:layout_width="0dp"
+                                    android:layout_height="35dp"
+                                    android:layout_marginHorizontal="5dp"
+                                    android:layout_weight="1"
+                                    android:background="@drawable/bg_5dp"
+                                    android:backgroundTint="@color/pink"
+                                    android:fontFamily="@font/abold"
+                                    android:gravity="center"
+                                    android:paddingVertical="5dp"
+                                    android:text="MESSAGE"
+                                    android:textColor="@color/white"
+                                    android:textSize="16dp" />
+                            </LinearLayout>
+
+
+                        </LinearLayout>
+
+                        <com.facebook.shimmer.ShimmerFrameLayout
+                            android:id="@+id/shimmer"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginHorizontal="10dp"
+                            android:visibility="@{loader.isFristTimeLoading?View.VISIBLE : View.GONE}"
+                            app:shimmer_base_color="@color/shimmarColor"
+                            app:shimmer_colored="false"
+                            app:shimmer_highlight_color="@color/white"
+                            tools:visibility="gone">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <include layout="@layout/shimmer_item_guestprofile" />
+                            </LinearLayout>
+                        </com.facebook.shimmer.ShimmerFrameLayout>
+
+                    </RelativeLayout>
+
+                </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <com.google.android.material.tabs.TabLayout
+                        android:id="@+id/tablayout1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="5dp"
+                        android:visibility="visible"
+                        app:tabGravity="start"
+                        app:tabIndicator="@null"
+                        app:tabMode="auto"
+                        app:tabRippleColor="@null" />
+
+
+                </LinearLayout>
+
+            </com.google.android.material.appbar.AppBarLayout>
+
+            <androidx.viewpager.widget.ViewPager
+                android:id="@+id/view_pager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:descendantFocusability="blocksDescendants"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+        <include layout="@layout/layout_no_internet" />
+    </RelativeLayout>
+</layout>

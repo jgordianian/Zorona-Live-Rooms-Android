@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/lytTop"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/black_back"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingTop="35dp"
+        android:paddingBottom="10dp">
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            android:onClick="onClickBack"
+            android:padding="5dp"
+            android:src="@drawable/ic_back"
+            app:tint="@color/white" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="@font/abold"
+                android:text="Manage Audio Volume"
+                android:textColor="@color/white"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/imgDone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center"
+            android:layout_marginRight="10dp"
+            android:fontFamily="@font/abold"
+            android:gravity="center"
+            android:text="Next"
+            android:textColor="@color/pink"
+            android:textSize="18sp" />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/controls"
+        android:layout_below="@id/lytTop"
+        android:gravity="center">
+
+        <com.google.android.exoplayer2.ui.PlayerView
+            android:id="@+id/player"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:resize_mode="fixed_width"
+            app:use_controller="false" />
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/overlay"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_above="@id/controls"
+        android:layout_below="@id/lytTop"
+        android:clickable="true"
+        android:focusable="true" />
+
+    <LinearLayout
+        android:id="@+id/controls"
+        android:layout_width="match_parent"
+        android:gravity="center"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true"
+        android:background="@color/black_back"
+        android:paddingVertical="15dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/TextOnShadow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/video_volume_label"
+                android:textColor="@android:color/white"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="horizontal">
+
+                <com.hmomeni.verticalslider.VerticalSlider
+                    android:id="@+id/video"
+                    android:layout_width="40dp"
+                    android:layout_height="120dp"
+                    android:layout_gravity="center"
+                    app:vs_cornerRadius="10dp"
+                    app:vs_iconHigh="@drawable/ic_baseline_volume_up_24"
+                    app:vs_iconLow="@drawable/ic_baseline_volume_mute_24"
+                    app:vs_iconMedium="@drawable/ic_baseline_volume_down_24"
+                    app:vs_max="100"
+                    app:vs_progress="10" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="10dp"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="10dp"
+                        android:layout_height="10dp"
+                        android:background="@drawable/plus"
+                        android:backgroundTint="@color/white" />
+
+                    <ImageView
+                        android:layout_width="10dp"
+                        android:layout_height="10dp"
+                        android:layout_alignParentBottom="true"
+                        android:background="@drawable/minus"
+                        android:backgroundTint="@color/white" />
+
+                </RelativeLayout>
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="0.1dp"
+            android:layout_height="match_parent"
+            android:background="@color/gre_alpha_20" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/TextOnShadow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/song_volume_label"
+                android:textColor="@android:color/white"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <com.hmomeni.verticalslider.VerticalSlider
+                    android:id="@+id/sound"
+                    android:layout_width="40dp"
+                    android:layout_height="120dp"
+                    android:layout_gravity="center"
+                    app:vs_cornerRadius="10dp"
+                    app:vs_iconHigh="@drawable/ic_baseline_volume_up_24"
+                    app:vs_iconLow="@drawable/ic_baseline_volume_mute_24"
+                    app:vs_iconMedium="@drawable/ic_baseline_volume_down_24"
+                    app:vs_max="100"
+                    app:vs_progress="10" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="10dp"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="10dp"
+                        android:layout_height="10dp"
+                        android:background="@drawable/plus"
+                        android:backgroundTint="@color/white" />
+
+                    <ImageView
+                        android:layout_width="10dp"
+                        android:layout_height="10dp"
+                        android:layout_alignParentBottom="true"
+                        android:background="@drawable/minus"
+                        android:backgroundTint="@color/white" />
+
+                </RelativeLayout>
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+        <!--     <TextView
+                 style="@style/TextOnShadow"
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:layout_marginBottom="10dp"
+                 android:text="@string/volume_hint"
+                 android:textAlignment="center"
+                 android:textColor="@android:color/white"
+                 android:textSize="15sp"
+                 android:visibility="gone" />
+
+             <TextView
+                 style="@style/TextOnShadow"
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:text="@string/video_volume_label"
+                 android:textColor="@android:color/white"
+                 android:textSize="15sp"
+                 android:textStyle="bold" />
+
+             <LinearLayout
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:gravity="center_vertical"
+                 android:orientation="horizontal">
+
+                 <ImageView
+                     android:layout_width="40dp"
+                     android:layout_height="40dp"
+                     android:tint="@color/white"
+                     app:srcCompat="@drawable/ic_baseline_volume_mute_24"
+                     tools:ignore="ContentDescription" />
+
+                 <com.google.android.material.slider.Slider
+                     android:id="@+id/video"
+                     android:layout_width="0dp"
+                     android:layout_height="wrap_content"
+                     android:layout_weight="1"
+                     android:stepSize="5"
+                     android:valueFrom="0"
+                     android:valueTo="100"
+                     app:tickColor="@color/pink"
+                     android:visibility="visible"
+                     app:thumbColor="@color/pink"
+                     app:trackColor="#1FD81B60" />
+
+                 <ImageView
+                     android:layout_width="40dp"
+                     android:layout_height="40dp"
+                     android:tint="@color/white"
+                     app:srcCompat="@drawable/ic_baseline_volume_up_24"
+                     tools:ignore="ContentDescription" />
+
+             </LinearLayout>
+
+             <View
+                 android:layout_width="match_parent"
+                 android:layout_height="1dp"
+                 android:layout_margin="10dp"
+                 android:background="?attr/colorBackgroundFloating"
+                 app:layout_constraintBottom_toBottomOf="parent" />
+
+             <TextView
+                 style="@style/TextOnShadow"
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:text="@string/song_volume_label"
+                 android:textColor="@android:color/white"
+                 android:textSize="15sp"
+                 android:textStyle="bold" />
+
+             <LinearLayout
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:gravity="center_vertical"
+                 android:orientation="horizontal">
+
+                 <ImageView
+                     android:layout_width="40dp"
+                     android:layout_height="40dp"
+                     android:tint="@color/white"
+                     app:srcCompat="@drawable/ic_baseline_volume_mute_24"
+                     tools:ignore="ContentDescription" />
+                 <com.google.android.material.slider.Slider
+                     android:id="@+id/song"
+                     android:layout_width="0dp"
+                     android:layout_height="wrap_content"
+                     android:layout_weight="1"
+                     android:stepSize="5"
+                     android:valueFrom ="0"
+                     android:valueTo="100"
+                     app:tickColor="@color/pink"
+                     android:visibility="visible"
+                     app:thumbColor="@color/pink"
+                     app:trackColor="#1FD81B60" />
+
+
+                 <ImageView
+                     android:layout_width="40dp"
+                     android:layout_height="40dp"
+                     android:tint="@color/white"
+                     app:srcCompat="@drawable/ic_baseline_volume_up_24"
+                     tools:ignore="ContentDescription" />
+     -->
+        <!--        </LinearLayout>-->
+
+    </LinearLayout>
+
+    <include layout="@layout/layout_no_internet" />
+</RelativeLayout>

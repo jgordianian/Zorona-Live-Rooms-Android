@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="viewModel"
+            type="com.zorona.liverooms.viewModel.ReelsViewModel" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".reels.ReelsActivity">
+
+        <com.scwang.smartrefresh.layout.SmartRefreshLayout
+            android:id="@+id/swipe_refresh"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.scwang.smartrefresh.layout.header.ClassicsHeader
+                android:id="@+id/header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_srlSpinnerStyle="Translate"
+                app:srlAccentColor="@color/pink"
+                app:srlDrawableArrow="@drawable/ic_back"
+                app:srlEnableLastTime="false"
+                app:srlEnablePullToCloseTwoLevel="false"
+                app:srlEnableTwoLevel="false"
+                app:srlPrimaryColor="@color/black_back" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:adapter="@{viewModel.reelsAdapter}"
+                android:id="@+id/rvReels"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/item_reels" />
+
+            <com.scwang.smartrefresh.layout.footer.ClassicsFooter
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:gravity="center" />
+
+        </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="35dp"
+            android:onClick="onClickBack"
+            android:padding="5dp"
+            android:src="@drawable/ic_back"
+            app:tint="@color/white" />
+
+        <ProgressBar
+            android:id="@+id/pd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:visibility="gone" />
+        <include layout="@layout/layout_no_internet" />
+    </RelativeLayout>
+</layout>

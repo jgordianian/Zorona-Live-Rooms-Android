@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <LinearLayout
+        android:gravity="bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@color/black_back"
+        android:paddingHorizontal="10dp">
+
+        <ImageView
+            android:id="@+id/imgUser1"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/bg_round_pink"
+            android:backgroundTint="@color/white"
+            android:padding="1dp" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <View
+                android:id="@+id/space1"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1"
+                android:visibility="visible" />
+
+            <RelativeLayout
+
+                android:id="@+id/lytMain"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:background="@drawable/bg_chat_left"
+                android:backgroundTint="@color/light_white"
+                android:padding="1dp">
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:cardCornerRadius="5dp">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:id="@+id/mainImage"
+                        android:maxWidth="200dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:adjustViewBounds="true"
+                        android:maxHeight="250dp"
+                        android:src="@drawable/girl"
+                        />
+
+                </androidx.cardview.widget.CardView>
+
+            </RelativeLayout>
+
+            <View
+
+                android:id="@+id/space2"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1" />
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/imgUser2"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/bg_round_pink"
+            android:padding="1dp" />
+
+    </LinearLayout>
+</layout>

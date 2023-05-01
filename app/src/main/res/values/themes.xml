@@ -1,0 +1,27 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.Rayzi" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/black_back</item>
+        <item name="colorPrimaryVariant">@color/black_back</item>
+        <item name="colorOnPrimary">@color/black_back</item>
+
+
+        <item name="colorOnBackground">@color/pinklight</item>
+        <item name="colorSurface">@color/white</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/white</item>
+        <item name="colorSecondaryVariant">@color/white</item>
+        <item name="colorOnSecondary">@color/white</item>
+        <!-- Status bar color. -->
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+        <!-- Customize your theme here. -->
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:forceDarkAllowed">false</item>
+        <item name="android:listPreferredItemPaddingLeft">20dp</item>
+        <item name="android:listPreferredItemPaddingRight">20dp</item>
+
+    </style>
+
+</resources>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <LinearLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/black_back"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/lytHashtag"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+
+            android:paddingVertical="10dp">
+
+
+            <com.zorona.liverooms.utils.socialView.SocialEditText
+                android:id="@+id/tvHashtag"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:background="@drawable/bg_10dp_stockgray"
+                android:fontFamily="@font/amidum"
+                android:gravity="start"
+                android:hint="Add Caption with hashtags and mentions"
+                android:minHeight="100dp"
+                android:paddingHorizontal="10dp"
+                android:paddingVertical="10dp"
+                android:textColor="@color/white"
+                android:textColorHint="@color/text_gray"
+                android:textSize="14dp" />
+
+
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvHashtags"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:nestedScrollingEnabled="true"
+            android:visibility="gone"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:spanCount="2"
+            tools:listitem="@layout/item_hashtags" />
+
+    </LinearLayout>
+</layout>

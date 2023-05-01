@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="loader"
+            type="com.zorona.liverooms.MyLoader" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/black_back"
+        android:paddingTop="5dp"
+        tools:context=".user.activity.TiketsActivity">
+
+        <RelativeLayout
+            android:id="@+id/rl_top"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="25dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:fontFamily="@font/abold"
+                android:text="My Tickets"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
+
+            <ImageView
+                android:id="@+id/back"
+                android:layout_width="30dp"
+                android:layout_height="35dp"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="10dp"
+                android:onClick="onClickBack"
+                android:padding="5dp"
+                android:src="@drawable/ic_back"
+                app:tint="@color/white" />
+        </RelativeLayout>
+
+     <com.scwang.smartrefresh.layout.SmartRefreshLayout
+         android:id="@+id/swipe"
+         android:layout_width="match_parent"
+         android:layout_height="match_parent"
+         android:layout_below="@id/rl_top">
+
+         <androidx.recyclerview.widget.RecyclerView
+             android:id="@+id/rv_tikit"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:layout_marginTop="10sp"
+             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:layout_below="@id/rl_top"
+            android:id="@+id/shimmer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="@{loader.isFristTimeLoading?View.VISIBLE : View.GONE}"
+            app:shimmer_base_color="@color/shimmarColor"
+            app:shimmer_colored="false"
+            tools:visibility="gone"
+            app:shimmer_highlight_color="@color/white">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="70dp"
+                    android:layout_marginHorizontal="10dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/shimmarColor" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="70dp"
+                    android:layout_marginHorizontal="10dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/shimmarColor" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="70dp"
+                    android:layout_marginHorizontal="10dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/shimmarColor" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="70dp"
+                    android:layout_marginHorizontal="10dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/shimmarColor" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="70dp"
+                    android:layout_marginHorizontal="10dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/shimmarColor" />
+            </LinearLayout>
+
+        </com.facebook.shimmer.ShimmerFrameLayout>
+
+        <RelativeLayout
+            android:id="@+id/noData"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="150dp">
+
+            <include layout="@layout/lyt_no_data" />
+        </RelativeLayout>
+        <include layout="@layout/layout_no_internet" />
+    </RelativeLayout>
+</layout>

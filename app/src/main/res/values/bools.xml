@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <bool name="stickers_enabled">true</bool>
+    <bool name="watermark_username_enabled">true</bool>
+    <bool name="clutter_free_recording_enabled">true</bool>
+    <bool name="locations_enabled">true</bool>
+    <bool name="skip_pan_audio_screen">true</bool>
+    <bool name="uploads_async_enabled">true</bool>
+    <bool name="sharing_watermark_enabled">true</bool>
+</resources>

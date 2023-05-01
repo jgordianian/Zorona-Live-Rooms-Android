@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black_back">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="fill_vertical"
+        android:layout_marginTop="20dp"
+        android:descendantFocusability="blocksDescendants"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/imgUser"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:background="@drawable/bg_round_pink"
+                android:backgroundTint="@color/shimmarColor" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:background="@drawable/bg_10dp_stockgray"
+                android:orientation="horizontal"
+                android:paddingVertical="15dp">
+
+                <LinearLayout
+                    android:id="@+id/lytFollowrs"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tvFollowrs"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@color/shimmarColor"
+                        android:fontFamily="@font/amidum"
+                        android:text="0v0"
+                        android:textColor="@color/shimmarColor"
+                        android:textSize="16dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:fontFamily="@font/alight"
+                        android:text="Followers"
+                        android:textColor="@color/text_gray"
+                        android:textSize="12dp" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width=".3dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/text_gray" />
+
+                <LinearLayout
+                    android:id="@+id/lytFollowing"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tvFollowing"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@color/shimmarColor"
+                        android:fontFamily="@font/amidum"
+                        android:text="0v0"
+                        android:textColor="@color/shimmarColor"
+                        android:textSize="16dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:fontFamily="@font/alight"
+                        android:text="Following"
+                        android:textColor="@color/text_gray"
+                        android:textSize="12dp" />
+
+                </LinearLayout>
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="20dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvUserName"
+                android:layout_width="wrap_content"
+                android:layout_height="15dp"
+                android:background="@color/shimmarColor"
+                android:fontFamily="@font/alight"
+                android:gravity="center"
+                android:text="0vvvvvvddddddv0"
+                android:textColor="@color/shimmarColor"
+                android:textSize="14sp" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tvCountry"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_5dp"
+                android:backgroundTint="@color/shimmarColor"
+                android:fontFamily="@font/amidum"
+                android:gravity="center"
+                android:paddingHorizontal="10dp"
+                android:paddingVertical="2dp"
+                android:textColor="@color/shimmarColor"
+                android:textSize="14sp"
+                tools:text="INDIA" />
+
+            <TextView
+
+                android:id="@+id/tvLevel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:background="@drawable/bg_5dp"
+                android:backgroundTint="@color/shimmarColor"
+                android:paddingHorizontal="7dp"
+                android:paddingVertical="1dp"
+                android:textColor="@color/shimmarColor"
+                tools:text="Lv. 1" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:background="@drawable/bg_5dp"
+                android:backgroundTint="@color/shimmarColor"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/imgGender"
+                    android:layout_width="17dp"
+                    android:layout_height="17dp"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="3dp"
+                    android:padding="2dp"
+                    android:src="@drawable/female"
+                    app:tint="@color/shimmarColor" />
+
+                <TextView
+                    android:id="@+id/tvAge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="7dp"
+                    android:paddingVertical="1dp"
+                    android:textColor="@color/shimmarColor"
+                    tools:text="21" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tvBio"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/shimmarColor"
+            android:fontFamily="@font/amidum"
+            android:textColor="@color/shimmarColor" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="15dp"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:id="@+id/lytFollowUnfollow"
+                android:layout_width="0dp"
+                android:layout_height="35dp"
+                android:layout_marginHorizontal="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_5dp"
+                android:backgroundTint="@color/shimmarColor">
+
+                <TextView
+                    android:id="@+id/tvFollowStatus"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_centerInParent="true"
+                    android:fontFamily="@font/abold"
+                    android:gravity="center"
+                    android:paddingVertical="5dp"
+                    android:singleLine="true"
+                    android:text=""
+                    android:textColor="@color/white"
+                    android:textSize="16dp" />
+
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="35dp"
+                android:layout_marginHorizontal="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_5dp"
+                android:backgroundTint="@color/shimmarColor"
+                android:fontFamily="@font/abold"
+                android:gravity="center"
+                android:paddingVertical="5dp"
+                android:text="MESSAGE"
+                android:textColor="@color/shimmarColor"
+                android:textSize="16dp" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</RelativeLayout>

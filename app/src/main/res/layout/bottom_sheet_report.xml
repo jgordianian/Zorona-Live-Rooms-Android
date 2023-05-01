@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_bottom_sheet_corner_a"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/lyttop"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:fontFamily="@font/amidum"
+                android:text="Report this User"
+                android:textColor="@color/white"
+                android:textSize="18sp" />
+
+            <ImageView
+                android:id="@+id/btnclose"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="5dp"
+                android:padding="3dp"
+                android:src="@drawable/ic_baseline_close_24"
+                app:tint="@color/white" />
+        </RelativeLayout>
+
+        <EditText
+            android:id="@+id/etDes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/bg_10dp_stockgray"
+            android:fontFamily="@font/amidum"
+            android:gravity="start"
+            android:hint="Please Describe your issue here.."
+            android:minHeight="200dp"
+            android:padding="10dp"
+            android:textColor="@color/white"
+            android:textColorHint="@color/graylight"
+            android:textSize="14sp"
+            android:visibility="visible" />
+
+        <TextView
+            android:id="@+id/btnSubmit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/bg_round_pink"
+            android:fontFamily="@font/amidum"
+            android:paddingHorizontal="30dp"
+            android:paddingVertical="7dp"
+            android:text="SUBMIT"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+</layout>

@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/black_back"
+            tools:context=".postDummies.UploadPostActivity">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="10dp"
+                    android:layout_marginTop="40dp"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/btnback"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_centerVertical="true"
+                        android:padding="5dp"
+                        android:src="@drawable/ic_back"
+                        android:tint="@color/white" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:layout_gravity="center"
+                        android:fontFamily="@font/abold"
+                        android:gravity="center"
+                        android:text="Upload Relite"
+                        android:textColor="@color/white"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_gravity="center"
+                        android:fontFamily="@font/abold"
+                        android:gravity="center"
+                        android:onClick="onClickPost"
+                        android:text="Post  "
+                        android:textColor="@color/pink"
+                        android:textSize="18sp" />
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height=".3dp"
+                    android:layout_marginVertical="5dp"
+                    android:background="@color/grayinsta" />
+
+                <ScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="20dp"
+                            android:layout_marginVertical="20dp"
+                            android:orientation="horizontal">
+
+                            <RelativeLayout
+                                android:layout_width="100dp"
+                                android:layout_height="150dp"
+
+
+                                android:background="@drawable/bg_10dp"
+                                android:backgroundTint="@color/grayinsta">
+
+
+                                <ImageView
+                                    android:id="@+id/imageview"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent" />
+                            </RelativeLayout>
+
+                            <com.zorona.liverooms.utils.socialView.SocialEditText
+                                android:id="@+id/decriptionView"
+                                android:layout_marginStart="20dp"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_gravity="center"
+                                android:background="@drawable/bg_10dp_stockgray"
+                                android:fontFamily="@font/amidum"
+                                android:gravity="start"
+                                android:hint="Add Caption with hashtags and mentions"
+                                android:minHeight="100dp"
+                                android:paddingHorizontal="10dp"
+                                android:paddingVertical="10dp"
+                                android:textColor="@color/white"
+                                android:textColorHint="@color/text_gray"
+                                android:textSize="14dp" />
+                        </LinearLayout>
+
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height=".3dp"
+                            android:layout_marginHorizontal="20dp"
+                            android:layout_marginVertical="5dp"
+                            android:background="@color/grayinsta" />
+
+
+                        <LinearLayout
+                            android:id="@+id/lytLocation"
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:layout_marginHorizontal="20dp"
+                            android:orientation="horizontal"
+                            android:paddingVertical="10dp">
+
+                            <ImageView
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:padding="7dp"
+                                android:src="@drawable/location"
+                                android:tint="@color/white" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:singleLine="true"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:fontFamily="@font/amidum"
+                                android:text="Location"
+                                android:textColor="@color/text_gray" />
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:ellipsize="marquee"
+                                android:marqueeRepeatLimit="marquee_forever"
+                                android:id="@+id/tvLocation"
+                                android:scrollHorizontally="true"
+                                android:singleLine="true"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:fontFamily="@font/abold"
+                                android:gravity="end"
+                                android:text=""
+                                android:textColor="@color/white" />
+
+                            <ImageView
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:padding="5dp"
+                                android:src="@drawable/ic_round_keyboard_arrow_right_24"
+                                android:tint="@color/white" />
+
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height=".3dp"
+                            android:layout_marginHorizontal="20dp"
+                            android:layout_marginVertical="5dp"
+                            android:background="@color/grayinsta" />
+
+                        <LinearLayout
+                            android:id="@+id/lytPrivacy"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="20dp"
+                            android:orientation="horizontal"
+                            android:paddingVertical="10dp">
+
+                            <ImageView
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:padding="7dp"
+                                android:src="@drawable/eye"
+                                android:tint="@color/white" />
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_weight="1"
+                                android:fontFamily="@font/amidum"
+                                android:text="Show to"
+                                android:textColor="@color/text_gray" />
+
+                            <TextView
+                                android:id="@+id/tvPrivacy"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:fontFamily="@font/abold"
+                                android:gravity="end"
+                                android:text="Public"
+                                android:textColor="@color/white" />
+
+                            <ImageView
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:padding="5dp"
+                                android:src="@drawable/ic_round_keyboard_arrow_right_24"
+                                android:tint="@color/white" />
+
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height=".3dp"
+                            android:layout_marginHorizontal="20dp"
+                            android:layout_marginVertical="5dp"
+                            android:background="@color/grayinsta" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="20dp"
+                            android:orientation="horizontal"
+                            android:paddingVertical="10dp">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_weight="1"
+                                android:fontFamily="@font/amidum"
+                                android:text="Allow Comments"
+                                android:textColor="@color/white" />
+
+                            <androidx.appcompat.widget.SwitchCompat
+                                android:id="@+id/switchComments"
+                                style="@style/customSwitch"
+                                android:checked="true"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:tint="@color/white" />
+
+                        </LinearLayout>
+                    </LinearLayout>
+                </ScrollView>
+
+            </LinearLayout>
+
+        </RelativeLayout>
+        <include layout="@layout/layout_no_internet" />
+    </RelativeLayout>
+</layout>

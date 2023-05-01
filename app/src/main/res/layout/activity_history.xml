@@ -1,0 +1,320 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="myLoder"
+            type="com.zorona.liverooms.MyLoader" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/black_back"
+        tools:context=".user.wallet.HistoryActivity">
+
+        <LinearLayout
+
+            android:id="@+id/lytTop"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/pink"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            android:paddingTop="35dp"
+            android:paddingBottom="70dp">
+
+
+            <LinearLayout
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center"
+                    android:onClick="onClickBack"
+                    android:padding="5dp"
+                    android:src="@drawable/ic_back"
+                    app:tint="@color/white" />
+
+                <TextView
+                    android:id="@+id/tvTitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="10dp"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/abold"
+                    android:text="Diamond Record"
+                    android:textColor="@color/white"
+                    android:textSize="18sp" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/amidum"
+                        android:text="   Start Date"
+                        android:textColor="@color/white" />
+
+                    <LinearLayout
+                        android:id="@+id/lytDate1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_stok_round"
+                        android:orientation="horizontal"
+                        android:paddingHorizontal="10dp"
+                        android:paddingVertical="4dp">
+
+                        <TextView
+                            android:id="@+id/tvDate1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="1999/29"
+                            android:textColor="@color/white"
+                            android:textSize="14dp" />
+
+                        <ImageView
+
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:rotation="90"
+                            android:src="@drawable/ic_round_keyboard_arrow_right_24"
+                            app:tint="@color/white" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="end"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/amidum"
+                        android:text="End Date   "
+                        android:textColor="@color/white" />
+
+                    <LinearLayout
+                        android:id="@+id/lytDate2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_stok_round"
+                        android:orientation="horizontal"
+                        android:paddingHorizontal="10dp"
+                        android:paddingVertical="4dp">
+
+                        <TextView
+                            android:id="@+id/tvDate2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="1999/29"
+                            android:textColor="@color/white"
+                            android:textSize="14dp" />
+
+                        <ImageView
+
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:rotation="90"
+                            android:src="@drawable/ic_round_keyboard_arrow_right_24"
+                            app:tint="@color/white" />
+                    </LinearLayout>
+
+                </LinearLayout>
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/lytTop"
+            android:layout_marginTop="-50dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:background="@drawable/bg_10dp"
+                android:backgroundTint="@color/white"
+                android:orientation="vertical">
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="2dp"
+                    android:background="@drawable/bg_10dp"
+                    android:backgroundTint="@color/black_back"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginVertical="20dp"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/alight"
+                                android:text="Income"
+                                android:textColor="@color/white"
+                                android:textSize="12dp" />
+
+                            <TextView
+                                android:id="@+id/tvIncome"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/abold"
+                                android:text="0"
+                                android:textColor="@color/white"
+                                android:textSize="28dp" />
+
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginVertical="20dp"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/alight"
+                                android:text="Spending"
+                                android:textColor="@color/white"
+                                android:textSize="12dp" />
+
+                            <TextView
+                                android:id="@+id/tvOutcome"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/abold"
+                                android:text="0"
+                                android:textColor="@color/white"
+                                android:textSize="28dp" />
+
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <com.scwang.smartrefresh.layout.SmartRefreshLayout
+                    android:id="@+id/swipe_refresh"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <com.scwang.smartrefresh.layout.header.ClassicsHeader
+                        android:id="@+id/header"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_srlSpinnerStyle="Translate"
+                        app:srlAccentColor="@color/pink"
+                        app:srlDrawableArrow="@drawable/ic_back"
+                        app:srlEnableLastTime="false"
+
+                        app:srlEnablePullToCloseTwoLevel="false"
+                        app:srlEnableTwoLevel="false"
+                        app:srlPrimaryColor="@color/black_back" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvHistory"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="15dp"
+                        android:layout_marginTop="10dp"
+                        tools:itemCount="1"
+                        android:orientation="vertical"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        tools:listitem="@layout/item_coin_history" />
+
+                    <com.scwang.smartrefresh.layout.footer.ClassicsFooter
+                        android:layout_width="match_parent"
+
+
+                        android:layout_height="40dp"
+                        android:gravity="center" />
+
+                </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+                <RelativeLayout
+                    android:id="@+id/noData"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="150dp"
+                    android:visibility="@{myLoder.noData?View.VISIBLE : View.GONE}">
+
+                    <include layout="@layout/lyt_no_data" />
+                </RelativeLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+        <include
+            tools:visibility="gone"
+            android:id="@+id/lytDatePicker"
+            layout="@layout/bottom_sheet_datepiker"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/bg_bottom_sheet" />
+
+
+        <include layout="@layout/layout_no_internet" />
+    </RelativeLayout>
+</layout>

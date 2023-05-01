@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <RelativeLayout
+        android:id="@+id/lytRoot"
+        android:background="@drawable/bg_gredent_yellow"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".user.wallet.MyWalletActivity">
+
+        <LinearLayout
+
+            android:id="@+id/lytTop"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingTop="35dp"
+            android:paddingBottom="10dp">
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:layout_marginStart="5dp"
+                android:onClick="onClickBack"
+                android:padding="5dp"
+                android:src="@drawable/ic_back"
+                app:tint="@color/white" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+
+                <com.google.android.material.tabs.TabLayout
+                    android:id="@+id/tablayout1"
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    android:layout_marginHorizontal="10dp"
+                    android:visibility="visible"
+                    app:tabGravity="center"
+                    app:tabIndicator="@null"
+                    app:tabMode="scrollable"
+                    app:tabRippleColor="@null"
+                    app:tabSelectedTextColor="@color/pink"
+                    app:tabTextAppearance="@style/mytab"
+                    app:tabTextColor="@color/white" />
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/viewPager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/lytTop" />
+
+        <include layout="@layout/layout_no_internet" />
+    </RelativeLayout>
+</layout>

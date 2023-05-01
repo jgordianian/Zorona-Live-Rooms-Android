@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@id/controls"
+            android:layout_below="@id/lytTop"
+            android:gravity="center">
+
+            <com.google.android.exoplayer2.ui.PlayerView
+                android:id="@+id/player"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:resize_mode="fixed_width"
+                app:use_controller="false" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/lytTop"
+            android:background="@color/black_back"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingTop="35dp"
+            android:paddingBottom="10dp">
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:onClick="onClickBack"
+                android:padding="5dp"
+                android:src="@drawable/ic_back"
+                app:tint="@color/white" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="10dp"
+                    android:fontFamily="@font/abold"
+                    android:text="Manage Volume"
+                    android:textColor="@color/white"
+                    android:textSize="18sp" />
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/btnDone"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:layout_marginEnd="15dp"
+                android:src="@drawable/ic_round_check_24"
+                app:tint="@color/white" />
+
+
+        </LinearLayout>
+
+
+
+        <View
+            android:id="@+id/overlay"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_above="@id/controls"
+            android:layout_below="@id/lytTop"
+            android:clickable="true"
+            android:focusable="true" />
+
+        <LinearLayout
+            android:background="@color/black_back"
+            android:id="@+id/controls"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <TextView
+                style="@style/TextOnShadow"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/pan_audio_hint"
+                android:textAlignment="center"
+                android:textColor="@android:color/white"
+                android:textSize="15sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    app:srcCompat="@drawable/ic_baseline_remove_24"
+                    app:tint="@color/white"
+                    tools:ignore="ContentDescription" />
+
+                <com.google.android.material.slider.Slider
+                    android:id="@+id/delay"
+                    android:layout_width="0dp"
+                    app:thumbColor="@color/pink"
+                    app:trackColor="@color/white"
+
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:stepSize="100.0"
+                    android:valueFrom="0.0"
+                    android:valueTo="5000.0" />
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    app:srcCompat="@drawable/ic_baseline_add_24"
+                    app:tint="@color/white"
+                    tools:ignore="ContentDescription" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <include layout="@layout/layout_no_internet" />
+    </RelativeLayout>
+</layout>

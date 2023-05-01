@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="viewModel"
+            type="com.zorona.liverooms.liveStreamming.LiveFragmentMain.LiveFragmentViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".liveStreamming.LiveFragmentMain">
+
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="25dp"
+            android:layout_weight="1">
+
+
+            <com.google.android.material.appbar.AppBarLayout
+                android:id="@+id/app_bar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/black_back"
+                android:orientation="vertical">
+
+                <com.google.android.material.appbar.CollapsingToolbarLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fitsSystemWindows="true"
+                    app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="fill_vertical"
+                        android:descendantFocusability="blocksDescendants"
+                        android:orientation="vertical">
+                        <LinearLayout
+                            android:id="@+id/lyttop"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:orientation="horizontal"
+                            android:weightSum="3">
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:id="@+id/tvLive"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="0dp"
+                                    android:layout_weight="1"
+                                    android:fontFamily="@font/amidum"
+                                    android:gravity="center"
+                                    android:text="Live"
+                                    android:textColor="@color/white"
+                                    android:textSize="20dp" />
+
+                                <View
+                                    android:id="@+id/line1"
+                                    android:layout_width="20dp"
+                                    android:layout_height="3dp"
+                                    android:layout_marginTop="5dp"
+                                    android:background="@drawable/bg_20dp"
+                                    android:backgroundTint="@color/pink" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:id="@+id/tvVideo"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:fontFamily="@font/aregular"
+                                    android:gravity="center"
+                                    android:text="Relites"
+                                    android:textColor="@color/text_gray"
+                                    android:textSize="16sp" />
+
+                                <View
+                                    android:id="@+id/line2"
+                                    android:layout_width="20dp"
+                                    android:layout_height="3dp"
+                                    android:layout_marginTop="5dp"
+                                    android:background="@drawable/bg_20dp"
+                                    android:backgroundTint="@color/pink"
+                                    android:visibility="invisible" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:id="@+id/tvOnetoOne"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:fontFamily="@font/aregular"
+                                    android:gravity="center"
+                                    android:text="1-to-1"
+                                    android:textColor="@color/text_gray"
+                                    android:textSize="16sp" />
+
+                                <View
+                                    android:id="@+id/line3"
+                                    android:layout_width="20dp"
+                                    android:layout_height="3dp"
+                                    android:layout_marginTop="5dp"
+                                    android:background="@drawable/bg_20dp"
+                                    android:backgroundTint="@color/pink"
+                                    android:visibility="invisible" />
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/rvBanner"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                android:orientation="horizontal"
+                                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                                tools:listitem="@layout/item_banner" />
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/rvDots"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentBottom="true"
+                                android:layout_centerHorizontal="true"
+                                android:layout_gravity="center"
+                                android:layout_marginTop="10dp"
+                                android:orientation="horizontal"
+                                android:paddingBottom="10dp"
+                                android:visibility="visible"
+
+                                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                                tools:listitem="@layout/item_dots" />
+
+                            <com.facebook.shimmer.ShimmerFrameLayout
+                                android:id="@+id/shimmerBanner"
+                                android:layout_width="match_parent"
+                                android:layout_height="150dp"
+                                android:layout_marginHorizontal="10dp"
+                                android:visibility="@{viewModel.isLoading?View.VISIBLE : View.GONE}"
+                                app:shimmer_base_color="@color/shimmarColor"
+                                app:shimmer_colored="true"
+                                app:shimmer_highlight_color="@color/white">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:background="@drawable/bg_10dp"
+                                    android:backgroundTint="@color/shimmarColor" />
+                            </com.facebook.shimmer.ShimmerFrameLayout>
+                        </RelativeLayout>
+
+
+                    </LinearLayout>
+
+                </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <com.google.android.material.tabs.TabLayout
+                        android:layout_width="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:id="@+id/tablayout1"
+                        android:layout_marginTop="15dp"
+                        android:layout_height="35dp"
+                        android:layout_marginBottom="5dp"
+                        app:tabGravity="start"
+                        app:tabMode="auto"
+                        android:visibility="@{viewModel.isLoading?View.GONE : View.VISIBLE}"
+                        app:tabIndicator="@null"
+                        app:tabRippleColor="@null" />
+
+                    <com.facebook.shimmer.ShimmerFrameLayout
+                        android:id="@+id/shimmerTab"
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp"
+                        android:layout_marginHorizontal="10dp"
+                        android:layout_marginTop="15dp"
+                        android:layout_marginBottom="5dp"
+                        android:visibility="@{viewModel.isLoading?View.VISIBLE : View.GONE}"
+
+                        app:shimmer_base_color="@color/shimmarColor"
+                        app:shimmer_colored="true"
+                        app:shimmer_highlight_color="@color/white">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:layout_width="70dp"
+                                android:layout_height="match_parent"
+                                android:background="@drawable/bg_10dp"
+                                android:backgroundTint="@color/shimmarColor" />
+
+                            <LinearLayout
+                                android:layout_width="70dp"
+                                android:layout_height="match_parent"
+                                android:layout_marginStart="10dp"
+                                android:background="@drawable/bg_10dp"
+                                android:backgroundTint="@color/shimmarColor" />
+
+                            <LinearLayout
+                                android:layout_width="70dp"
+                                android:layout_height="match_parent"
+                                android:layout_marginStart="10dp"
+                                android:background="@drawable/bg_10dp"
+                                android:backgroundTint="@color/shimmarColor" />
+
+                            <LinearLayout
+                                android:layout_width="70dp"
+                                android:layout_height="match_parent"
+                                android:layout_marginStart="10dp"
+                                android:background="@drawable/bg_10dp"
+                                android:backgroundTint="@color/shimmarColor" />
+
+                            <LinearLayout
+                                android:layout_width="70dp"
+                                android:layout_height="match_parent"
+                                android:layout_marginStart="10dp"
+                                android:background="@drawable/bg_10dp"
+                                android:backgroundTint="@color/shimmarColor" />
+                        </LinearLayout>
+                    </com.facebook.shimmer.ShimmerFrameLayout>
+
+
+                </RelativeLayout>
+
+            </com.google.android.material.appbar.AppBarLayout>
+
+            <RelativeLayout
+                android:layout_height="match_parent"
+                android:layout_width="match_parent"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+                <androidx.viewpager.widget.ViewPager
+                    android:id="@+id/view_pager"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="10dp" />
+
+            </RelativeLayout>
+            <!--
+                        <com.facebook.shimmer.ShimmerFrameLayout
+                            android:id="@+id/shimmerMain"
+                            android:layout_width="match_parent"
+                            android:layout_height="150dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginHorizontal="10dp"
+                            app:shimmer_base_color="@color/shimmarColor"
+                            app:shimmer_colored="true"
+                            app:shimmer_highlight_color="@color/white">
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@drawable/bg_10dp"
+                                android:backgroundTint="@color/shimmarColor"/>
+                        </com.facebook.shimmer.ShimmerFrameLayout>
+            -->
+
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+
+    </LinearLayout>
+</layout>

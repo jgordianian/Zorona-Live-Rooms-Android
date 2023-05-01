@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+    </data>
+
+    <RelativeLayout
+        android:layout_width="120dp"
+        android:layout_height="190dp"
+        android:background="@color/black_back">
+
+        <RelativeLayout
+            android:id="@+id/lytBack"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:background="@drawable/bg_5dp"
+            android:backgroundTint="@color/pink">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:paddingVertical="10dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:fontFamily="@font/amidum"
+                    android:gravity="center"
+                    android:id="@+id/tv_name"
+                    android:singleLine="true"
+                    android:text="Hot"
+                    android:textColor="@color/white" />
+
+                <LinearLayout
+                    android:id="@+id/lytInner"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_5dp"
+                    android:backgroundTint="@color/bg_back_image"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tvDays"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/abold"
+                        android:gravity="center"
+                        android:singleLine="true"
+                        android:text="7"
+                        android:textColor="@color/pink" />
+
+                    <TextView
+                        android:id="@+id/tvDaysString"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/abold"
+                        android:gravity="center"
+                        android:singleLine="true"
+                        android:text="Days"
+                        android:textColor="@color/pink" />
+
+                    <TextView
+
+                        android:id="@+id/tvDes"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/alight"
+                        android:gravity="center"
+                        android:singleLine="true"
+                        android:text=""
+                        android:textColor="@color/pink"
+                        android:textSize="12dp" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tvAmount"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:fontFamily="@font/abold"
+                    android:gravity="center"
+                    android:singleLine="true"
+                    android:text="99.00$"
+                    android:textColor="@color/white"
+
+                    android:textSize="18dp" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
+    </RelativeLayout>
+</layout>
