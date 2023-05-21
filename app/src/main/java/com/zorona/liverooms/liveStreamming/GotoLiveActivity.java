@@ -39,24 +39,24 @@ import retrofit2.Response;
 
 public class GotoLiveActivity extends BaseActivity {
     ActivityGotoLiveBinding binding;
-    int front = 1, back = 2;
-    int CAMARA = front;
+   // int front = 1, back = 2;
+   // int CAMARA = front;
     boolean isPrivate = false;
 
-    public CameraX.LensFacing lensFacing = CameraX.LensFacing.FRONT;
+   // public CameraX.LensFacing lensFacing = CameraX.LensFacing.FRONT;
     private PreviewConfig.Builder builder;
     private PreviewConfig previewConfig;
     private Preview preview;
-    private VideoCaptureConfig.Builder builder1;
+   /* private VideoCaptureConfig.Builder builder1;
     private VideoCaptureConfig videoCaptureConfig;
-    private VideoCapture videoCapture;
+    private VideoCapture videoCapture*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_goto_live);
         //  initCamera();
-        initCamera();
+      //  initCamera();
         initListner();
 
 
@@ -134,7 +134,7 @@ public class GotoLiveActivity extends BaseActivity {
 
     }
 
-    @SuppressLint("RestrictedApi")
+/*    @SuppressLint("RestrictedApi")
     private void initCamera() {
         if ((ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) ||
                 ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
@@ -170,8 +170,7 @@ public class GotoLiveActivity extends BaseActivity {
                     .setTargetRotation(Surface.ROTATION_90)
                     .build();
             preview = AutoFitPreviewBuilder.Companion.build(previewConfig, viewFinder);
-            builder1 = new VideoCaptureConfig.Builder();
-            videoCaptureConfig = builder1.setTargetAspectRatio(ratio)
+            builder1 = new VideoCaptureConfig.Builder();videoCaptureConfig = builder1.setTargetAspectRatio(ratio)
                     .setLensFacing(lensFacing)
                     .setVideoFrameRate(24)
                     .setTargetRotation(Surface.ROTATION_0)
@@ -181,7 +180,7 @@ public class GotoLiveActivity extends BaseActivity {
 
             initListner();
         }
-    }
+    }*/
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
@@ -191,7 +190,7 @@ public class GotoLiveActivity extends BaseActivity {
             Toast.makeText(this, "Permission Denied", Toast.LENGTH_SHORT).show();
             return;
         }
-        initCamera();
+       // initCamera();
 
     }
 }

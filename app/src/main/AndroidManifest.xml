@@ -224,8 +224,8 @@
                 android:resource="@xml/provider_paths" />
         </provider> <!-- Branch init -->
         <meta-data
-            android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-3940256099942544~3347511713" /> <!-- Branch testing (TestMode "true" to simulate fresh installs on dev environment) -->
+            android:name="io.branch.sdk.BranchKey"
+            android:value="key_live_oygnc1h7HvVrsIgSFnDlelabFufpX6P6" /> <!-- Branch testing (TestMode "true" to simulate fresh installs on dev environment) -->
         <meta-data
             android:name="io.branch.sdk.TestMode"
             android:value="false" />

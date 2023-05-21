@@ -3,6 +3,8 @@
 
     <string name="app_name">Zorona Liverooms</string>
 
+    <item name="userCountTextView" type="id"/>
+
     <string name="facebook_app_id">874383896560753</string>
     <string name="fb_login_protocol_scheme">fb874383896560753</string>
 

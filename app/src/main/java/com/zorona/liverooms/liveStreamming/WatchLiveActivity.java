@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.core.content.ContextCompat;
@@ -54,6 +55,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 import io.agora.rtc.Constants;
@@ -74,6 +76,8 @@ public class WatchLiveActivity extends AgoraBaseActivity {
     String token = "";
     EmojiBottomsheetFragment emojiBottomsheetFragment;
     private WatchLiveViewModel viewModel;
+
+    private int userCount = 0; // Keep track of the number of users in the channel
 
     private LiveUserRoot.UsersItem host;
     private VideoGridContainer mVideoGridContainer;
@@ -146,6 +150,18 @@ public class WatchLiveActivity extends AgoraBaseActivity {
         }
 
     };
+
+    // Update the UI to display the user count
+    private void updateUI() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                TextView userCountTextView = findViewById(R.id.userCountTextView);
+                userCountTextView.setText(String.format("%d online users", userCount));
+            }
+        });
+    }
+
     private Emitter.Listener commentListner = args -> {
         if (args[0] != null) {
             runOnUiThread(() -> {
@@ -303,6 +319,16 @@ public class WatchLiveActivity extends AgoraBaseActivity {
         viewModel.initLister();
         giftViewModel.getGiftCategory();
 
+        seatViews = new ArrayList<>();
+        seatViews.add(findViewById(R.id.seat1));
+        seatViews.add(findViewById(R.id.seat2));
+        seatViews.add(findViewById(R.id.seat3));
+        seatViews.add(findViewById(R.id.seat4));
+        seatViews.add(findViewById(R.id.seat5));
+        seatViews.add(findViewById(R.id.seat6));
+        seatViews.add(findViewById(R.id.seat7));
+        seatViews.add(findViewById(R.id.seat8));
+
         Intent intent = getIntent();
         String userStr = intent.getStringExtra(Const.DATA);
         if (userStr != null && !userStr.isEmpty()) {
@@ -388,7 +414,7 @@ public class WatchLiveActivity extends AgoraBaseActivity {
             // Sets the channel profile of the Agora RtcEngine.
             // The Agora RtcEngine differentiates channel profiles and applies different optimization algorithms accordingly. For example, it prioritizes smoothness and low latency for a video call, and prioritizes video quality for a video broadcast.
             rtcEngine().setChannelProfile(io.agora.rtc.Constants.CHANNEL_PROFILE_LIVE_BROADCASTING);
-            rtcEngine().enableVideo();
+            //rtcEngine().enableVideo();
 
           //  configVideo();
             Log.d("TAG", "joinChannel: " + config().getChannelName());
@@ -399,8 +425,8 @@ public class WatchLiveActivity extends AgoraBaseActivity {
     }
 
     private void initView() {
-        mVideoGridContainer = binding.liveVideoGridLayout;
-        mVideoGridContainer.setStatsManager(statsManager());
+        //mVideoGridContainer = binding.liveVideoGridLayout;
+        //mVideoGridContainer.setStatsManager(statsManager());
         emojiBottomsheetFragment = new EmojiBottomsheetFragment();
         userProfileBottomSheet = new UserProfileBottomSheet(this);
         if (rtcEngine() == null) {

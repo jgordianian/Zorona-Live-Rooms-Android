@@ -34,8 +34,8 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
         debug {
-            minifyEnabled true  //<-- minify your code
-            shrinkResources true //<-- remove any unused resources
+            //minifyEnabled true  //<-- minify your code
+            //shrinkResources true //<-- remove any unused resources
             zipAlignEnabled true //<-- optimization
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             buildConfigField("String", "BASE_URL", "\"" + "https://back.zoronaliverooms.com/" + "\"")

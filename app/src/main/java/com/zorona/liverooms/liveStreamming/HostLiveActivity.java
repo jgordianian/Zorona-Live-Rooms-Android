@@ -3,12 +3,18 @@ package com.zorona.liverooms.liveStreamming;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.SurfaceView;
 import android.view.View;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.core.content.ContextCompat;
@@ -47,7 +53,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import io.agora.rtc.Constants;
 import io.agora.rtc.IRtcEngineEventHandler;
@@ -66,8 +76,13 @@ public class HostLiveActivity extends AgoraBaseActivity {
     UserProfileBottomSheet userProfileBottomSheet;
     JSONArray blockedUsersList = new JSONArray();
     private HostLiveViewModel viewModel;
-    private VideoGridContainer mVideoGridContainer;
+  //  private VideoGridContainer mVideoGridContainer;
     private EmojiSheetViewModel giftViewModel;
+    private int userCount = 0; // Keep track of the number of users in the channel
+    private ImageView[] seatViews;
+    private View[] highlightViews;
+
+
     private Emitter.Listener simpleFilterListner = args -> {
         if (args[0] != null) {
             runOnUiThread(() -> {
@@ -119,6 +134,18 @@ public class HostLiveActivity extends AgoraBaseActivity {
 
         }
     };
+
+    // Update the UI to display the user count
+    private void updateUI() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                TextView userCountTextView = findViewById(R.id.userCountTextView);
+                userCountTextView.setText(String.format("%d online users", userCount));
+            }
+        });
+    }
+
     private Emitter.Listener gifListner = args -> {
 
     };
@@ -251,6 +278,15 @@ public class HostLiveActivity extends AgoraBaseActivity {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_host_live);
 
+        // Initialize the arrays in onCreate() or onCreateView()
+        seatViews = new ImageView[8];
+        highlightViews = new View[8];
+
+        // Find and assign the seat and highlight views to their corresponding array elements
+        seatViews[0] = findViewById(R.id.seat1);
+        highlightViews[0] = findViewById(R.id.highlight1);
+
+
         giftViewModel = ViewModelProviders.of(this, new ViewModelFactory(new EmojiSheetViewModel()).createFor()).get(EmojiSheetViewModel.class);
         viewModel = ViewModelProviders.of(this, new ViewModelFactory(new HostLiveViewModel()).createFor()).get(HostLiveViewModel.class);
         sessionManager = new SessionManager(this);
@@ -292,6 +328,8 @@ public class HostLiveActivity extends AgoraBaseActivity {
 
         }));
 
+
+
       /*  SVGAImageView imageView = binding.svgaImage;r
         SVGAParser parser = new SVGAParser(this);
         try {
@@ -320,14 +358,15 @@ public class HostLiveActivity extends AgoraBaseActivity {
     }
 
     @Override
+
     public void onBackPressed() {
         endLive();
     }
 
     private void endLive() {
 
-       // removeRtcVideo(0, true);
-       // mVideoGridContainer.removeUserVideo(0, true);
+        // removeRtcVideo(0, true);
+        // mVideoGridContainer.removeUserVideo(0, true);
 
         startActivity(new Intent(this, LiveSummaryActivity.class).putExtra(Const.DATA, liveUser.getLiveStreamingId()));
         finish();
@@ -339,7 +378,7 @@ public class HostLiveActivity extends AgoraBaseActivity {
             rtcEngine().setChannelProfile(io.agora.rtc.Constants.CHANNEL_PROFILE_LIVE_BROADCASTING);
             //rtcEngine().enableVideo();
 
-           // configVideo();
+            // configVideo();
             Log.d("TAG", "joinChannel:tkn " + liveUser.getToken());
             Log.d("TAG", "joinChannel:chanel " + liveUser.getChannel());
             rtcEngine().joinChannel(liveUser.getToken(), liveUser.getChannel(), "", 0);
@@ -353,8 +392,8 @@ public class HostLiveActivity extends AgoraBaseActivity {
         try {
             rtcEngine().setClientRole(Constants.CLIENT_ROLE_BROADCASTER);
             rtcEngine().enableAudio();
-           // SurfaceView surface = prepareRtcVideo(0, false);
-           // mVideoGridContainer.addUserVideoSurface(0, surface, false);
+            // SurfaceView surface = prepareRtcVideo(0, false);
+            // mVideoGridContainer.addUserVideoSurface(0, surface, false);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -365,8 +404,8 @@ public class HostLiveActivity extends AgoraBaseActivity {
         binding.tvRcoins.setText(String.valueOf(sessionManager.getUser().getRCoin()));
 
 
-     //   mVideoGridContainer = binding.liveVideoGridLayout;
-      //  mVideoGridContainer.setStatsManager(statsManager());
+        //   mVideoGridContainer = binding.liveVideoGridLayout;
+        //  mVideoGridContainer.setStatsManager(statsManager());
         emojiBottomsheetFragment = new EmojiBottomsheetFragment();
         userProfileBottomSheet = new UserProfileBottomSheet(this);
 
@@ -501,6 +540,7 @@ public class HostLiveActivity extends AgoraBaseActivity {
     }
 
 
+
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -512,15 +552,19 @@ public class HostLiveActivity extends AgoraBaseActivity {
     }
 
 
+
     public void onClickFilter(View view) {
         viewModel.isShowFilterSheet.setValue(true);
         binding.rvFilters.setAdapter(viewModel.filterAdapter_tt);
 
     }
 
-    public void onSwitchCameraClicked(View view) {
+
+
+    /*public void onSwitchCameraClicked(View view) {
         rtcEngine().switchCamera();
-    }
+    }*/
+
 
     @Override
     public void onErr(int err) {
@@ -648,6 +692,7 @@ public class HostLiveActivity extends AgoraBaseActivity {
         //  mVideoGridContainer.removeUserVideo(uid, false);
     }
 
+
     @Override
     public void onLeaveChannel(IRtcEngineEventHandler.RtcStats stats) {
         Log.d(TAG, "onLeaveChannel: stts " + stats);
@@ -661,12 +706,17 @@ public class HostLiveActivity extends AgoraBaseActivity {
     @Override
     public void onUserOffline(int uid, int reason) {
         Log.d(TAG, "onUserOffline: " + uid + " reason" + reason);
+        userCount--; // Decrement the user count when a user leaves the channel
+        updateUI(); // Update the UI to display the new user count
 
     }
 
     @Override
     public void onUserJoined(int uid, int elapsed) {
         Log.d(TAG, "onUserJoined: " + uid + "  elapsed" + elapsed);
+        userCount++; // Decrement the user count when a user leaves the channel
+        updateUI(); // Update the UI to display the new user count
+
     }
 
     @Override
@@ -677,6 +727,27 @@ public class HostLiveActivity extends AgoraBaseActivity {
     @Override
     public void onLastmileProbeResult(IRtcEngineEventHandler.LastmileProbeResult result) {
 
+    }
+
+    private Handler uiHandler = new Handler();
+    private Runnable updateUiRunnable = new Runnable() {
+        @Override
+        public void run() {
+// TODO: Update the UI to reflect changes in the live room
+            uiHandler.postDelayed(this, 1000); // Schedule the next update after 1 second
+        }
+    };
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        uiHandler.postDelayed(updateUiRunnable, 1000); // Schedule the first UI update after 1 second
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        uiHandler.removeCallbacks(updateUiRunnable); // Stop updating the UI when the activity is paused
     }
 
   /*  @Override

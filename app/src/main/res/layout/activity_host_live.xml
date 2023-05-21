@@ -17,10 +17,10 @@
         android:layout_height="match_parent"
         tools:context=".liveStreamming.LiveActivity">
 
-        <com.zorona.liverooms.agora.ui.VideoGridContainer
-            android:id="@+id/live_video_grid_layout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+        <!--   <com.zorona.liverooms.agora.ui.VideoGridContainer
+               android:id="@+id/live_video_grid_layout"
+               android:layout_width="match_parent"
+               android:layout_height="match_parent" />-->
 
         <ImageView
             android:id="@+id/imgFilter"
@@ -37,21 +37,23 @@
             android:scaleType="centerCrop" />
 
         <!--
-                <com.opensource.svgaplayer.SVGAImageView
-                    android:id="@+id/svgaImage"
-                    android:layout_height="match_parent"
-                    android:layout_width="match_parent"
-                    app:source="aa.svga"
-                    app:autoPlay="true"
-                   />
-        -->
+                   <com.opensource.svgaplayer.SVGAImageView
+                       android:id="@+id/svgaImage"
+                       android:layout_height="match_parent"
+                       android:layout_width="match_parent"
+                       app:source="aa.svga"
+                       app:autoPlay="true"
+                      />
+           -->
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/imgSticker"
             android:layout_width="150dp"
             android:layout_height="150dp"
             android:layout_centerInParent="true"
             android:adjustViewBounds="true"
+            android:visibility="gone"
             app:actualImageScaleType="fitCenter" />
+
 
         <LinearLayout
             android:id="@+id/lytGift"
@@ -98,7 +100,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="5dp"
                 android:orientation="horizontal">
 
                 <RelativeLayout
@@ -343,10 +345,122 @@
                 android:id="@+id/btn_mute"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="125dp"
                 android:onClick="onLocalAudioMuteClicked"
-                android:src="@drawable/unmute" />
+                android:src="@drawable/unmute"
+                tools:visibility="gone" />
         </LinearLayout>
+
+        <GridLayout
+            android:id="@+id/seatsContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:columnCount="4"
+            android:layout_marginTop="115dp"
+            android:rowCount="2">
+
+            <ImageButton
+                android:id="@+id/seat1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_rowWeight="1"
+                android:layout_columnWeight="1"
+                android:background="@drawable/seat_background"
+                android:padding="16dp"
+                android:text="Seat 1"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp" />
+
+            <ImageButton
+                android:id="@+id/seat2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_row="0"
+                android:layout_rowWeight="1"
+                android:layout_column="1"
+                android:layout_columnWeight="1"
+                android:background="@drawable/seat_background"
+                android:padding="18dp"
+                android:text="Seat 2"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp" />
+
+            <ImageButton
+                android:id="@+id/seat3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_rowWeight="1"
+                android:layout_columnWeight="1"
+                android:background="@drawable/seat_background"
+                android:padding="16dp"
+                android:text="Seat 3"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp" />
+
+            <ImageButton
+                android:id="@+id/seat4"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_rowWeight="1"
+                android:layout_columnWeight="1"
+                android:background="@drawable/seat_background"
+                android:padding="16dp"
+                android:text="Seat 4"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp" />
+
+            <ImageButton
+                android:id="@+id/seat5"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_rowWeight="1"
+                android:layout_columnWeight="1"
+                android:background="@drawable/seat_background"
+                android:padding="16dp"
+                android:text="Seat 5"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp" />
+
+            <ImageButton
+                android:id="@+id/seat6"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_rowWeight="1"
+                android:layout_columnWeight="1"
+                android:background="@drawable/seat_background"
+                android:padding="16dp"
+                android:text="Seat 6"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp" />
+
+            <ImageButton
+                android:id="@+id/seat7"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_rowWeight="1"
+                android:layout_columnWeight="1"
+                android:background="@drawable/seat_background"
+                android:padding="16dp"
+                android:text="Seat 7"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp" />
+
+            <ImageButton
+                android:id="@+id/seat8"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_rowWeight="1"
+                android:layout_columnWeight="1"
+                android:background="@drawable/seat_background"
+                android:padding="16dp"
+                android:text="Seat 8"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp" />
+
+
+
+        </GridLayout>
+
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvComments"
@@ -445,7 +559,7 @@
                     android:padding="5dp"
                     android:scaleType="centerCrop"
                     android:src="@drawable/share"
-                    android:tint="@color/white" />
+                    app:tint="@color/white" />
 
                 <ImageView
                     android:id="@+id/imggift2"
@@ -471,7 +585,7 @@
             android:background="@drawable/bg_sheettransperent"
             android:backgroundTint="@color/grayinsta"
             android:paddingTop="5dp"
-            android:visibility="visible">
+            android:visibility="gone">
 
             <ImageView
                 android:id="@+id/imgfilterclose"
