@@ -54,6 +54,7 @@ import com.google.android.exoplayer2.source.ProgressiveMediaSource;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 
@@ -80,7 +81,12 @@ public class FilterActivity extends BaseActivity {
         mVideo = getIntent().getStringExtra(EXTRA_VIDEO);
         Log.d(TAG, "onCreate:songid " + mSong);
 
-        Bitmap frame = VideoUtil.getFrameAtTime(mVideo, TimeUnit.SECONDS.toMicros(3));
+        Bitmap frame = null;
+        try {
+            frame = VideoUtil.getFrameAtTime(mVideo, TimeUnit.SECONDS.toMicros(3));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         Bitmap square = BitmapUtil.getSquareThumbnail(frame, 250);
         //noinspection ConstantConditions
         frame.recycle();

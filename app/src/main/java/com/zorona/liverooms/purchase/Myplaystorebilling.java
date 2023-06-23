@@ -10,6 +10,7 @@ import com.android.billingclient.api.BillingResult;
 import com.android.billingclient.api.ConsumeParams;
 import com.android.billingclient.api.ConsumeResponseListener;
 import com.android.billingclient.api.Purchase;
+//import com.android.billingclient.api.PurchasesResult;
 import com.android.billingclient.api.PurchasesUpdatedListener;
 import com.android.billingclient.api.SkuDetailsParams;
 
@@ -148,9 +149,38 @@ public class Myplaystorebilling {
         }
     }
 
-    public boolean isSubscriptionRunning() {
-        return billingClient.queryPurchases(BillingClient.SkuType.SUBS).getPurchasesList()!=null
-                && !billingClient.queryPurchases(BillingClient.SkuType.SUBS).getPurchasesList().isEmpty();
+    //check if subscription is running or not
+    public void checkSubscription(String productId, String skuType) {
+        if (isConnected) {
+            Log.d(TAG, "startPurchase: " + productId);
+
+            List<String> skuList = new ArrayList<>();
+            skuList.add(productId);
+            SkuDetailsParams.Builder params = SkuDetailsParams.newBuilder();
+            params.setSkusList(skuList).setType(skuType);
+            billingClient.querySkuDetailsAsync(params.build(),
+                    (billingResult1, skuDetailsList) -> {
+                        // Process the result.
+                        Log.d(TAG, "startPurchase:1 " + skuDetailsList);
+                        Log.d(TAG, "billingResult1:1 " + billingResult1);
+
+                        BillingFlowParams billingFlowParams = null;
+                        if (skuDetailsList != null) {
+                            Log.d(TAG, "startPurchase:2 " + skuDetailsList.size());
+                            Log.d("TAG", "startPurchase: " + skuDetailsList.get(0));
+                            billingFlowParams = BillingFlowParams.newBuilder()
+                                    .setSkuDetails(skuDetailsList.get(0))
+                                    .build();
+                        }
+                        if (billingFlowParams != null) {
+                            billingClient.launchBillingFlow(activity, billingFlowParams);
+                        }
+
+                    });
+
+        } else {
+            Log.d(TAG, "startPurchase: sdsd");
+        }
     }
 
     public void onDestroy() {

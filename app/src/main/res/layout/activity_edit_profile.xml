@@ -125,16 +125,15 @@
 
 
                             <LinearLayout
-                                android:fitsSystemWindows="true"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_below="@+id/lytimg"
                                 android:layout_marginTop="-50dp"
+                                android:fitsSystemWindows="true"
                                 android:orientation="vertical">
 
 
                                 <EditText
-                                    android:imeOptions="actionNext"
                                     android:id="@+id/etName"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
@@ -144,6 +143,7 @@
                                     android:backgroundTint="@color/white"
                                     android:fontFamily="@font/amidum"
                                     android:hint="Enter Name"
+                                    android:imeOptions="actionNext"
                                     android:padding="10dp"
                                     android:singleLine="true"
                                     android:textColor="@color/black_back"
@@ -151,7 +151,6 @@
 
                                 <EditText
 
-                                    android:imeOptions="actionNext"
                                     android:id="@+id/etAge"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
@@ -161,6 +160,7 @@
                                     android:backgroundTint="@color/white"
                                     android:fontFamily="@font/amidum"
                                     android:hint="Enter Your Age"
+                                    android:imeOptions="actionNext"
                                     android:inputType="number"
                                     android:padding="10dp"
                                     android:singleLine="true"
@@ -168,35 +168,35 @@
                                     android:textColorHint="@color/graylight" />
 
                                 <LinearLayout
-
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_marginHorizontal="20dp"
                                     android:layout_marginTop="20dp"
                                     android:background="@drawable/bg_10dp"
                                     android:backgroundTint="@color/white"
-                                    android:gravity="center_vertical">
+                                    android:gravity="center_vertical"
+                                    android:visibility="gone">
 
                                     <EditText
-                                        android:imeOptions="actionNext"
-                                        android:id="@+id/etUserName"
-                                        android:layout_width="0dp"
-                                        android:layout_height="wrap_content"
-                                        android:layout_weight="1"
-                                        android:background="@android:color/transparent"
-                                        android:fontFamily="@font/amidum"
-                                        android:hint="Enter Username"
-                                        android:padding="10dp"
-                                        android:singleLine="true"
-                                        android:textColor="@color/black_back"
-                                        android:textColorHint="@color/graylight" />
+                                      android:id="@+id/etUserName"
+                                      android:layout_width="0dp"
+                                      android:layout_height="wrap_content"
+                                      android:layout_weight="1"
+                                      android:background="@android:color/transparent"
+                                      android:fontFamily="@font/amidum"
+                                      android:hint="Enter Username"
+                                      android:imeOptions="actionNext"
+                                      android:padding="10dp"
+                                      android:singleLine="true"
+                                      android:textColor="@color/black_back"
+                                      android:textColorHint="@color/graylight" />
 
                                     <ProgressBar
-                                        android:id="@+id/pd1"
-                                        android:layout_width="20dp"
-                                        android:layout_height="20dp"
-                                        android:layout_marginEnd="5dp"
-                                        android:indeterminateTint="@color/pink" />
+                                              android:id="@+id/pd1"
+                                              android:layout_width="20dp"
+                                              android:layout_height="20dp"
+                                              android:layout_marginEnd="5dp"
+                                              android:indeterminateTint="@color/pink" />
                                 </LinearLayout>
 
                                 <EditText
@@ -289,33 +289,33 @@
 
 
                             </LinearLayout>
-                        </RelativeLayout>
+                                     </RelativeLayout>
 
-                    </RelativeLayout>
+                                 </RelativeLayout>
 
 
-                </LinearLayout>
-            </ScrollView>
+                             </LinearLayout>
+                         </ScrollView>
 
-        </RelativeLayout>
+                     </RelativeLayout>
 
-        <!--
-                <Button
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_marginHorizontal="20dp"
-                    android:layout_marginVertical="20dp"
-                    android:background="@drawable/bg_10dp"
-                    android:backgroundTint="@color/pink"
-                    android:elevation="5dp"
-                    android:fontFamily="@font/abold"
-                    android:gravity="center"
-                    android:padding="10dp"
-                    android:text="Submit"
-                    android:textColor="@color/white"
-                    android:textSize="16sp" />
-        -->
+                     <!--
+                             <Button
+                                 android:layout_width="match_parent"
+                                 android:layout_height="wrap_content"
+                                 android:layout_alignParentBottom="true"
+                                 android:layout_marginHorizontal="20dp"
+                                 android:layout_marginVertical="20dp"
+                                 android:background="@drawable/bg_10dp"
+                                 android:backgroundTint="@color/pink"
+                                 android:elevation="5dp"
+                                 android:fontFamily="@font/abold"
+                                 android:gravity="center"
+                                 android:padding="10dp"
+                                 android:text="Submit"
+                                 android:textColor="@color/white"
+                                 android:textSize="16sp" />
+                     -->
 
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/loder"

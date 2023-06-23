@@ -1,5 +1,6 @@
 package com.zorona.liverooms.activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -7,12 +8,12 @@ import android.util.Log;
 import android.view.View;
 
 import com.zorona.liverooms.BuildConfig;
-import com.zorona.liverooms.modelclass.UserRoot;
-import com.zorona.liverooms.retrofit.Const;
-import com.zorona.liverooms.retrofit.RetrofitBuilder;
 import com.zorona.liverooms.FaceBookLoginManager;
 import com.zorona.liverooms.GoogleLoginManager;
 import com.zorona.liverooms.R;
+import com.zorona.liverooms.modelclass.UserRoot;
+import com.zorona.liverooms.retrofit.Const;
+import com.zorona.liverooms.retrofit.RetrofitBuilder;
 import com.zorona.liverooms.user.EditProfileActivity;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -23,6 +24,7 @@ import com.google.gson.JsonObject;
 import org.json.JSONException;
 
 import java.util.Calendar;
+import java.util.Random;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -37,6 +39,10 @@ public class LoginActivityActivity extends BaseActivity {
     FaceBookLoginManager faceBookLoginManager;
     private String androidId;
     private String token;
+
+    Random random = new Random();
+
+    String userName = String.format("ID: %04d", random.nextInt(10000));
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,6 +109,7 @@ public class LoginActivityActivity extends BaseActivity {
                 jsonObject.addProperty("email", googleUser.getEmail());
                 jsonObject.addProperty("loginType", 0);
                 //  jsonObject.addProperty("username", "");
+                jsonObject.addProperty("username", userName);
                 sendData(jsonObject);
 
 
@@ -188,7 +195,7 @@ public class LoginActivityActivity extends BaseActivity {
         super.onActivityResult(requestCode, resultCode, data);
         Log.d(TAG, "onActivityResult: ");
         if (requestCode==RC_SIGN_IN) {
-            if (resultCode== RESULT_OK) {
+            if (resultCode==Activity.RESULT_OK) {
                 Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
                 googleLoginManager.handleSignInResult(task);
             } else {
@@ -229,7 +236,7 @@ public class LoginActivityActivity extends BaseActivity {
         jsonObject.addProperty("image", "");
         jsonObject.addProperty("email", androidId);
         jsonObject.addProperty("loginType", 2);
-        jsonObject.addProperty("username", androidId);
+        jsonObject.addProperty("username", userName);
         sendData(jsonObject);
 
     }

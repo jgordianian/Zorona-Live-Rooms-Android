@@ -17,11 +17,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.zorona.liverooms.BuildConfig;
 import com.zorona.liverooms.R;
 import com.zorona.liverooms.agora.stats.LocalStatsData;
@@ -70,17 +72,27 @@ import io.socket.emitter.Emitter;
 
 public class HostLiveActivity extends AgoraBaseActivity {
     public static final String TAG = "hostliveactivity";
+    private static final int PERMISSION_REQ_ID = 22;
+    private static final String[] REQUESTED_PERMISSIONS = {
+            Manifest.permission.RECORD_AUDIO,
+            Manifest.permission.MODIFY_AUDIO_SETTINGS
+    };
     ActivityHostLiveBinding binding;
     SessionManager sessionManager;
     EmojiBottomsheetFragment emojiBottomsheetFragment;
     UserProfileBottomSheet userProfileBottomSheet;
     JSONArray blockedUsersList = new JSONArray();
     private HostLiveViewModel viewModel;
-  //  private VideoGridContainer mVideoGridContainer;
+    //private VideoGridContainer mVideoGridContainer;
     private EmojiSheetViewModel giftViewModel;
     private int userCount = 0; // Keep track of the number of users in the channel
-    private ImageView[] seatViews;
-    private View[] highlightViews;
+    private boolean checkSelfPermission(String permission, int requestCode) {
+        if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{permission}, requestCode);
+            return false;
+        }
+        return true;
+    }
 
 
     private Emitter.Listener simpleFilterListner = args -> {
@@ -135,7 +147,7 @@ public class HostLiveActivity extends AgoraBaseActivity {
         }
     };
 
-    // Update the UI to display the user count
+    // Update the UI to display the user count whenever a user joins or leaves the channel
     private void updateUI() {
         runOnUiThread(new Runnable() {
             @Override
@@ -175,7 +187,55 @@ public class HostLiveActivity extends AgoraBaseActivity {
         }
 
     };
+
     private Emitter.Listener giftListner = args -> {
+        runOnUiThread(() -> {
+            if (args[0] != null) {
+                Log.d(TAG, "giftListener: " + args.toString());
+                String data = args[0].toString();
+                try {
+                    JSONObject jsonObject = new JSONObject(data.toString());
+                    if (jsonObject.get("gift") != null) {
+                        Log.d(TAG, "json gift: " + jsonObject.toString());
+                        GiftRoot.GiftItem giftData = new Gson().fromJson(jsonObject.get("gift").toString(), GiftRoot.GiftItem.class);
+                        if (giftData != null) {
+                            Log.d(TAG, "sent a gift: " + BuildConfig.BASE_URL + giftData.getImage());
+
+                            RequestOptions requestOptions = new RequestOptions()
+                                    .override(300, 300); // Specify the desired dimensions here
+
+                            Glide.with(binding.imgGift)
+                                    .load(BuildConfig.BASE_URL + giftData.getImage())
+                                    .apply(requestOptions)
+                                    .into(binding.imgGift);
+
+                            Glide.with(binding.imgGiftCount)
+                                    .load(RayziUtils.getImageFromNumber(giftData.getCount()))
+                                    .into(binding.imgGiftCount);
+
+                            String name = jsonObject.getString("userName").toString();
+                            binding.tvGiftUserName.setText(name + " Sent a gift");
+
+                            binding.lytGift.setVisibility(View.VISIBLE);
+                            binding.tvGiftUserName.setVisibility(View.VISIBLE);
+                            new Handler(Looper.myLooper()).postDelayed(() -> {
+                                binding.lytGift.setVisibility(View.GONE);
+                                binding.tvGiftUserName.setVisibility(View.GONE);
+                                binding.tvGiftUserName.setText("");
+                                binding.imgGift.setImageDrawable(null);
+                                binding.imgGiftCount.setImageDrawable(null);
+                            }, 8000);
+                            makeSound();
+                        }
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+
+
+  /*  private Emitter.Listener giftListner = args -> {
         runOnUiThread(() -> {
             if (args[0] != null) {
 
@@ -197,6 +257,7 @@ public class HostLiveActivity extends AgoraBaseActivity {
                                     .into(binding.imgGiftCount);
 
 
+
                             String name = jsonObject.getString("userName").toString();
                             binding.tvGiftUserName.setText(name + " Sent a gift");
 
@@ -208,8 +269,9 @@ public class HostLiveActivity extends AgoraBaseActivity {
                                 binding.tvGiftUserName.setText("");
                                 binding.imgGift.setImageDrawable(null);
                                 binding.imgGiftCount.setImageDrawable(null);
-                            }, 4000);
+                            }, 8000);
                             makeSound();
+
                         }
 
                     }
@@ -218,7 +280,7 @@ public class HostLiveActivity extends AgoraBaseActivity {
                     e.printStackTrace();
                 }
 
-            }
+            }*/
 
 
             if (args[2] != null) {   // host
@@ -230,7 +292,7 @@ public class HostLiveActivity extends AgoraBaseActivity {
                         Log.d(TAG, ":getted host    " + host.toString());
                         if (sessionManager.getUser().getId().equals(host.getId())) {
                             sessionManager.saveUser(host);
-                            // binding.tvDiamonds.setText(String.valueOf(host.getDiamond()));
+                            //binding.tvDiamonds.setText(String.valueOf(host.getDiamond()));
                             binding.tvRcoins.setText(String.valueOf(host.getRCoin()));
                             giftViewModel.localUserCoin.setValue(host.getDiamond());
                         }
@@ -253,9 +315,9 @@ public class HostLiveActivity extends AgoraBaseActivity {
 
                 JSONArray jsonArray = new JSONArray(args.toString());
                 viewModel.liveViewUserAdapter.addData(jsonArray);
-                binding.tvViewUserCount.setText(String.valueOf(jsonArray.length()));
+               // binding.tvViewUserCount.setText(String.valueOf(jsonArray.length()));
                 Log.d(TAG, "views2 : " + jsonArray);
-                binding.tvNoOneJoined.setVisibility(viewModel.liveViewUserAdapter.getItemCount() > 0 ? View.GONE : View.VISIBLE);
+              //  binding.tvNoOneJoined.setVisibility(viewModel.liveViewUserAdapter.getItemCount() > 0 ? View.GONE : View.VISIBLE);
 
             } catch (JSONException e) {
                 Log.d(TAG, "207: ");
@@ -278,14 +340,10 @@ public class HostLiveActivity extends AgoraBaseActivity {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_host_live);
 
-        // Initialize the arrays in onCreate() or onCreateView()
-        seatViews = new ImageView[8];
-        highlightViews = new View[8];
-
-        // Find and assign the seat and highlight views to their corresponding array elements
-        seatViews[0] = findViewById(R.id.seat1);
-        highlightViews[0] = findViewById(R.id.highlight1);
-
+        if (checkSelfPermission(REQUESTED_PERMISSIONS[0], PERMISSION_REQ_ID) &&
+                checkSelfPermission(REQUESTED_PERMISSIONS[1], PERMISSION_REQ_ID)) {
+            // Initialize Agora Engine
+        }
 
         giftViewModel = ViewModelProviders.of(this, new ViewModelFactory(new EmojiSheetViewModel()).createFor()).get(EmojiSheetViewModel.class);
         viewModel = ViewModelProviders.of(this, new ViewModelFactory(new HostLiveViewModel()).createFor()).get(HostLiveViewModel.class);
@@ -311,9 +369,14 @@ public class HostLiveActivity extends AgoraBaseActivity {
         }
 
         viewModel.initLister();
+
         initView();
 
+       //switchAudioRouteToSpeaker();
+
         joinChannel();
+        //setupAudioProfile();
+       // enableMicrophone();
         startBroadcast();
 
         initLister();
@@ -365,8 +428,9 @@ public class HostLiveActivity extends AgoraBaseActivity {
 
     private void endLive() {
 
-        // removeRtcVideo(0, true);
-        // mVideoGridContainer.removeUserVideo(0, true);
+       // removeRtcVideo(0, true);
+        //
+        //  mVideoGridContainer.removeUserVideo(0, true);
 
         startActivity(new Intent(this, LiveSummaryActivity.class).putExtra(Const.DATA, liveUser.getLiveStreamingId()));
         finish();
@@ -376,7 +440,8 @@ public class HostLiveActivity extends AgoraBaseActivity {
     private void joinChannel() {
         try {
             rtcEngine().setChannelProfile(io.agora.rtc.Constants.CHANNEL_PROFILE_LIVE_BROADCASTING);
-            //rtcEngine().enableVideo();
+            rtcEngine().enableAudio();
+            //rtcEngine().setEnableSpeakerphone(true);
 
             // configVideo();
             Log.d("TAG", "joinChannel:tkn " + liveUser.getToken());
@@ -387,13 +452,16 @@ public class HostLiveActivity extends AgoraBaseActivity {
         }
     }
 
+//start agora.io broadcast
+
     private void startBroadcast() {
         Log.d(TAG, "startBroadcast: ");
         try {
             rtcEngine().setClientRole(Constants.CLIENT_ROLE_BROADCASTER);
             rtcEngine().enableAudio();
-            // SurfaceView surface = prepareRtcVideo(0, false);
-            // mVideoGridContainer.addUserVideoSurface(0, surface, false);
+            rtcEngine().setEnableSpeakerphone(true);
+            //SurfaceView surface = prepareRtcVideo(0, false);
+           // mVideoGridContainer.addUserVideoSurface(0, surface, false);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -541,13 +609,24 @@ public class HostLiveActivity extends AgoraBaseActivity {
 
 
 
-    @Override
+  /*  @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+        if (requestCode == PERMISSION_REQ_ID) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED &&
+                    grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+                // Initialize Agora Engine
+            } else {
+                Toast.makeText(this, "Permissions not granted", Toast.LENGTH_SHORT).show();
+                finish();
+            }
+        }
+    }*/
+
+        /*if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
 
             return;
-        }
+        }*
 
     }
 
@@ -596,13 +675,13 @@ public class HostLiveActivity extends AgoraBaseActivity {
 
     public void onLocalAudioMuteClicked(View view) {
         viewModel.isMuted = !viewModel.isMuted;
-        rtcEngine().muteLocalAudioStream(viewModel.isMuted);
+        rtcEngine().muteLocalAudioStream(true);
         if (viewModel.isMuted) {
             binding.btnMute.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.mute));
 
-            Toast.makeText(this, "Muted", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Mic muted", Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(this, "Unmuted", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Mic unmuted", Toast.LENGTH_SHORT).show();
             binding.btnMute.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.unmute));
         }
     }

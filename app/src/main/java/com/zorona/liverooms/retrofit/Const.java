@@ -2,7 +2,7 @@ package com.zorona.liverooms.retrofit;
 
 public class Const {
 
-    public static final String KEY = "key";
+    public static final String KEY = "security261";
 
 
     public static final String DUMMYIMAGE = "";

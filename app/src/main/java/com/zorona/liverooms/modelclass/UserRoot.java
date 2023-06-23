@@ -1,6 +1,9 @@
 package com.zorona.liverooms.modelclass;
 
 import com.google.gson.annotations.SerializedName;
+import com.zorona.liverooms.activity.LoginActivityActivity;
+
+import java.util.Random;
 
 public class UserRoot {
 
@@ -451,6 +454,7 @@ public class UserRoot {
         }
 
         public String getUsername() {
+
             return username;
         }
     }

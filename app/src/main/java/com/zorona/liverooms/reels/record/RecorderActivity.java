@@ -80,6 +80,7 @@ import com.otaliastudios.cameraview.filters.GammaFilter;
 import com.otaliastudios.cameraview.filters.SharpnessFilter;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -378,7 +379,13 @@ public class RecorderActivity extends AppCompatActivity {
                 segments.pause();
                 segments.addDivider();
                 mHandler.removeCallbacks(mStopper);
-                mHandler.postDelayed(() -> processCurrentRecording(), 500);
+                mHandler.postDelayed(() -> {
+                    try {
+                        processCurrentRecording();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }, 500);
                 if (mMediaPlayer != null) {
                     mMediaPlayer.pause();
                 }//
@@ -708,7 +715,7 @@ public class RecorderActivity extends AppCompatActivity {
         finish();
     }
 
-    private void processCurrentRecording() {
+    private void processCurrentRecording() throws IOException {
         if (mModel.video != null) {
             long duration = VideoUtil.getDuration(this, Uri.fromFile(mModel.video));
             if (mModel.speed != 1) {

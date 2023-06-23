@@ -66,7 +66,7 @@ final public class VideoUtil {
 
 
     @NotNull
-    public static Size getDimensions(String path) {
+    public static Size getDimensions(String path) throws IOException {
         int width = 0, height = 0;
         MediaMetadataRetriever mmr = null;
         try {
@@ -89,7 +89,7 @@ final public class VideoUtil {
         return new Size(width, height);
     }
 
-    public static long getDuration(Context context, Uri uri) {
+    public static long getDuration(Context context, Uri uri) throws IOException {
         MediaMetadataRetriever mmr = null;
         try {
             mmr = new MediaMetadataRetriever();
@@ -115,7 +115,7 @@ final public class VideoUtil {
     }
 
     @Nullable
-    public static Bitmap getFrameAtTime(String path, long micros) {
+    public static Bitmap getFrameAtTime(String path, long micros) throws IOException {
         MediaMetadataRetriever mmr = null;
         try {
             mmr = new MediaMetadataRetriever();

@@ -1,4 +1,0 @@
-<selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:state_selected="true" android:drawable="@drawable/selected_seat_background" />
-    <item android:drawable="@drawable/unselected_seat_background" />
-</selector>

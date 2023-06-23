@@ -49,6 +49,7 @@ import com.kaopiz.kprogresshud.KProgressHUD;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -122,7 +123,12 @@ public class UploadActivity extends BaseActivity {
             Log.d(TAG, "onCreate:songid " + mSong);
         }
 
-        Bitmap image = VideoUtil.getFrameAtTime(mVideo, TimeUnit.SECONDS.toMicros(3));
+        Bitmap image = null;
+        try {
+            image = VideoUtil.getFrameAtTime(mVideo, TimeUnit.SECONDS.toMicros(3));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         ImageView thumbnail = findViewById(R.id.imageview);
         thumbnail.setScaleType(ImageView.ScaleType.CENTER_CROP);
         thumbnail.setImageBitmap(image);

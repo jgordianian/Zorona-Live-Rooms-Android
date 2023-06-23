@@ -93,7 +93,12 @@ public class UploadClipWorker extends Worker {
             int privacy = relite.getPrivacy();
             String userId = relite.getUserId();
 
-            long duration = VideoUtil.getDuration(getApplicationContext(), Uri.fromFile(video));
+            long duration = 0;
+            try {
+                duration = VideoUtil.getDuration(getApplicationContext(), Uri.fromFile(video));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             duration = TimeUnit.MILLISECONDS.toSeconds(duration);
 
 

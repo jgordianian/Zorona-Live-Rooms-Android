@@ -3,7 +3,7 @@ buildscript {
 
     ext.camerax_version = "1.0.0-alpha06"
     ext.camerax_ext_version = "1.0.0-alpha03"
-    ext.kotlin_version = '1.6.0'
+    ext.kotlin_version = '1.6.21'
     repositories {
         google()
         mavenCentral()

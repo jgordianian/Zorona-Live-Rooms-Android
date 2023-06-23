@@ -17,17 +17,30 @@
         android:layout_height="match_parent"
         tools:context=".liveStreamming.LiveActivity">
 
-        <com.zorona.liverooms.agora.ui.VideoGridContainer
-            android:id="@+id/live_video_grid_layout"
+        <ImageView
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="0dp"
+            android:layout_marginBottom="0dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/loginback" />
+
+
 
         <!--
-                <ImageView
-                    android:id="@+id/image1"
+                <com.zorona.liverooms.agora.ui.VideoGridContainer
+                    android:id="@+id/live_video_grid_layout"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
         -->
+                <!--
+                        <ImageView
+                            android:id="@+id/image1"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent" />
+                -->
         <ImageView
             android:id="@+id/imgFilter"
             android:layout_width="match_parent"
@@ -194,7 +207,7 @@
                         app:tint="@color/white" />
 
                     <TextView
-                        android:id="@+id/tvViewUserCount"
+                        android:id="@+id/userCountTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="5dp"
@@ -216,7 +229,7 @@
                     android:backgroundTint="@color/black_alpha_20"
                     android:padding="7dp"
                     android:src="@drawable/cancel"
-                    android:tint="@color/white" />
+                    app:tint="@color/white" />
 
             </LinearLayout>
 
@@ -266,6 +279,8 @@
                         android:textColor="@color/pink"
                         android:textSize="12dp" />
 
+
+
                 </LinearLayout>
 
                 <TextView
@@ -293,6 +308,14 @@
                     android:onClick="onClickReport"
                     android:src="@drawable/ic_baseline_info_24"
                     android:visibility="visible" />
+
+                <ImageView
+                    android:id="@+id/btn_mute"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="125dp"
+                    android:onClick="onLocalAudioMuteClicked"
+                    android:src="@drawable/unmute" />
 
             </LinearLayout>
         </LinearLayout>
@@ -394,7 +417,7 @@
                     android:padding="5dp"
                     android:scaleType="centerCrop"
                     android:src="@drawable/share"
-                    android:tint="@color/white" />
+                    app:tint="@color/white" />
 
                 <ImageView
                     android:id="@+id/imggift2"

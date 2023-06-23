@@ -206,7 +206,8 @@
                     android:paddingVertical="10dp"
                     android:text="Cash out"
                     android:textColor="@color/black_back"
-                    android:textSize="16dp" />
+                    android:textSize="16dp"
+                    android:visibility="gone"/>
 
 
                 <TextView

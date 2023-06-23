@@ -105,7 +105,7 @@ public class ProfileFragment extends BaseFragment {
         binding.tvLevel.setText(user.getLevel().getName());
         binding.tvFollowing.setText(String.valueOf(user.getFollowing()));
 
-        binding.tvUserName.setText("@" + user.getUsername());
+        binding.tvUserName.setText(user.getUsername());
 
         if (user.getGender().equalsIgnoreCase(Const.MALE)) {
             binding.imgGender.setImageDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.male));

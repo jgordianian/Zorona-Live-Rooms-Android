@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
@@ -43,7 +44,7 @@
 
                     <ImageView
                         android:id="@+id/animHome"
-                        android:layout_width="30dp"
+                        android:layout_width="21dp"
                         android:layout_height="30dp"
                         android:layout_gravity="center"
                         android:padding="5dp"
@@ -89,7 +90,7 @@
                         android:layout_gravity="center"
                         android:padding="3dp"
                         android:src="@drawable/chat"
-                        android:tint="@color/blackpure" />
+                        app:tint="@color/blackpure" />
 
                     <View
                         android:layout_marginTop="13dp"

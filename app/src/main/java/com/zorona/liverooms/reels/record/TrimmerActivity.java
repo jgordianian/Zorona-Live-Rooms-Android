@@ -35,6 +35,7 @@ import com.google.android.exoplayer2.ui.PlayerView;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 
@@ -88,7 +89,11 @@ public class TrimmerActivity extends BaseActivity implements AnalyticsListener, 
         mPlayer.setRepeatMode(ExoPlayer.REPEAT_MODE_ALL);
         PlayerView player = findViewById(R.id.player);
         player.setPlayer(mPlayer);
-        mDuration = (int) VideoUtil.getDuration(this, Uri.parse(mVideo));
+        try {
+            mDuration = (int) VideoUtil.getDuration(this, Uri.parse(mVideo));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         mTrimStartTime = 0;
         mTrimEndTime = Math.min(mDuration, (int) SharedConstants.MAX_DURATION);
         Log.v(TAG, "Duration of video is " + mDuration + "ms.");

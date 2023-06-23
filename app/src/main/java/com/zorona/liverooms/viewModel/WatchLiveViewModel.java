@@ -28,6 +28,8 @@ public class WatchLiveViewModel extends ViewModel {
     public LiveStramCommentAdapter liveStramCommentAdapter = new LiveStramCommentAdapter();
     public MutableLiveData<UserRoot.User> clickedComment = new MutableLiveData<>();
     public MutableLiveData<JSONObject> clickedUser = new MutableLiveData<>();
+    public boolean isMuted = true;
+    
 
     public void initLister() {
         liveStramCommentAdapter.setOnCommentClickListner((UserRoot.User userDummy) -> {

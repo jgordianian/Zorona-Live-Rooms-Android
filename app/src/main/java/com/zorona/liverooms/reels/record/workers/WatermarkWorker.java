@@ -29,7 +29,7 @@ import com.zorona.liverooms.utils.VideoUtil;
 import com.google.common.util.concurrent.ListenableFuture;
 
 import java.io.File;
-
+import java.io.IOException;
 
 
 public class WatermarkWorker extends ListenableWorker {
@@ -168,7 +168,7 @@ public class WatermarkWorker extends ListenableWorker {
         return new GlWatermarkFilter(watermark, position);
     }
 
-    private void doActualWork(File input, File output, String username, CallbackToFutureAdapter.Completer<Result> completer) {
+    private void doActualWork(File input, File output, String username, CallbackToFutureAdapter.Completer<Result> completer) throws IOException {
         Context context = getApplicationContext();
         if (getInputData().getBoolean(KEY_NOTIFICATION, false)) {
             setForegroundAsync(createForegroundInfo(context));

@@ -21,6 +21,7 @@ import com.otaliastudios.transcoder.source.DataSource;
 import com.otaliastudios.transcoder.strategy.DefaultVideoStrategies;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 
@@ -48,7 +49,7 @@ public class MergeAudioVideoWorker2 extends ListenableWorker {
         });
     }
 
-    private void doActualWork(File video, String audio, File output, CallbackToFutureAdapter.Completer<Result> completer) {
+    private void doActualWork(File video, String audio, File output, CallbackToFutureAdapter.Completer<Result> completer) throws IOException {
         DataSource audio2 = VideoUtil.createDataSource(getApplicationContext(), audio);
         TranscoderOptions.Builder transcoder = Transcoder.into(output.getAbsolutePath());
         long duration1 = TimeUnit.MICROSECONDS.toMillis(audio2.getDurationUs());

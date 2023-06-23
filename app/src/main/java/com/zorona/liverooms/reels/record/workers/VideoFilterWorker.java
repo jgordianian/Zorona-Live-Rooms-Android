@@ -31,6 +31,7 @@ import com.zorona.liverooms.utils.VideoUtil;
 import com.google.common.util.concurrent.ListenableFuture;
 
 import java.io.File;
+import java.io.IOException;
 
 
 public class VideoFilterWorker extends ListenableWorker {
@@ -56,7 +57,7 @@ public class VideoFilterWorker extends ListenableWorker {
         });
     }
 
-    private void doActualWork(File input, File output, CallbackToFutureAdapter.Completer<Result> completer) {
+    private void doActualWork(File input, File output, CallbackToFutureAdapter.Completer<Result> completer) throws IOException {
         Size size = VideoUtil.getDimensions(input.getAbsolutePath());
         int width = size.getWidth();
         int height = size.getHeight();

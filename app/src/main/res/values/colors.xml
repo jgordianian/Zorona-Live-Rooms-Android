@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-
-    <color name="selected_seat_color">#FFD54F</color>
-    <color name="unselected_seat_color">#757575</color>
-
     <color name="blackpure">#000</color>
     <color name="black_back">#111118</color>
     <color name="grayinsta">#161622</color>
