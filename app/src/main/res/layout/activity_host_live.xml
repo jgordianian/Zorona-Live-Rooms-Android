@@ -15,6 +15,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
         tools:context=".liveStreamming.LiveActivity">
 
         <ImageView
@@ -58,37 +59,36 @@
                       />
            -->
 
-        <com.facebook.drawee.view.SimpleDraweeView
-            android:id="@+id/imgSticker"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:layout_centerInParent="true"
-            android:adjustViewBounds="true"
-            android:visibility="gone"
-            app:actualImageScaleType="fitCenter" />
-
 
         <LinearLayout
             android:id="@+id/lytGift"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:gravity="bottom"
+            android:gravity="center"
             android:orientation="horizontal"
             android:visibility="gone">
 
             <ImageView
                 android:id="@+id/imgGift"
-                android:layout_width="200dp"
-                android:layout_height="200dp"
+                android:layout_width="match_parent"
+                android:layout_height="400dp"
                 android:src="@drawable/ic_gift" />
 
             <ImageView
                 android:id="@+id/imgGiftCount"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:layout_marginStart="-50dp"
+                android:layout_marginStart="-120dp"
                 android:src="@drawable/x10" />
+
+            <com.facebook.drawee.view.SimpleDraweeView
+                android:id="@+id/imgSticker"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="0dp"
+                android:layout_marginBottom="255dp"
+                android:adjustViewBounds="true" />
 
         </LinearLayout>
 
@@ -103,98 +103,168 @@
             android:textSize="16dp"/>
 
         <LinearLayout
-            android:id="@+id/lytTop"
+            android:layout_marginTop="20dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
             android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="10dp"
                 android:orientation="horizontal">
 
-                <RelativeLayout
+                <LinearLayout
+                    android:id="@+id/lytHost"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10sp"
+                    android:background="@drawable/bg_gradient_round"
+                    android:backgroundTint="@color/black_alpha_20"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/imgUser"
+                        android:layout_width="45dp"
+                        android:layout_height="45dp"
+                        android:visibility="gone"/>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginVertical="5dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="20dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/tvName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/amidum"
+                            android:text="Room"
+                            android:textColor="@color/white" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:orientation="horizontal">
+
+                            <com.airbnb.lottie.LottieAnimationView
+                                android:layout_width="25dp"
+                                android:layout_height="15sp"
+                                app:lottie_autoPlay="true"
+                                app:lottie_loop="true"
+                                app:lottie_rawRes="@raw/wave" />
+
+                            <TextView
+                                android:id="@+id/tvCountry"
+                                android:background="@drawable/bg_5dp"
+                                android:backgroundTint="@color/pink"
+                                android:paddingHorizontal="5dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="5dp"
+                                android:fontFamily="@font/alight"
+                                android:text=""
+                                android:textColor="@color/white"
+                                android:textSize="12dp" />
+                        </LinearLayout>
+
+                    </LinearLayout>
+                </LinearLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvViewUsers"
                     android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                    android:layout_marginHorizontal="10dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:adapter="@{viewModel.liveViewUserAdapter}"
+                    android:fadingEdge="horizontal"
+                    android:fadingEdgeLength="10dp"
+                    android:orientation="horizontal"
+                    android:requiresFadingEdge="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:listitem="@layout/item_view_users" />
+
+                <LinearLayout
+                    android:layout_gravity="center"
+                    android:id="@+id/lytviewcount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:background="@drawable/bg_gradient_round_black"
+                    android:backgroundTint="@color/black_alpha_20"
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="10dp"
+                    android:paddingVertical="5dp">
+
+                    <ImageView
+
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:padding="2dp"
+                        android:src="@drawable/ic_eye"
+                        app:tint="@color/white" />
+
+                    <TextView
+                        android:id="@+id/userCountTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:fontFamily="@font/amidum"
+                        android:text="0"
+                        android:textColor="@color/white" />
+                </LinearLayout>
+
+                <ImageView
+                    android:onClick="onClickBack"
+                    android:id="@+id/btnClose"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_alignParentEnd="true"
                     android:layout_gravity="center"
                     android:layout_marginStart="10dp"
-                    android:layout_weight="1"/>
+                    android:layout_marginEnd="10dp"
+                    android:background="@drawable/bg_gradient_round"
+                    android:backgroundTint="@color/black_alpha_20"
+                    android:padding="7dp"
+                    android:src="@drawable/cancel"
+                    app:tint="@color/white" />
 
-                <!-- <androidx.recyclerview.widget.RecyclerView
-                     android:id="@+id/rvViewUsers"
-                     android:layout_width="match_parent"
-                     android:layout_height="wrap_content"
-                     android:layout_centerInParent="true"
-                     android:layout_gravity="center"
-                     android:adapter="@{viewModel.liveViewUserAdapter}"
-                     android:fadingEdge="horizontal"
-                     android:fadingEdgeLength="10dp"
-                     android:orientation="horizontal"
-                     android:requiresFadingEdge="horizontal"
-                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                     tools:listitem="@layout/item_view_users" />
-
-                     <TextView
-                          android:id="@+id/tvNoOneJoined"
-                          android:layout_width="wrap_content"
-                          android:layout_height="wrap_content"
-                          android:layout_centerVertical="true"
-                          android:background="@drawable/bg_5dp"
-                          android:backgroundTint="@color/pink"
-                          android:fontFamily="@font/abold"
-                          android:paddingHorizontal="20dp"
-                          android:paddingVertical="5dp"
-                          android:text="No one Joined"
-                          android:textColor="@color/white" />
-                  </RelativeLayout>
-                  -->
-
-                     <LinearLayout
-                         android:id="@+id/lytviewcount"
-                         android:layout_width="wrap_content"
-                         android:layout_height="wrap_content"
-                         android:layout_alignParentEnd="true"
-                         android:layout_margin="10dp"
-                         android:background="@drawable/bg_gradient_round_black"
-                         android:backgroundTint="@color/black_alpha_20"
-                         android:orientation="horizontal"
-                         android:paddingHorizontal="10dp"
-                         android:paddingVertical="5dp">
-
-                         <ImageView
-
-                             android:layout_width="26dp"
-                             android:layout_height="20dp"
-                             android:padding="2dp"
-                             android:src="@drawable/ic_eye"
-                             app:tint="@color/white" />
-
-                         <TextView
-                             android:id="@+id/userCountTextView"
-                             android:layout_width="wrap_content"
-                             android:layout_height="wrap_content"
-                             android:layout_marginStart="5dp"
-                             android:fontFamily="@font/amidum"
-                             android:text="0"
-                             android:textColor="@color/white" />
-                     </LinearLayout>
+                <!--   <TextView
+                        android:id="@+id/tvNoOneJoined"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:background="@drawable/bg_5dp"
+                        android:backgroundTint="@color/pink"
+                        android:fontFamily="@font/abold"
+                        android:paddingHorizontal="20dp"
+                        android:paddingVertical="5dp"
+                        android:text="No one Joined"
+                        android:textColor="@color/white" />
+                </RelativeLayout>
 
 
-                     <ImageView
-                         android:id="@+id/btnClose"
-                         android:layout_width="25dp"
-                         android:layout_height="25dp"
-                         android:layout_alignParentEnd="true"
-                         android:layout_gravity="center"
-                         android:layout_marginStart="5dp"
-                         android:layout_marginEnd="10dp"
-                         android:background="@drawable/bg_gradient_round"
-                         android:backgroundTint="@color/black_alpha_20"
-                         android:padding="7dp"
-                         android:src="@drawable/cancel"
-                         app:tint="@color/white" />
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvViewUsers"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_gravity="center"
+                    android:adapter="@{viewModel.liveViewUserAdapter}"
+                    android:fadingEdge="horizontal"
+                    android:fadingEdgeLength="10dp"
+                    android:orientation="horizontal"
+                    android:requiresFadingEdge="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:listitem="@layout/item_view_users" />
+-->
+
 
                  </LinearLayout>
 
@@ -297,8 +367,13 @@
                              android:textSize="14dp" />
                      </LinearLayout>
 
+
+
                  </LinearLayout>
+
              </LinearLayout>
+
+
 
 
         <LinearLayout
@@ -361,10 +436,11 @@
                    android:layout_marginTop="125dp"
                    android:onClick="onLocalAudioMuteClicked"
                    android:src="@drawable/unmute" />
+
            </LinearLayout>
 
 
-              <androidx.recyclerview.widget.RecyclerView
+        <androidx.recyclerview.widget.RecyclerView
                   android:id="@+id/rvComments"
                   android:layout_width="300dp"
                   android:layout_height="200dp"
@@ -389,7 +465,7 @@
                   android:layout_marginVertical="5dp"
                   android:layout_marginBottom="5dp"
                   android:fitsSystemWindows="true"
-                  android:gravity="center"
+                  android:gravity="end"
                   android:orientation="horizontal">
 
                   <RelativeLayout
@@ -412,7 +488,8 @@
                           android:background="@android:color/transparent"
 
                           android:fontFamily="@font/alight"
-                          android:hint="Add a Comment..."
+                          android:hint="Say Something..."
+                          android:imeOptions="actionSend"
                           android:paddingHorizontal="10dp"
                           android:paddingVertical="10dp"
                           android:singleLine="true"
@@ -428,7 +505,7 @@
                           android:layout_alignParentEnd="true"
                           android:layout_alignParentRight="true"
                           android:layout_centerVertical="true"
-                          android:layout_gravity="center_vertical"
+                          android:layout_gravity="end"
                           android:layout_marginHorizontal="10dp"
                           android:onClick="onClickSendComment"
                           android:padding="5dp"
@@ -465,8 +542,8 @@
 
                       <ImageView
                           android:id="@+id/imggift2"
-                          android:layout_width="40dp"
-                          android:layout_height="40dp"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
                           android:layout_marginStart="10dp"
                           android:layout_marginLeft="10dp"
                           android:onClick="onclickGiftIcon"

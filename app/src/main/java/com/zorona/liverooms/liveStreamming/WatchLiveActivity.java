@@ -9,10 +9,13 @@ import android.os.Looper;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,6 +25,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.zorona.liverooms.BuildConfig;
 import com.zorona.liverooms.MainApplication;
 import com.zorona.liverooms.R;
@@ -57,6 +61,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Calendar;
+import java.util.LinkedList;
+import java.util.Queue;
 
 import io.agora.rtc.Constants;
 import io.agora.rtc.IRtcEngineEventHandler;
@@ -82,7 +88,9 @@ public class WatchLiveActivity extends AgoraBaseActivity {
     EmojiBottomsheetFragment emojiBottomsheetFragment;
     private WatchLiveViewModel viewModel;
 
-	private int userCount = 0; // Keep track of the number of users in the channel
+    private Queue<GiftRoot.GiftItem> giftQueue = new LinkedList<>();
+
+    private int userCount = 0; // Keep track of the number of users in the channel
 																			  
     private LiveUserRoot.UsersItem host;
     private VideoGridContainer mVideoGridContainer;
@@ -139,30 +147,7 @@ public class WatchLiveActivity extends AgoraBaseActivity {
     };
 
 
-    private Emitter.Listener gifListner = args -> {
-
-        if (args[0] != null) {
-            runOnUiThread(() -> {
-
-                Log.d(TAG, "commentlister : " + args);
-                String data = args[0].toString();
-                if (!data.isEmpty()) {
-                    StickerRoot.StickerItem sticker_dummy = new Gson().fromJson(data, StickerRoot.StickerItem.class);
-                    if (sticker_dummy != null) {
-                        binding.imgSticker.setImageURI(sticker_dummy.getSticker());
-
-                        binding.imgSticker.setVisibility(View.VISIBLE);
-                        new Handler(Looper.myLooper()).postDelayed(() -> binding.imgSticker.setVisibility(View.GONE), 2000);
-
-                    }
-                }
-
-            });
-
-        }
-
-    };
-	// Update the UI to display the user count
+  	// Update the UI to display the user count
     private void updateUI() {
         runOnUiThread(new Runnable() {
             @Override
@@ -171,7 +156,8 @@ public class WatchLiveActivity extends AgoraBaseActivity {
                 userCountTextView.setText(String.format("%d online users", userCount));
             }
         });
-    }										  
+    }
+
     private Emitter.Listener commentListner = args -> {
         if (args[0] != null) {
             runOnUiThread(() -> {
@@ -191,6 +177,7 @@ public class WatchLiveActivity extends AgoraBaseActivity {
 
         }
     };
+
     private Emitter.Listener giftListner = args -> {
 
         runOnUiThread(() -> {
@@ -222,7 +209,7 @@ public class WatchLiveActivity extends AgoraBaseActivity {
                                 binding.tvGiftUserName.setText("");
                                 binding.imgGift.setImageDrawable(null);
                                 binding.imgGiftCount.setImageDrawable(null);
-                            }, 8000);
+                            }, 2000);
                             makeSound();
                         }
                     }
@@ -272,6 +259,8 @@ public class WatchLiveActivity extends AgoraBaseActivity {
 
 
     };
+
+
     private Emitter.Listener viewListner = data -> {
         runOnUiThread(() -> {
             Object args = data[0];
@@ -329,6 +318,8 @@ public class WatchLiveActivity extends AgoraBaseActivity {
         viewModel.initLister();
         giftViewModel.getGiftCategory();
 
+
+
         Intent intent = getIntent();
         String userStr = intent.getStringExtra(Const.DATA);
         if (userStr != null && !userStr.isEmpty()) {
@@ -369,7 +360,7 @@ public class WatchLiveActivity extends AgoraBaseActivity {
             getSocket().on(Socket.EVENT_CONNECT, args -> runOnUiThread(() -> {
                 getSocket().on(Const.EVENT_SIMPLEFILTER, simpleFilterListner);
                 getSocket().on(Const.EVENT_ANIMFILTER, animatedFilterListner);
-                getSocket().on(Const.EVENT_GIF, gifListner);
+                getSocket().on(Const.EVENT_GIF, giftListner);
                 getSocket().on(Const.EVENT_COMMENT, commentListner);
                 getSocket().on(Const.EVENT_GIFT, giftListner);
                 getSocket().on(Const.EVENT_VIEW, viewListner);
@@ -488,7 +479,7 @@ public class WatchLiveActivity extends AgoraBaseActivity {
 
      public void onLocalAudioMuteClicked(View view) {
         viewModel.isMuted = !viewModel.isMuted;
-        rtcEngine().muteLocalAudioStream(true);
+        rtcEngine().muteLocalAudioStream(viewModel.isMuted);
         if (viewModel.isMuted) {
             binding.btnMute.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.mute));
 
@@ -537,6 +528,7 @@ public class WatchLiveActivity extends AgoraBaseActivity {
 
     }
 
+
     private void getUser(String userId) {
         getSocket().on(Const.EVENT_GET_USER, args1 -> {
             runOnUiThread(() -> {
@@ -570,6 +562,41 @@ public class WatchLiveActivity extends AgoraBaseActivity {
         }
     }
 
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
+
+            return;
+        }
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_NETWORK_STATE) != PackageManager.PERMISSION_GRANTED) {
+
+            return;
+        }
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.MODIFY_AUDIO_SETTINGS) != PackageManager.PERMISSION_GRANTED) {
+
+            return;
+        }
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_WIFI_STATE) != PackageManager.PERMISSION_GRANTED) {
+
+            return;
+        }
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.BIND_VOICE_INTERACTION) != PackageManager.PERMISSION_GRANTED) {
+
+            return;
+        }
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
+
+            return;
+        }
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH) != PackageManager.PERMISSION_GRANTED) {
+
+            return;
+        }
+
+    }
 
   /*  @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {

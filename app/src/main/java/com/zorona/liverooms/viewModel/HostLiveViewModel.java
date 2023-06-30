@@ -45,7 +45,7 @@ public class HostLiveViewModel extends ViewModel {
 
     public MutableLiveData<UserRoot.User> clickedComment = new MutableLiveData<UserRoot.User>();
     public MutableLiveData<JSONObject> clickedUser = new MutableLiveData<>();
-    public boolean isMuted = true;
+    public boolean isMuted;
 
 
     public void onClickSheetClose() {

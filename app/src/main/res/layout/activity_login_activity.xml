@@ -40,7 +40,7 @@
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="20dp"
                 android:fontFamily="@font/amidum"
-                android:text="With millions of userDummies all over the world, we gives you the ability to connect with people no matter where you are."
+                android:text="With millions of users all over the world, we gives you the ability to connect with people no matter where you are."
                 android:textColor="@color/offwhite"
                 android:textSize="16dp" />
 

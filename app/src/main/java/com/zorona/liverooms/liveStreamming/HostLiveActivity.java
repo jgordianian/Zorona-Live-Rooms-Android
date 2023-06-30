@@ -8,9 +8,12 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.SurfaceView;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -25,11 +28,13 @@ import androidx.lifecycle.ViewModelProviders;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.zorona.liverooms.BuildConfig;
+import com.zorona.liverooms.MainApplication;
 import com.zorona.liverooms.R;
 import com.zorona.liverooms.agora.stats.LocalStatsData;
 import com.zorona.liverooms.agora.stats.RemoteStatsData;
 import com.zorona.liverooms.agora.stats.StatsData;
 import com.zorona.liverooms.agora.ui.VideoGridContainer;
+import com.zorona.liverooms.modelclass.LiveUserRoot;
 import com.zorona.liverooms.utils.Filters.FilterRoot;
 import com.zorona.liverooms.utils.Filters.FilterUtils;
 import com.zorona.liverooms.RayziUtils;
@@ -58,8 +63,10 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Queue;
 
 import io.agora.rtc.Constants;
 import io.agora.rtc.IRtcEngineEventHandler;
@@ -86,6 +93,8 @@ public class HostLiveActivity extends AgoraBaseActivity {
     //private VideoGridContainer mVideoGridContainer;
     private EmojiSheetViewModel giftViewModel;
     private int userCount = 0; // Keep track of the number of users in the channel
+    private LiveUserRoot.UsersItem host;
+    private Queue<GiftRoot.GiftItem> giftQueue = new LinkedList<>();
     private boolean checkSelfPermission(String permission, int requestCode) {
         if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{permission}, requestCode);
@@ -158,9 +167,6 @@ public class HostLiveActivity extends AgoraBaseActivity {
         });
     }
 
-    private Emitter.Listener gifListner = args -> {
-
-    };
     private Emitter.Listener commentListner = args -> {
         if (args[0] != null) {
             runOnUiThread(() -> {
@@ -191,55 +197,6 @@ public class HostLiveActivity extends AgoraBaseActivity {
     private Emitter.Listener giftListner = args -> {
         runOnUiThread(() -> {
             if (args[0] != null) {
-                Log.d(TAG, "giftListener: " + args.toString());
-                String data = args[0].toString();
-                try {
-                    JSONObject jsonObject = new JSONObject(data.toString());
-                    if (jsonObject.get("gift") != null) {
-                        Log.d(TAG, "json gift: " + jsonObject.toString());
-                        GiftRoot.GiftItem giftData = new Gson().fromJson(jsonObject.get("gift").toString(), GiftRoot.GiftItem.class);
-                        if (giftData != null) {
-                            Log.d(TAG, "sent a gift: " + BuildConfig.BASE_URL + giftData.getImage());
-
-                            RequestOptions requestOptions = new RequestOptions()
-                                    .override(300, 300); // Specify the desired dimensions here
-
-                            Glide.with(binding.imgGift)
-                                    .load(BuildConfig.BASE_URL + giftData.getImage())
-                                    .apply(requestOptions)
-                                    .into(binding.imgGift);
-
-                            Glide.with(binding.imgGiftCount)
-                                    .load(RayziUtils.getImageFromNumber(giftData.getCount()))
-                                    .into(binding.imgGiftCount);
-
-                            String name = jsonObject.getString("userName").toString();
-                            binding.tvGiftUserName.setText(name + " Sent a gift");
-
-                            binding.lytGift.setVisibility(View.VISIBLE);
-                            binding.tvGiftUserName.setVisibility(View.VISIBLE);
-                            new Handler(Looper.myLooper()).postDelayed(() -> {
-                                binding.lytGift.setVisibility(View.GONE);
-                                binding.tvGiftUserName.setVisibility(View.GONE);
-                                binding.tvGiftUserName.setText("");
-                                binding.imgGift.setImageDrawable(null);
-                                binding.imgGiftCount.setImageDrawable(null);
-                            }, 8000);
-                            makeSound();
-                        }
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-
-
-
-  /*  private Emitter.Listener giftListner = args -> {
-        runOnUiThread(() -> {
-            if (args[0] != null) {
-
-
                 Log.d(TAG, "giftloister : " + args.toString());
                 String data = args[0].toString();
                 try {
@@ -257,7 +214,6 @@ public class HostLiveActivity extends AgoraBaseActivity {
                                     .into(binding.imgGiftCount);
 
 
-
                             String name = jsonObject.getString("userName").toString();
                             binding.tvGiftUserName.setText(name + " Sent a gift");
 
@@ -269,9 +225,8 @@ public class HostLiveActivity extends AgoraBaseActivity {
                                 binding.tvGiftUserName.setText("");
                                 binding.imgGift.setImageDrawable(null);
                                 binding.imgGiftCount.setImageDrawable(null);
-                            }, 8000);
+                            }, 13000);
                             makeSound();
-
                         }
 
                     }
@@ -280,7 +235,7 @@ public class HostLiveActivity extends AgoraBaseActivity {
                     e.printStackTrace();
                 }
 
-            }*/
+            }
 
 
             if (args[2] != null) {   // host
@@ -292,7 +247,7 @@ public class HostLiveActivity extends AgoraBaseActivity {
                         Log.d(TAG, ":getted host    " + host.toString());
                         if (sessionManager.getUser().getId().equals(host.getId())) {
                             sessionManager.saveUser(host);
-                            //binding.tvDiamonds.setText(String.valueOf(host.getDiamond()));
+                            // binding.tvDiamonds.setText(String.valueOf(host.getDiamond()));
                             binding.tvRcoins.setText(String.valueOf(host.getRCoin()));
                             giftViewModel.localUserCoin.setValue(host.getDiamond());
                         }
@@ -305,6 +260,8 @@ public class HostLiveActivity extends AgoraBaseActivity {
 
         });
     };
+
+
     private LiveStreamRoot.LiveUser liveUser;
     private Emitter.Listener viewListner = data -> {
         runOnUiThread(() -> {
@@ -384,7 +341,7 @@ public class HostLiveActivity extends AgoraBaseActivity {
 
             getSocket().on(Const.EVENT_SIMPLEFILTER, simpleFilterListner);
             getSocket().on(Const.EVENT_ANIMFILTER, animatedFilterListner);
-            getSocket().on(Const.EVENT_GIF, gifListner);
+            getSocket().on(Const.EVENT_GIF, giftListner);
             getSocket().on(Const.EVENT_COMMENT, commentListner);
             getSocket().on(Const.EVENT_GIFT, giftListner);
             getSocket().on(Const.EVENT_VIEW, viewListner);
@@ -556,6 +513,8 @@ public class HostLiveActivity extends AgoraBaseActivity {
             }
         });
 
+
+
         userProfileBottomSheet.setOnUserTapListner(user -> {  // for block user
             blockedUsersList.put(user.getUserId());
             Log.d(TAG, "initLister: blocked " + blockedUsersList.toString());
@@ -573,6 +532,7 @@ public class HostLiveActivity extends AgoraBaseActivity {
 
 
     }
+
 
     private void getUser(String userId) {
         getSocket().on(Const.EVENT_GET_USER, args1 -> {
@@ -609,19 +569,39 @@ public class HostLiveActivity extends AgoraBaseActivity {
 
 
 
-  /*  @Override
+    @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == PERMISSION_REQ_ID) {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED &&
-                    grantResults[1] == PackageManager.PERMISSION_GRANTED) {
-                // Initialize Agora Engine
-            } else {
-                Toast.makeText(this, "Permissions not granted", Toast.LENGTH_SHORT).show();
-                finish();
-            }
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
+
+            return;
         }
-    }*/
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_NETWORK_STATE) != PackageManager.PERMISSION_GRANTED) {
+
+            return;
+        }
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.MODIFY_AUDIO_SETTINGS) != PackageManager.PERMISSION_GRANTED) {
+
+            return;
+        }
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_WIFI_STATE) != PackageManager.PERMISSION_GRANTED) {
+
+            return;
+        }
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.BIND_VOICE_INTERACTION) != PackageManager.PERMISSION_GRANTED) {
+
+            return;
+        }
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
+
+            return;
+        }
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH) != PackageManager.PERMISSION_GRANTED) {
+
+            return;
+        }
+
+    }
 
         /*if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
 
@@ -675,7 +655,7 @@ public class HostLiveActivity extends AgoraBaseActivity {
 
     public void onLocalAudioMuteClicked(View view) {
         viewModel.isMuted = !viewModel.isMuted;
-        rtcEngine().muteLocalAudioStream(true);
+        rtcEngine().muteLocalAudioStream(viewModel.isMuted);
         if (viewModel.isMuted) {
             binding.btnMute.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.mute));
 
@@ -717,6 +697,8 @@ public class HostLiveActivity extends AgoraBaseActivity {
 //            }
         }
     }
+
+
 
     public void onclickShare(View view) {
         BranchUniversalObject buo = new BranchUniversalObject()
@@ -795,7 +777,6 @@ public class HostLiveActivity extends AgoraBaseActivity {
         Log.d(TAG, "onUserJoined: " + uid + "  elapsed" + elapsed);
         userCount++; // Decrement the user count when a user leaves the channel
         updateUI(); // Update the UI to display the new user count
-
     }
 
     @Override

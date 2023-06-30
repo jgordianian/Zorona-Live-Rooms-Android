@@ -24,6 +24,7 @@ import com.google.gson.JsonObject;
 import org.json.JSONException;
 
 import java.util.Calendar;
+import java.util.Locale;
 import java.util.Random;
 
 import retrofit2.Call;
@@ -41,8 +42,8 @@ public class LoginActivityActivity extends BaseActivity {
     private String token;
 
     Random random = new Random();
-
-    String userName = String.format("ID: %04d", random.nextInt(10000));
+    Locale locale = Locale.getDefault(); // or specify a specific locale
+    String userName = String.format(locale, "ID: %04d", random.nextInt(10000));
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

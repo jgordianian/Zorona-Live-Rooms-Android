@@ -42,6 +42,7 @@
         android:label="@string/app_name"
         android:launchMode="singleTask"
         android:preserveLegacyExternalStorage="true"
+        android:windowSoftInputMode="adjustResize"
         android:requestLegacyExternalStorage="true"
         android:roundIcon="@drawable/logo"
         android:supportsRtl="true"
