@@ -90,6 +90,8 @@ public class WatchLiveActivity extends AgoraBaseActivity {
 
     private Queue<GiftRoot.GiftItem> giftQueue = new LinkedList<>();
 
+    boolean isGiftPlaying = false;
+
     private int userCount = 0; // Keep track of the number of users in the channel
 																			  
     private LiveUserRoot.UsersItem host;
@@ -179,6 +181,9 @@ public class WatchLiveActivity extends AgoraBaseActivity {
     };
 
     private Emitter.Listener giftListner = args -> {
+        // Gift sent successfully
+        // Call playNextGift() to play the next gift in the queue
+        playNextGift();
 
         runOnUiThread(() -> {
 
@@ -209,7 +214,7 @@ public class WatchLiveActivity extends AgoraBaseActivity {
                                 binding.tvGiftUserName.setText("");
                                 binding.imgGift.setImageDrawable(null);
                                 binding.imgGiftCount.setImageDrawable(null);
-                            }, 2000);
+                            }, 16000);
                             makeSound();
                         }
                     }
@@ -509,6 +514,15 @@ public class WatchLiveActivity extends AgoraBaseActivity {
                     return;
                 }
 
+                // Enqueue the gift item
+                giftQueue.add(giftItem);
+
+                // Check if a gift is currently playing
+                if (!isGiftPlaying) {
+                    // If no gift is playing, start playing the next gift in the queue
+                    playNextGift();
+                }
+
 
                 try {
                     JSONObject jsonObject = new JSONObject();
@@ -526,6 +540,32 @@ public class WatchLiveActivity extends AgoraBaseActivity {
         });
 
 
+    }
+
+    private void playNextGift() {
+        // Check if the gift queue is empty
+        if (giftQueue.isEmpty()) {
+            // No more gifts in the queue, set isGiftPlaying to false and return
+            isGiftPlaying = false;
+            return;
+        }
+
+        // Get the next gift from the queue
+        GiftRoot.GiftItem nextGift = giftQueue.poll();
+
+        // Set isGiftPlaying to true
+        isGiftPlaying = true;
+
+        try {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("userId", sessionManager.getUser().getId());
+            jsonObject.put("coin", nextGift.getCoin() * nextGift.getCount());
+            jsonObject.put("gift", new Gson().toJson(nextGift));
+            jsonObject.put("userName", sessionManager.getUser().getName());
+            getSocket().emit(Const.EVENT_LIVEUSER_GIFT, jsonObject);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
 
