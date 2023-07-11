@@ -26,6 +26,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
@@ -33,6 +34,8 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.zegocloud.uikit.prebuilt.livestreaming.ZegoUIKitPrebuiltLiveStreamingConfig;
+import com.zegocloud.uikit.prebuilt.livestreaming.ZegoUIKitPrebuiltLiveStreamingFragment;
 import com.zorona.liverooms.BuildConfig;
 import com.zorona.liverooms.MainApplication;
 import com.zorona.liverooms.R;
@@ -83,7 +86,7 @@ import io.branch.referral.util.LinkProperties;
 import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
 
-public class HostLiveActivity extends AgoraBaseActivity {
+public class HostLiveActivity extends AppCompatActivity {
     public static final String TAG = "hostliveactivity";
     private static final int PERMISSION_REQ_ID = 22;
     private static final String[] REQUESTED_PERMISSIONS = {
@@ -102,7 +105,7 @@ public class HostLiveActivity extends AgoraBaseActivity {
     private LiveUserRoot.UsersItem host;
     boolean isGiftPlaying = false;
     private Queue<GiftRoot.GiftItem> giftQueue = new LinkedList<>();
-    List<Integer> activeSeats = new ArrayList<>();
+
     private boolean checkSelfPermission(String permission, int requestCode) {
         if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{permission}, requestCode);
@@ -112,7 +115,7 @@ public class HostLiveActivity extends AgoraBaseActivity {
     }
 
 
-    private Emitter.Listener simpleFilterListner = args -> {
+ /*   private Emitter.Listener simpleFilterListner = args -> {
         if (args[0] != null) {
             runOnUiThread(() -> {
 
@@ -303,11 +306,21 @@ public class HostLiveActivity extends AgoraBaseActivity {
         });
 
     };
+*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_host_live);
+
+        addFragment();
+    }
+ /*   @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_host_live);
+
+        addFragment();
 
         if (checkSelfPermission(REQUESTED_PERMISSIONS[0], PERMISSION_REQ_ID) &&
                 checkSelfPermission(REQUESTED_PERMISSIONS[1], PERMISSION_REQ_ID)) {
@@ -387,9 +400,35 @@ public class HostLiveActivity extends AgoraBaseActivity {
             e.printStackTrace();
         }*/
 
+    //}
+
+    public void addFragment() {
+
+        long appID = getIntent().getLongExtra("717611171", 0L);
+        String appSign = getIntent().getStringExtra("d58314810fa1333e5c5e2ef2a123b18fc4bebc56554ca9c8afdf2aa9ea9e2ed9");
+        String userID = getIntent().getStringExtra(Const.USERID);
+        String userName = getIntent().getStringExtra(Const.USERNAME);
+        String roomID = getIntent().getStringExtra(Const.USERID);
+
+        boolean isHost = getIntent().getBooleanExtra("host", false);
+        String liveID = getIntent().getStringExtra("liveID");
+
+        ZegoUIKitPrebuiltLiveStreamingConfig config;
+        if (isHost) {
+            config = ZegoUIKitPrebuiltLiveStreamingConfig.host();
+        } else {
+            config = ZegoUIKitPrebuiltLiveStreamingConfig.audience();
+        }
+        ZegoUIKitPrebuiltLiveStreamingFragment fragment = ZegoUIKitPrebuiltLiveStreamingFragment.newInstance(
+                appID, appSign, userID, userName, liveID, config);
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragment_container, fragment)
+                .commitNow();
     }
 
-    @Override
+}
+
+/*    @Override
 
     public void onBackPressed() {
         endLive();
@@ -405,11 +444,6 @@ public class HostLiveActivity extends AgoraBaseActivity {
         finish();
 
     }
-
-    LinearLayout lytSeats = findViewById(R.id.lytSeats);
-    ImageView seat1 = findViewById(R.id.seat1);
-    ImageView seat2 = findViewById(R.id.seat2);
-// Get references to other seats as needed
 
 
 
@@ -436,79 +470,13 @@ public class HostLiveActivity extends AgoraBaseActivity {
             rtcEngine().enableAudio();
             rtcEngine().setEnableSpeakerphone(true);
 
-            // When the user starts speaking or based on your logic, update the activeSeats list
-            activeSeats.clear(); // Clear the list to start fresh
-            activeSeats.add(R.id.seat1); // Add seat IDs that should be highlighted
-            activeSeats.add(R.id.seat2);
-// Add more seat IDs as needed
-
-// Iterate over the seat views and apply the highlight effect
-            for (int i = 0; i < lytSeats.getChildCount(); i++) {
-                View seat = lytSeats.getChildAt(i);
-                if (activeSeats.contains(seat.getId())) {
-                    // Apply the highlight effect to the seat
-                    seat.setBackgroundColor(Color.YELLOW);
-                } else {
-                    // Remove the highlight effect from the seat
-                    seat.setBackgroundColor(Color.TRANSPARENT);
-                }
-            }
-
-            // Add code to create seats with mute/unmute functionality
-            createSeatsWithMuteUnmute();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    private void createSeatsWithMuteUnmute() {
-        LinearLayout layout = findViewById(R.id.lytSeats); // Assuming you have a LinearLayout with id "seatsLayout" in your layout XML
 
-        for (int i = 0; i < 8; i++) {
-            LinearLayout seatLayout = new LinearLayout(this);
-            seatLayout.setOrientation(LinearLayout.VERTICAL);
-            seatLayout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
 
-            TextView seatNumber = new TextView(this);
-            seatNumber.setText("Seat " + (i + 1));
-            seatNumber.setGravity(Gravity.CENTER);
-
-            Button muteButton = new Button(this);
-            muteButton.setText("Mute");
-            muteButton.setTag(i); // Set the tag to identify the seat
-
-            // Set click listener for mute/unmute functionality
-            muteButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    int seatIndex = (int) v.getTag();
-                    toggleMute(seatIndex);
-                }
-            });
-
-            seatLayout.addView(seatNumber);
-            seatLayout.addView(muteButton);
-
-            layout.addView(seatLayout);
-        }
-    }
-
-    private void toggleMute(int seatIndex) {
-        // Assuming you have an array of mute states for each seat
-        boolean[] muteStates = new boolean[8];
-        muteStates[seatIndex] = !muteStates[seatIndex]; // Toggle the mute state
-
-        // Assuming you have a list of Agora UIDs corresponding to each seat
-        int[] agoraUids = new int[8];
-        int uid = agoraUids[seatIndex]; // Get the Agora UID for the seat
-
-        // Mute/unmute based on the seat's mute state
-        if (muteStates[seatIndex]) {
-            rtcEngine().muteRemoteAudioStream(uid, true); // Mute remote audio stream
-        } else {
-            rtcEngine().muteRemoteAudioStream(uid, false); // Unmute remote audio stream
-        }
-    }
 
     private void initView() {
         //  binding.tvDiamonds.setText(String.valueOf(sessionManager.getUser().getDiamond()));
@@ -746,7 +714,7 @@ public class HostLiveActivity extends AgoraBaseActivity {
     }*/
 
 
-    @Override
+ /*   @Override
     public void onErr(int err) {
         Log.d(TAG, "onErr: " + err);
     }
@@ -761,7 +729,7 @@ public class HostLiveActivity extends AgoraBaseActivity {
         Log.d(TAG, "onVideoStopped: ");
     }*/
 
-    public void onClickGifIcon(View view) {
+  /*  public void onClickGifIcon(View view) {
         viewModel.isShowFilterSheet.setValue(true);
         binding.rvFilters.setAdapter(viewModel.filterAdapter2);
     }
@@ -787,18 +755,17 @@ public class HostLiveActivity extends AgoraBaseActivity {
         }
     }*/
 
-    public void onclickGiftIcon(View view) {
+  /*  public void onclickGiftIcon(View view) {
         emojiBottomsheetFragment.show(getSupportFragmentManager(), "emojifragfmetn");
-    }
-
-    @Override
+    }*/
+/*    @Override
     protected void onDestroy() {
         super.onDestroy();
 
         statsManager().clearAllData();
     }
 
-    public void onClickSendComment(View view) {
+  /*  public void onClickSendComment(View view) {
         String comment = binding.etComment.getText().toString();
         if (!comment.isEmpty()) {
             binding.etComment.setText("");
@@ -864,18 +831,18 @@ public class HostLiveActivity extends AgoraBaseActivity {
         });
     }*/
 
-    private void renderRemoteUser(int uid) {
+ /*   private void renderRemoteUser(int uid) {
         // SurfaceView surface = prepareRtcVideo(uid, false);
         // mVideoGridContainer.addUserVideoSurface(uid, surface, false);
     }
 
-    private void removeRemoteUser(int uid) {
+  /*  private void removeRemoteUser(int uid) {
         // removeRtcVideo(uid, false);
         //  mVideoGridContainer.removeUserVideo(uid, false);
     }
 
 
-    @Override
+ /*   @Override
     public void onLeaveChannel(IRtcEngineEventHandler.RtcStats stats) {
         Log.d(TAG, "onLeaveChannel: stts " + stats);
     }
@@ -883,9 +850,9 @@ public class HostLiveActivity extends AgoraBaseActivity {
     @Override
     public void onJoinChannelSuccess(String channel, int uid, int elapsed) {
         Log.d(TAG, "onJoinChannelSuccess: chanel " + channel + " uid" + uid + "  elapsed " + elapsed);
-    }
+    }*/
 
-    @Override
+  /*  @Override
     public void onUserOffline(int uid, int reason) {
         Log.d(TAG, "onUserOffline: " + uid + " reason" + reason);
         userCount--; // Decrement the user count when a user leaves the channel
@@ -944,7 +911,7 @@ public class HostLiveActivity extends AgoraBaseActivity {
         data.setFramerate(stats.sentFrameRate);
     }*/
 
-    @Override
+  /*  @Override
     public void onRtcStats(IRtcEngineEventHandler.RtcStats stats) {
         if (!statsManager().isEnabled()) return;
 
@@ -986,7 +953,7 @@ public class HostLiveActivity extends AgoraBaseActivity {
         data.setVideoDelay(stats.delay);
     }*/
 
-    @Override
+ /*   @Override
     public void onRemoteAudioStats(IRtcEngineEventHandler.RemoteAudioStats stats) {
         if (!statsManager().isEnabled()) return;
 
@@ -1006,4 +973,4 @@ public class HostLiveActivity extends AgoraBaseActivity {
     }
 
     ///   filter  gift sticker emoji
-}
+}*/

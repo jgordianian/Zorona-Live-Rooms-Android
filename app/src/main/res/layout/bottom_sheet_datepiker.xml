@@ -47,8 +47,7 @@
             android:layout_height="wrap_content"
             android:layout_marginVertical="20dp"
             app:offset="3"
-            app:pickerMode="dayFirst"
-            app:textSize="19" />
+            app:pickerMode="dayFirst"/>
 
 
     </LinearLayout>

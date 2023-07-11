@@ -5,12 +5,12 @@ plugins {
 apply plugin: 'com.google.gms.google-services'
 
 android {
-    compileSdkVersion 31
+    compileSdkVersion 33
     buildToolsVersion "30.0.3"
 
     defaultConfig {
         minSdkVersion 24
-        targetSdkVersion 31
+        targetSdkVersion 33
         versionCode 1
         versionName "1.0"
         multiDexEnabled true
@@ -171,6 +171,8 @@ dependencies {
     implementation "android.arch.lifecycle:extensions:1.1.1"
     implementation "android.arch.lifecycle:viewmodel:1.1.1"
 
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1'
+
 
   /*  // QR libraries
     implementation 'com.google.zxing:core:3.3.3'
@@ -309,6 +311,8 @@ dependencies {
 
     //svga
     implementation 'com.github.yyued:SVGAPlayer-Android:2.6.1'
+
+    implementation 'com.github.ZEGOCLOUD:zego_uikit_prebuilt_live_streaming_android:+'
 
 
     implementation 'com.github.boybeak:GifMaker:master-SNAPSHOT'

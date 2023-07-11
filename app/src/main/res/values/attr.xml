@@ -85,7 +85,7 @@
     <declare-styleable name="Picker">
         <attr name="offset" format="integer" />
         <attr name="darkModeEnabled" format="boolean" />
-        <attr name="textSize" format="integer" />
+        <attr name="textSize2" format="integer" />
         <attr name="pickerMode" format="enum">
             <enum name="monthFirst" value="0" />
 

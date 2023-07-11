@@ -77,7 +77,7 @@ public class DatePicker extends LinearLayout implements DateFactoryListener {
                 this.offset = Math.min(a.getInteger(attr, 3), MAX_OFFSET);
             } else if (attr == R.styleable.Picker_darkModeEnabled) {
                 this.darkModeEnabled = a.getBoolean(attr, true);
-            } else if (attr == R.styleable.Picker_textSize) {
+            } else if (attr == R.styleable.Picker_textSize2) {
                 this.textSize = Math.min(a.getInt(attr, MAX_TEXT_SIZE), MAX_TEXT_SIZE);
             } else if (attr == R.styleable.Picker_pickerMode) {
                 this.pickerMode = a.getInt(attr, 0);

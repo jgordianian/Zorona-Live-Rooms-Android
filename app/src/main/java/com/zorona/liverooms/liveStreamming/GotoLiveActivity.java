@@ -11,6 +11,7 @@ import android.view.TextureView;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.camera.core.AspectRatio;
 import androidx.camera.core.CameraX;
 import androidx.camera.core.Preview;
@@ -37,7 +38,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class GotoLiveActivity extends BaseActivity {
+public class GotoLiveActivity extends AppCompatActivity {
     ActivityGotoLiveBinding binding;
    // int front = 1, back = 2;
    // int CAMARA = front;
@@ -54,15 +55,51 @@ public class GotoLiveActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_goto_live);
-        //  initCamera();
-      //  initCamera();
-        initListner();
+        setContentView(R.layout.activity_goto_live);
 
+        long appID = 717611171;
+        String appSign = "d58314810fa1333e5c5e2ef2a123b18fc4bebc56554ca9c8afdf2aa9ea9e2ed9";
 
+        String userID = Const.USERID;
+        String userName = Const.USERNAME;
+        String roomID = Const.USERID;
+
+        findViewById(R.id.start_live).setOnClickListener(v -> {
+            Intent intent = new Intent(GotoLiveActivity.this, HostLiveActivity.class);
+            intent.putExtra("host", true);
+            intent.putExtra("roomID", roomID);
+            intent.putExtra("appID", appID);
+            intent.putExtra("appSign", appSign);
+            intent.putExtra("userID", userID);
+            intent.putExtra("userName", userName);
+            startActivity(intent);
+        });
+        findViewById(R.id.watch_live).setOnClickListener(v -> {
+            Intent intent = new Intent(GotoLiveActivity.this, WatchLiveActivity.class);
+            intent.putExtra("host", false);
+            intent.putExtra("roomID", roomID);
+            intent.putExtra("appID", appID);
+            intent.putExtra("appSign", appSign);
+            intent.putExtra("userID", userID);
+            intent.putExtra("userName", userName);
+            startActivity(intent);
+        });
     }
 
-    private void initListner() {
+    private String generateUserID() {
+        StringBuilder builder = new StringBuilder();
+        Random random = new Random();
+        while (builder.length() < 5) {
+            int nextInt = random.nextInt(10);
+            if (builder.length() == 0 && nextInt == 0) {
+                continue;
+            }
+            builder.append(nextInt);
+        }
+        return builder.toString();
+    }
+
+ /*   private void initListner() {
 //        binding.btnSwitchCamara.setOnClickListener(v -> {
 //            if (CAMARA == front) {
 //                CAMARA = back;

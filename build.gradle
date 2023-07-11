@@ -3,12 +3,13 @@ buildscript {
 
     ext.camerax_version = "1.0.0-alpha06"
     ext.camerax_ext_version = "1.0.0-alpha03"
-    ext.kotlin_version = '1.6.21'
+    ext.kotlin_version = '1.8.0'
     repositories {
         google()
         mavenCentral()
         jcenter()
         maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
+        maven { url "https://jitpack.io" }
 
     }
     dependencies {
