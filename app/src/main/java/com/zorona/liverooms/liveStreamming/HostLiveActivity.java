@@ -815,7 +815,7 @@ public class HostLiveActivity extends AppCompatActivity {
             private Runnable updateUiRunnable = new Runnable() {
                 @Override
                 public void run() {
-// TODO: Update the UI to reflect changes in the live room
+                    // TODO: Update the UI to reflect changes in the live room
                     uiHandler.postDelayed(this, 1000); // Schedule the next update after 1 second
                 }
             };
