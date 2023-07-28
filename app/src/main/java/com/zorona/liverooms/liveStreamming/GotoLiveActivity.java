@@ -11,7 +11,6 @@ import android.view.TextureView;
 import android.view.View;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.camera.core.AspectRatio;
 import androidx.camera.core.CameraX;
 import androidx.camera.core.Preview;
@@ -38,68 +37,31 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class GotoLiveActivity extends AppCompatActivity {
+public class GotoLiveActivity extends BaseActivity {
     ActivityGotoLiveBinding binding;
-   // int front = 1, back = 2;
-   // int CAMARA = front;
+    int front = 1, back = 2;
+    int CAMARA = front;
     boolean isPrivate = false;
 
-   // public CameraX.LensFacing lensFacing = CameraX.LensFacing.FRONT;
+    public CameraX.LensFacing lensFacing = CameraX.LensFacing.FRONT;
     private PreviewConfig.Builder builder;
     private PreviewConfig previewConfig;
     private Preview preview;
-   /* private VideoCaptureConfig.Builder builder1;
+    private VideoCaptureConfig.Builder builder1;
     private VideoCaptureConfig videoCaptureConfig;
-    private VideoCapture videoCapture*/
+    private VideoCapture videoCapture;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_goto_live);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_goto_live);
+        //  initCamera();
+        initListner();
 
-        long appID = 717611171;
-        String appSign = "d58314810fa1333e5c5e2ef2a123b18fc4bebc56554ca9c8afdf2aa9ea9e2ed9";
 
-        String userID = Const.USERID;
-        String userName = Const.USERNAME;
-        String roomID = Const.USERID;
-
-        findViewById(R.id.start_live).setOnClickListener(v -> {
-            Intent intent = new Intent(GotoLiveActivity.this, HostLiveActivity.class);
-            intent.putExtra("host", true);
-            intent.putExtra("roomID", roomID);
-            intent.putExtra("appID", appID);
-            intent.putExtra("appSign", appSign);
-            intent.putExtra("userID", userID);
-            intent.putExtra("userName", userName);
-            startActivity(intent);
-        });
-        findViewById(R.id.watch_live).setOnClickListener(v -> {
-            Intent intent = new Intent(GotoLiveActivity.this, WatchLiveActivity.class);
-            intent.putExtra("host", false);
-            intent.putExtra("roomID", roomID);
-            intent.putExtra("appID", appID);
-            intent.putExtra("appSign", appSign);
-            intent.putExtra("userID", userID);
-            intent.putExtra("userName", userName);
-            startActivity(intent);
-        });
     }
 
-    private String generateUserID() {
-        StringBuilder builder = new StringBuilder();
-        Random random = new Random();
-        while (builder.length() < 5) {
-            int nextInt = random.nextInt(10);
-            if (builder.length() == 0 && nextInt == 0) {
-                continue;
-            }
-            builder.append(nextInt);
-        }
-        return builder.toString();
-    }
-
- /*   private void initListner() {
+    private void initListner() {
 //        binding.btnSwitchCamara.setOnClickListener(v -> {
 //            if (CAMARA == front) {
 //                CAMARA = back;
@@ -171,7 +133,7 @@ public class GotoLiveActivity extends AppCompatActivity {
 
     }
 
-/*    @SuppressLint("RestrictedApi")
+    @SuppressLint("RestrictedApi")
     private void initCamera() {
         if ((ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) ||
                 ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
@@ -207,7 +169,8 @@ public class GotoLiveActivity extends AppCompatActivity {
                     .setTargetRotation(Surface.ROTATION_90)
                     .build();
             preview = AutoFitPreviewBuilder.Companion.build(previewConfig, viewFinder);
-            builder1 = new VideoCaptureConfig.Builder();videoCaptureConfig = builder1.setTargetAspectRatio(ratio)
+            builder1 = new VideoCaptureConfig.Builder();
+            videoCaptureConfig = builder1.setTargetAspectRatio(ratio)
                     .setLensFacing(lensFacing)
                     .setVideoFrameRate(24)
                     .setTargetRotation(Surface.ROTATION_0)
@@ -217,12 +180,12 @@ public class GotoLiveActivity extends AppCompatActivity {
 
             initListner();
         }
-    }*/
+    }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (/*(ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) ||*/
+        if ((ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) ||
                 ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
             Toast.makeText(this, "Permission Denied", Toast.LENGTH_SHORT).show();
             return;

@@ -179,82 +179,83 @@
                     </LinearLayout>
                 </LinearLayout>
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rvViewUsers"
-                    android:layout_width="0dp"
-                    android:layout_marginHorizontal="10dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:adapter="@{viewModel.liveViewUserAdapter}"
-                    android:fadingEdge="horizontal"
-                    android:fadingEdgeLength="10dp"
-                    android:orientation="horizontal"
-                    android:requiresFadingEdge="horizontal"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    tools:listitem="@layout/item_view_users" />
+                 <androidx.recyclerview.widget.RecyclerView
+                     android:id="@+id/rvViewUsers"
+                     android:contentDescription="@string/usersview"
+                     android:layout_width="0dp"
+                     android:layout_marginHorizontal="10dp"
+                     android:layout_height="wrap_content"
+                     android:layout_gravity="center"
+                     android:layout_weight="1"
+                     android:adapter="@{viewModel.liveViewUserAdapter}"
+                     android:fadingEdge="horizontal"
+                     android:fadingEdgeLength="10dp"
+                     android:orientation="horizontal"
+                     android:requiresFadingEdge="horizontal"
+                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                     tools:listitem="@layout/item_view_users" />
 
-                <LinearLayout
-                    android:layout_gravity="center"
-                    android:id="@+id/lytviewcount"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:background="@drawable/bg_gradient_round_black"
-                    android:backgroundTint="@color/black_alpha_20"
-                    android:orientation="horizontal"
-                    android:paddingHorizontal="10dp"
-                    android:paddingVertical="5dp">
+                 <LinearLayout
+                     android:layout_gravity="center"
+                     android:id="@+id/lytviewcount"
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:layout_alignParentEnd="true"
+                     android:background="@drawable/bg_gradient_round_black"
+                     android:backgroundTint="@color/black_alpha_20"
+                     android:orientation="horizontal"
+                     android:paddingHorizontal="10dp"
+                     android:paddingVertical="5dp">
 
-                    <ImageView
+                     <ImageView
 
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:padding="2dp"
-                        android:src="@drawable/ic_eye"
-                        app:tint="@color/white" />
+                         android:layout_width="20dp"
+                         android:layout_height="20dp"
+                         android:padding="2dp"
+                         android:src="@drawable/ic_eye"
+                         app:tint="@color/white" />
 
-                    <TextView
-                        android:id="@+id/userCountTextView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="5dp"
-                        android:fontFamily="@font/amidum"
-                        android:text="0"
-                        android:textColor="@color/white" />
-                </LinearLayout>
+                     <TextView
+                         android:id="@+id/userCountTextView"
+                         android:layout_width="wrap_content"
+                         android:layout_height="wrap_content"
+                         android:layout_marginStart="5dp"
+                         android:fontFamily="@font/amidum"
+                         android:text="0"
+                         android:textColor="@color/white" />
+                 </LinearLayout>
 
-                <ImageView
-                    android:onClick="onClickBack"
-                    android:id="@+id/btnClose"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_gravity="center"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginEnd="10dp"
-                    android:background="@drawable/bg_gradient_round"
-                    android:backgroundTint="@color/black_alpha_20"
-                    android:padding="7dp"
-                    android:src="@drawable/cancel"
-                    app:tint="@color/white" />
+                 <ImageView
+                     android:onClick="onClickBack"
+                     android:id="@+id/btnClose"
+                     android:layout_width="25dp"
+                     android:layout_height="25dp"
+                     android:layout_alignParentEnd="true"
+                     android:layout_gravity="center"
+                     android:layout_marginStart="10dp"
+                     android:layout_marginEnd="10dp"
+                     android:background="@drawable/bg_gradient_round"
+                     android:backgroundTint="@color/black_alpha_20"
+                     android:padding="7dp"
+                     android:src="@drawable/cancel"
+                     app:tint="@color/white" />
 
-                <!--   <TextView
-                        android:id="@+id/tvNoOneJoined"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:background="@drawable/bg_5dp"
-                        android:backgroundTint="@color/pink"
-                        android:fontFamily="@font/abold"
-                        android:paddingHorizontal="20dp"
-                        android:paddingVertical="5dp"
-                        android:text="No one Joined"
-                        android:textColor="@color/white" />
-                </RelativeLayout>
+                 <!--   <TextView
+                         android:id="@+id/tvNoOneJoined"
+                         android:layout_width="wrap_content"
+                         android:layout_height="wrap_content"
+                         android:layout_centerVertical="true"
+                         android:background="@drawable/bg_5dp"
+                         android:backgroundTint="@color/pink"
+                         android:fontFamily="@font/abold"
+                         android:paddingHorizontal="20dp"
+                         android:paddingVertical="5dp"
+                         android:text="No one Joined"
+                         android:textColor="@color/white" />
+                 </RelativeLayout>-->
 
 
-                <androidx.recyclerview.widget.RecyclerView
+                <!--<androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rvViewUsers"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -266,8 +267,8 @@
                     android:orientation="horizontal"
                     android:requiresFadingEdge="horizontal"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    tools:listitem="@layout/item_view_users" />
--->
+                    tools:listitem="@layout/item_view_users" />-->
+
 
 
                  </LinearLayout>

@@ -457,7 +457,12 @@ public class WatchLiveActivity extends AgoraBaseActivity {
 
     @Override
     public void onBackPressed() {
-        endLive();
+        if (userCount == 0) {
+            endLive();
+        }
+        else {
+
+        }
     }
 
     private void endLive() {
@@ -469,7 +474,7 @@ public class WatchLiveActivity extends AgoraBaseActivity {
         }
       //  mVideoGridContainer.removeUserVideo(0, true);
         getSocket().disconnect();
-        finish();
+       finish();
 
     }
 

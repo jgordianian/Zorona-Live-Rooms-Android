@@ -9,6 +9,7 @@ import android.os.Looper;
 import android.util.Log;
 import android.view.SurfaceView;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.core.content.ContextCompat;
@@ -48,6 +49,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Calendar;
+import java.util.LinkedList;
+import java.util.Queue;
 
 import io.agora.rtc.Constants;
 import io.agora.rtc.IRtcEngineEventHandler;
@@ -68,6 +71,10 @@ public class HostLiveActivity extends AgoraBaseActivity {
     private HostLiveViewModel viewModel;
     private VideoGridContainer mVideoGridContainer;
     private EmojiSheetViewModel giftViewModel;
+    private int userCount = 0;
+
+    Queue<GiftRoot.GiftItem> giftQueue = new LinkedList<>();
+
     private Emitter.Listener simpleFilterListner = args -> {
         if (args[0] != null) {
             runOnUiThread(() -> {
@@ -148,6 +155,16 @@ public class HostLiveActivity extends AgoraBaseActivity {
         }
 
     };
+
+    private void updateUI() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                TextView userCountTextView = findViewById(R.id.userCountTextView);
+                userCountTextView.setText(String.format("%d online users", userCount));
+            }
+        });
+    }
     private Emitter.Listener giftListner = args -> {
         runOnUiThread(() -> {
             if (args[0] != null) {
@@ -161,6 +178,8 @@ public class HostLiveActivity extends AgoraBaseActivity {
                         Log.d(TAG, "json gift : " + jsonObject.toString());
                         GiftRoot.GiftItem giftData = new Gson().fromJson(jsonObject.get("gift").toString(), GiftRoot.GiftItem.class);
                         if (giftData != null) {
+                            giftQueue.add(giftData);
+                            displayGift();
 
                             Log.d(TAG, "sent a gift    :  " + BuildConfig.BASE_URL + giftData.getImage());
 
@@ -181,7 +200,8 @@ public class HostLiveActivity extends AgoraBaseActivity {
                                 binding.tvGiftUserName.setText("");
                                 binding.imgGift.setImageDrawable(null);
                                 binding.imgGiftCount.setImageDrawable(null);
-                            }, 4000);
+                                displayGift(); // Display the next gift in the queue
+                            }, 13000);
                             makeSound();
                         }
 
@@ -319,25 +339,35 @@ public class HostLiveActivity extends AgoraBaseActivity {
 
     }
 
-    @Override
+   @Override
     public void onBackPressed() {
-        endLive();
-    }
+        if (userCount == 0) {
+            endLive();
+        }
+   }
 
     private void endLive() {
 
 //        removeRtcVideo(0, true);
-        mVideoGridContainer.removeUserVideo(0, true);
+    //    mVideoGridContainer.removeUserVideo(0, true);
 
         startActivity(new Intent(this, LiveSummaryActivity.class).putExtra(Const.DATA, liveUser.getLiveStreamingId()));
         finish();
 
     }
 
+    private void displayGift() {
+        if (!giftQueue.isEmpty()) {
+            GiftRoot.GiftItem giftData = giftQueue.poll(); // Retrieves and removes the head of the queue
+            // Your code to display the gift goes here
+        }
+    }
+
     private void joinChannel() {
         try {
             rtcEngine().setChannelProfile(Constants.CHANNEL_PROFILE_LIVE_BROADCASTING);
-            rtcEngine().enableVideo();
+            //rtcEngine().enableVideo();
+            rtcEngine().enableAudio();
 
         //    configVideo();
             Log.d("TAG", "joinChannel:tkn " + liveUser.getToken());
@@ -353,6 +383,7 @@ public class HostLiveActivity extends AgoraBaseActivity {
         try {
             rtcEngine().setClientRole(Constants.CLIENT_ROLE_BROADCASTER);
             rtcEngine().enableAudio();
+            rtcEngine().setEnableSpeakerphone(true);
           //  SurfaceView surface = prepareRtcVideo(0, true);
           //  mVideoGridContainer.addUserVideoSurface(0, surface, true);
         } catch (Exception e) {
@@ -366,7 +397,7 @@ public class HostLiveActivity extends AgoraBaseActivity {
 
 
       //  mVideoGridContainer = binding.liveVideoGridLayout;
-        mVideoGridContainer.setStatsManager(statsManager());
+//        mVideoGridContainer.setStatsManager(statsManager());
         emojiBottomsheetFragment = new EmojiBottomsheetFragment();
         userProfileBottomSheet = new UserProfileBottomSheet(this);
 
@@ -661,12 +692,16 @@ public class HostLiveActivity extends AgoraBaseActivity {
     @Override
     public void onUserOffline(int uid, int reason) {
         Log.d(TAG, "onUserOffline: " + uid + " reason" + reason);
+        userCount--; // Decrement the user count when a user leaves the channel
+        updateUI(); // Update the UI to display the new user count
 
     }
 
     @Override
     public void onUserJoined(int uid, int elapsed) {
         Log.d(TAG, "onUserJoined: " + uid + "  elapsed" + elapsed);
+        userCount++; // Decrement the user count when a user leaves the channel
+        updateUI(); // Update the UI to display the new user count
     }
 
     @Override
@@ -700,8 +735,8 @@ public class HostLiveActivity extends AgoraBaseActivity {
         if (data == null) return;
 
         data.setLastMileDelay(stats.lastmileDelay);
-        data.setVideoSendBitrate(stats.txVideoKBitRate);
-        data.setVideoRecvBitrate(stats.rxVideoKBitRate);
+       // data.setVideoSendBitrate(stats.txVideoKBitRate);
+        //data.setVideoRecvBitrate(stats.rxVideoKBitRate);
         data.setAudioSendBitrate(stats.txAudioKBitRate);
         data.setAudioRecvBitrate(stats.rxAudioKBitRate);
         data.setCpuApp(stats.cpuAppUsage);

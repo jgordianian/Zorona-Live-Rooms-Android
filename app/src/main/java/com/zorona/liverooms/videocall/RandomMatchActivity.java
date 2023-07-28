@@ -106,6 +106,5 @@ public class RandomMatchActivity extends BaseActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-
     }
 }
