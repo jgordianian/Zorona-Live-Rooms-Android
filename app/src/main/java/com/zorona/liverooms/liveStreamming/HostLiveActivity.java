@@ -343,6 +343,8 @@ public class HostLiveActivity extends AgoraBaseActivity {
     public void onBackPressed() {
         if (userCount == 0) {
             endLive();
+        } else {
+            finish();
         }
    }
 
