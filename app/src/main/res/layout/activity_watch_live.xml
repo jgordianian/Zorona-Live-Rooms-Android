@@ -27,6 +27,116 @@
             android:layout_marginBottom="0dp"
             android:scaleType="centerCrop"
             android:src="@drawable/loginback" />
+        <LinearLayout
+            android:layout_width="400dp"
+          android:id="@+id/layout_row1"
+            android:layout_height="70dp"
+            android:layout_marginTop="160dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:orientation="horizontal">
+            <de.hdodenhof.circleimageview.CircleImageView
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/mic1"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:src="@drawable/roommic"
+                app:civ_circle_background_color="@color/match_guide_click_con"
+                app:civ_border_width="3dp"
+                app:civ_border_color="#C51162"/>
+            <de.hdodenhof.circleimageview.CircleImageView
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/mic2"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:src="@drawable/roommic"
+                app:civ_circle_background_color="@color/match_guide_click_con"
+                app:civ_border_width="3dp"
+                app:civ_border_color="#C51162"/>
+            <de.hdodenhof.circleimageview.CircleImageView
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/mic3"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:src="@drawable/roommic"
+                app:civ_circle_background_color="@color/match_guide_click_con"
+                app:civ_border_width="3dp"
+                app:civ_border_color="#C51162"/>
+            <de.hdodenhof.circleimageview.CircleImageView
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/mic4"
+                android:layout_width="60dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_height="60dp"
+                android:src="@drawable/roommic"
+                app:civ_circle_background_color="@color/match_guide_click_con"
+                app:civ_border_width="3dp"
+                app:civ_border_color="#C51162"/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="400dp"
+            android:id="@+id/layout_row2"
+            android:layout_height="70dp"
+            android:layout_marginTop="240dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:orientation="horizontal">
+            <de.hdodenhof.circleimageview.CircleImageView
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/mic5"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:src="@drawable/roommic"
+                app:civ_circle_background_color="@color/match_guide_click_con"
+                app:civ_border_width="3dp"
+                app:civ_border_color="#C51162"/>
+            <de.hdodenhof.circleimageview.CircleImageView
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/mic6"
+                android:layout_width="60dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_height="60dp"
+                android:src="@drawable/roommic"
+                app:civ_circle_background_color="@color/match_guide_click_con"
+                app:civ_border_width="3dp"
+                app:civ_border_color="#C51162"/>
+            <de.hdodenhof.circleimageview.CircleImageView
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/mic7"
+                android:layout_width="60dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_height="60dp"
+                android:src="@drawable/roommic"
+                app:civ_circle_background_color="@color/match_guide_click_con"
+                app:civ_border_width="3dp"
+                app:civ_border_color="#C51162"/>
+            <de.hdodenhof.circleimageview.CircleImageView
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/mic8"
+                android:layout_width="60dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_height="60dp"
+                android:src="@drawable/roommic"
+                app:civ_circle_background_color="@color/match_guide_click_con"
+                app:civ_border_width="3dp"
+                app:civ_border_color="#C51162"/>
+
+
+        </LinearLayout>
+
 
 
 
@@ -49,22 +159,13 @@
             android:alpha=".3"
             android:scaleType="centerCrop" />
 
+
         <ImageView
             android:id="@+id/imgFilter2"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:alpha=".3"
             android:scaleType="centerCrop" />
-
-        <com.facebook.drawee.view.SimpleDraweeView
-            android:id="@+id/imgSticker"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginEnd="0dp"
-            android:layout_marginBottom="255dp"
-            android:adjustViewBounds="true" />
 
         <LinearLayout
             android:id="@+id/lytGift"
@@ -74,6 +175,16 @@
             android:gravity="center"
             android:orientation="horizontal"
             android:visibility="gone">
+            <com.facebook.drawee.view.SimpleDraweeView
+                android:id="@+id/imgSticker"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginEnd="0dp"
+                android:layout_marginBottom="255dp"
+                android:adjustViewBounds="true" />
+
 
             <ImageView
                 android:id="@+id/imgGift"
