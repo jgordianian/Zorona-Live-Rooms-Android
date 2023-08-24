@@ -64,6 +64,7 @@ import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.Queue;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import io.agora.rtc.Constants;
 import io.agora.rtc.IRtcEngineEventHandler;
 import io.agora.rtc.video.VideoEncoderConfiguration;
@@ -76,11 +77,11 @@ import io.socket.emitter.Emitter;
 public class WatchLiveActivity extends AgoraBaseActivity {
 
     private static final String TAG = "watchliveact";
-	    private static final int PERMISSION_REQ_ID = 22;
+    private static final int PERMISSION_REQ_ID = 22;
     private static final String[] REQUESTED_PERMISSIONS = {
             Manifest.permission.RECORD_AUDIO,
             Manifest.permission.MODIFY_AUDIO_SETTINGS
-    };												
+    };
     ActivityWatchLiveBinding binding;
     Handler handler = new Handler();
     SessionManager sessionManager;
@@ -93,16 +94,19 @@ public class WatchLiveActivity extends AgoraBaseActivity {
     boolean isGiftPlaying = false;
 
     private int userCount = 0; // Keep track of the number of users in the channel
-																			  
+
     private LiveUserRoot.UsersItem host;
+    private CircleImageView[] micImages;
+    private boolean[] isAudioEnabledMic;
+    private int currentOccupiedSeat = -1;
     private VideoGridContainer mVideoGridContainer;
-   private boolean checkSelfPermission(String permission, int requestCode) {
-       if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
-           ActivityCompat.requestPermissions(this, new String[]{permission}, requestCode);
-           return false;
-       }
-       return true;
-   }																			
+    private boolean checkSelfPermission(String permission, int requestCode) {
+        if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{permission}, requestCode);
+            return false;
+        }
+        return true;
+    }
 
     private EmojiSheetViewModel giftViewModel;
     private Emitter.Listener simpleFilterListner = args -> {
@@ -149,7 +153,7 @@ public class WatchLiveActivity extends AgoraBaseActivity {
     };
 
 
-  	// Update the UI to display the user count
+    // Update the UI to display the user count
     private void updateUI() {
         runOnUiThread(new Runnable() {
             @Override
@@ -275,7 +279,7 @@ public class WatchLiveActivity extends AgoraBaseActivity {
 
                 JSONArray jsonArray = new JSONArray(args.toString());
                 viewModel.liveViewUserAdapter.addData(jsonArray);
-               // binding.tvViewUserCount.setText(String.valueOf(jsonArray.length()));
+                // binding.tvViewUserCount.setText(String.valueOf(jsonArray.length()));
                 Log.d(TAG, "views2 : " + jsonArray);
             } catch (JSONException e) {
                 Log.d(TAG, "207: ");
@@ -310,12 +314,66 @@ public class WatchLiveActivity extends AgoraBaseActivity {
             }
         });
     };
-   // private boolean isVideoDecoded = false;
+    // private boolean isVideoDecoded = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_watch_live);
+        micImages = new CircleImageView[8];
+        isAudioEnabledMic = new boolean[8];
+        micImages = new CircleImageView[8];
+        isAudioEnabledMic = new boolean[8];
+
+        // Initialize your micImages array here, e.g., micImages[0] = findViewById(R.id.mic1);
+        // Initialize isAudioEnabledMic array to true for all mics
+        micImages[0]=findViewById(R.id.mic1);
+        micImages[1]=findViewById(R.id.mic2);
+        micImages[2]=findViewById(R.id.mic3);
+        micImages[3]=findViewById(R.id.mic4);
+        micImages[4]=findViewById(R.id.mic5);
+        micImages[5]=findViewById(R.id.mic6);
+        micImages[6]=findViewById(R.id.mic7);
+        micImages[7]=findViewById(R.id.mic8);
+
+
+        setupMicClickListeners();
+    }
+
+    private void setupMicClickListeners() {
+        for (int i = 0; i < micImages.length; i++) {
+            final int micIndex = i;
+            micImages[i].setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (currentOccupiedSeat != -1 && currentOccupiedSeat != micIndex) {
+                        // If a seat is already occupied and it's not the same seat
+                        // Inform the user they need to leave the occupied seat first
+                        // You can show a message, toast, or handle it as per your design
+                        return;
+                    }
+
+                    isAudioEnabledMic[micIndex] = !isAudioEnabledMic[micIndex]; // Toggle audio status
+
+                    if (isAudioEnabledMic[micIndex]) {
+                        rtcEngine().enableAudio(); // Enable audio
+                        micImages[micIndex].setImageResource(R.drawable.ic_user_place); // Change to enabled image
+                    } else {
+                        rtcEngine().disableAudio(); // Disable audio
+                        micImages[micIndex].setImageResource(R.drawable.roommic); // Change to disabled image
+                    }
+
+                    if (isAudioEnabledMic[micIndex]) {
+                        currentOccupiedSeat = micIndex;
+                    } else {
+                        currentOccupiedSeat = -1; // User left the seat
+                    }
+                }
+            });
+        }
+
+
+
         giftViewModel = ViewModelProviders.of(this, new ViewModelFactory(new EmojiSheetViewModel()).createFor()).get(EmojiSheetViewModel.class);
         viewModel = ViewModelProviders.of(this, new ViewModelFactory(new WatchLiveViewModel()).createFor()).get(WatchLiveViewModel.class);
         sessionManager = new SessionManager(this);
@@ -348,14 +406,14 @@ public class WatchLiveActivity extends AgoraBaseActivity {
 
             // init agora cred
 
-           // switchAudioRouteToSpeaker();
+            // switchAudioRouteToSpeaker();
 
-					   
+
             joinChannel();
-       //     setupAudioProfile();
-       //     enableMicrophone();
+            //     setupAudioProfile();
+            //     enableMicrophone();
             startBroadcast();
-            initView();	 
+            initView();
 
             initLister();
 
@@ -414,13 +472,13 @@ public class WatchLiveActivity extends AgoraBaseActivity {
 
             // Sets the channel profile of the Agora RtcEngine.
             // The Agora RtcEngine differentiates channel profiles and applies different optimization algorithms accordingly. For example, it prioritizes smoothness and low latency for a video call, and prioritizes video quality for a video broadcast.
-            rtcEngine().setChannelProfile(io.agora.rtc.Constants.CHANNEL_PROFILE_LIVE_BROADCASTING);
-           // rtcEngine().enableVideo();
-		   rtcEngine().enableAudio();
-          //  rtcEngine().muteLocalAudioStream(true);
-           // rtcEngine().setEnableSpeakerphone(true);
+            rtcEngine().setChannelProfile(Constants.CHANNEL_PROFILE_LIVE_BROADCASTING);
+            // rtcEngine().enableVideo();
+           // rtcEngine().enableAudio();
+            //  rtcEngine().muteLocalAudioStream(true);
+            // rtcEngine().setEnableSpeakerphone(true);
 
-          //  configVideo();
+            //  configVideo();
             Log.d("TAG", "joinChannel: " + config().getChannelName());
             rtcEngine().joinChannel(token, host.getChannel(), "", 0);
         } catch (Exception e) {
@@ -434,24 +492,24 @@ public class WatchLiveActivity extends AgoraBaseActivity {
         Log.d(TAG, "startBroadcast: ");
         try {
             rtcEngine().setClientRole(Constants.CLIENT_ROLE_BROADCASTER);
-            rtcEngine().enableAudio();
+           //rtcEngine().enableAudio();
             rtcEngine().setEnableSpeakerphone(true);
             // SurfaceView surface = prepareRtcVideo(0, false);
             // mVideoGridContainer.addUserVideoSurface(0, surface, false);
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }								  
+    }
     private void initView() {
-      //  mVideoGridContainer = binding.liveVideoGridLayout;
-      //  mVideoGridContainer.setStatsManager(statsManager());
+        //  mVideoGridContainer = binding.liveVideoGridLayout;
+        //  mVideoGridContainer.setStatsManager(statsManager());
         emojiBottomsheetFragment = new EmojiBottomsheetFragment();
         userProfileBottomSheet = new UserProfileBottomSheet(this);
         if (rtcEngine() == null) {
             Log.d(TAG, "initView: rtc engine null");
             return;
         }
-      //  rtcEngine().setClientRole(Constants.CLIENT_ROLE_AUDIENCE);
+        //  rtcEngine().setClientRole(Constants.CLIENT_ROLE_AUDIENCE);
 
     }
 
@@ -468,13 +526,13 @@ public class WatchLiveActivity extends AgoraBaseActivity {
     private void endLive() {
         addLessView(false);
         try {
-         //   removeRtcVideo(0, true);
+            //   removeRtcVideo(0, true);
         } catch (Exception e) {
             e.printStackTrace();
         }
-      //  mVideoGridContainer.removeUserVideo(0, true);
+        //  mVideoGridContainer.removeUserVideo(0, true);
         getSocket().disconnect();
-       finish();
+        finish();
 
     }
 
@@ -487,7 +545,7 @@ public class WatchLiveActivity extends AgoraBaseActivity {
     }
 
 
-     public void onLocalAudioMuteClicked(View view) {
+    public void onLocalAudioMuteClicked(View view) {
         viewModel.isMuted = !viewModel.isMuted;
         rtcEngine().muteLocalAudioStream(viewModel.isMuted);
         if (viewModel.isMuted) {
@@ -754,8 +812,8 @@ public class WatchLiveActivity extends AgoraBaseActivity {
 
     private void renderRemoteUser(int uid) {
         Log.d(TAG, "renderRemoteUser: ");
-     //   SurfaceView surface = prepareRtcVideo(uid, false);
-     //   mVideoGridContainer.addUserVideoSurface(uid, surface, false);
+        //   SurfaceView surface = prepareRtcVideo(uid, false);
+        //   mVideoGridContainer.addUserVideoSurface(uid, surface, false);
         LiveStramComment liveStramComment = new LiveStramComment(host.getLiveStreamingId(), "", sessionManager.getUser(), true);
         getSocket().emit(Const.EVENT_COMMENT, new Gson().toJson(liveStramComment));
 //        try {
@@ -772,8 +830,8 @@ public class WatchLiveActivity extends AgoraBaseActivity {
     }
 
     private void removeRemoteUser(int uid) {
-     //   removeRtcVideo(uid, false);
-      //  mVideoGridContainer.removeUserVideo(uid, false);
+        //   removeRtcVideo(uid, false);
+        //  mVideoGridContainer.removeUserVideo(uid, false);
     }
 
     @Override
@@ -798,7 +856,7 @@ public class WatchLiveActivity extends AgoraBaseActivity {
     @Override
     public void onUserOffline(int uid, int reason) {
         Log.d(TAG, "onUserOffline: " + uid + " reason" + reason);
-		userCount--; // Decrement the user count when a user leaves the channel
+        userCount--; // Decrement the user count when a user leaves the channel
         updateUI(); // Update the UI to display the new user count
         runOnUiThread(new Runnable() {
             @Override
@@ -812,7 +870,7 @@ public class WatchLiveActivity extends AgoraBaseActivity {
     @Override
     public void onUserJoined(int uid, int elapsed) {
         Log.d(TAG, "onUserJoined: " + uid + "  elapsed" + elapsed);
-	    userCount++; // Decrement the user count when a user leaves the channel
+        userCount++; // Decrement the user count when a user leaves the channel
         updateUI(); // Update the UI to display the new user count
     }
 
@@ -846,8 +904,8 @@ public class WatchLiveActivity extends AgoraBaseActivity {
         if (data == null) return;
 
         data.setLastMileDelay(stats.lastmileDelay);
-     //   data.setVideoSendBitrate(stats.txVideoKBitRate);
-     //   data.setVideoRecvBitrate(stats.rxVideoKBitRate);
+        //   data.setVideoSendBitrate(stats.txVideoKBitRate);
+        //   data.setVideoRecvBitrate(stats.rxVideoKBitRate);
         data.setAudioSendBitrate(stats.txAudioKBitRate);
         data.setAudioRecvBitrate(stats.rxAudioKBitRate);
         data.setCpuApp(stats.cpuAppUsage);

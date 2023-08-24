@@ -542,7 +542,7 @@
                    android:layout_marginTop="10dp"
                    android:onClick="onSwitchCameraClicked"
                    android:src="@drawable/flip"
-                   tools:visibility="gone" />-->
+                   tools:visibility="gone" />
 
             <ImageView
                 android:id="@+id/btn_mute"
@@ -552,7 +552,7 @@
                 android:onClick="onLocalAudioMuteClicked"
                 android:src="@drawable/unmute" />
 
-        </LinearLayout>
+        </LinearLayout>-->
 
 
 

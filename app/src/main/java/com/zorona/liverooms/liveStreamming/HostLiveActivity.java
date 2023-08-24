@@ -52,6 +52,7 @@ import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.Queue;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import io.agora.rtc.Constants;
 import io.agora.rtc.IRtcEngineEventHandler;
 import io.agora.rtc.video.VideoEncoderConfiguration;
@@ -72,6 +73,9 @@ public class HostLiveActivity extends AgoraBaseActivity {
     private VideoGridContainer mVideoGridContainer;
     private EmojiSheetViewModel giftViewModel;
     private int userCount = 0;
+    private CircleImageView[] micImages;
+    private boolean[] isAudioEnabledMic;
+    private int currentOccupiedSeat = -1;
 
     Queue<GiftRoot.GiftItem> giftQueue = new LinkedList<>();
 
@@ -248,7 +252,7 @@ public class HostLiveActivity extends AgoraBaseActivity {
                 viewModel.liveViewUserAdapter.addData(jsonArray);
                 //binding.tvViewUserCount.setText(String.valueOf(jsonArray.length()));
                 Log.d(TAG, "views2 : " + jsonArray);
-              //  binding.tvNoOneJoined.setVisibility(viewModel.liveViewUserAdapter.getItemCount() > 0 ? View.GONE : View.VISIBLE);
+                //  binding.tvNoOneJoined.setVisibility(viewModel.liveViewUserAdapter.getItemCount() > 0 ? View.GONE : View.VISIBLE);
 
             } catch (JSONException e) {
                 Log.d(TAG, "207: ");
@@ -270,6 +274,57 @@ public class HostLiveActivity extends AgoraBaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_host_live);
+        micImages = new CircleImageView[8];
+        isAudioEnabledMic = new boolean[8];
+        micImages = new CircleImageView[8];
+        isAudioEnabledMic = new boolean[8];
+
+        // Initialize your micImages array here, e.g., micImages[0] = findViewById(R.id.mic1);
+        // Initialize isAudioEnabledMic array to true for all mics
+        micImages[0]=findViewById(R.id.mic1);
+        micImages[1]=findViewById(R.id.mic2);
+        micImages[2]=findViewById(R.id.mic3);
+        micImages[3]=findViewById(R.id.mic4);
+        micImages[4]=findViewById(R.id.mic5);
+        micImages[5]=findViewById(R.id.mic6);
+        micImages[6]=findViewById(R.id.mic7);
+        micImages[7]=findViewById(R.id.mic8);
+
+
+        setupMicClickListeners();
+    }
+
+    private void setupMicClickListeners() {
+        for (int i = 0; i < micImages.length; i++) {
+            final int micIndex = i;
+            micImages[i].setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (currentOccupiedSeat != -1 && currentOccupiedSeat != micIndex) {
+                        // If a seat is already occupied and it's not the same seat
+                        // Inform the user they need to leave the occupied seat first
+                        // You can show a message, toast, or handle it as per your design
+                        return;
+                    }
+
+                    isAudioEnabledMic[micIndex] = !isAudioEnabledMic[micIndex]; // Toggle audio status
+
+                    if (isAudioEnabledMic[micIndex]) {
+                        rtcEngine().enableAudio(); // Enable audio
+                        micImages[micIndex].setImageResource(R.drawable.ic_user_place); // Change to enabled image
+                    } else {
+                        rtcEngine().disableAudio(); // Disable audio
+                        micImages[micIndex].setImageResource(R.drawable.roommic); // Change to disabled image
+                    }
+
+                    if (isAudioEnabledMic[micIndex]) {
+                        currentOccupiedSeat = micIndex;
+                    } else {
+                        currentOccupiedSeat = -1; // User left the seat
+                    }
+                }
+            });
+        }
 
         giftViewModel = ViewModelProviders.of(this, new ViewModelFactory(new EmojiSheetViewModel()).createFor()).get(EmojiSheetViewModel.class);
         viewModel = ViewModelProviders.of(this, new ViewModelFactory(new HostLiveViewModel()).createFor()).get(HostLiveViewModel.class);
@@ -339,19 +394,19 @@ public class HostLiveActivity extends AgoraBaseActivity {
 
     }
 
-   @Override
+    @Override
     public void onBackPressed() {
         if (userCount == 0) {
             endLive();
         } else {
             finish();
         }
-   }
+    }
 
     private void endLive() {
 
 //        removeRtcVideo(0, true);
-    //    mVideoGridContainer.removeUserVideo(0, true);
+        //    mVideoGridContainer.removeUserVideo(0, true);
 
         startActivity(new Intent(this, LiveSummaryActivity.class).putExtra(Const.DATA, liveUser.getLiveStreamingId()));
         finish();
@@ -369,9 +424,9 @@ public class HostLiveActivity extends AgoraBaseActivity {
         try {
             rtcEngine().setChannelProfile(Constants.CHANNEL_PROFILE_LIVE_BROADCASTING);
             //rtcEngine().enableVideo();
-            rtcEngine().enableAudio();
+           //rtcEngine().enableAudio();
 
-        //    configVideo();
+            //    configVideo();
             Log.d("TAG", "joinChannel:tkn " + liveUser.getToken());
             Log.d("TAG", "joinChannel:chanel " + liveUser.getChannel());
             rtcEngine().joinChannel(liveUser.getToken(), liveUser.getChannel(), "", 0);
@@ -384,10 +439,10 @@ public class HostLiveActivity extends AgoraBaseActivity {
         Log.d(TAG, "startBroadcast: ");
         try {
             rtcEngine().setClientRole(Constants.CLIENT_ROLE_BROADCASTER);
-            rtcEngine().enableAudio();
+           // rtcEngine().enableAudio();
             rtcEngine().setEnableSpeakerphone(true);
-          //  SurfaceView surface = prepareRtcVideo(0, true);
-          //  mVideoGridContainer.addUserVideoSurface(0, surface, true);
+            //  SurfaceView surface = prepareRtcVideo(0, true);
+            //  mVideoGridContainer.addUserVideoSurface(0, surface, true);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -398,7 +453,7 @@ public class HostLiveActivity extends AgoraBaseActivity {
         binding.tvRcoins.setText(String.valueOf(sessionManager.getUser().getRCoin()));
 
 
-      //  mVideoGridContainer = binding.liveVideoGridLayout;
+        //  mVideoGridContainer = binding.liveVideoGridLayout;
 //        mVideoGridContainer.setStatsManager(statsManager());
         emojiBottomsheetFragment = new EmojiBottomsheetFragment();
         userProfileBottomSheet = new UserProfileBottomSheet(this);
@@ -737,7 +792,7 @@ public class HostLiveActivity extends AgoraBaseActivity {
         if (data == null) return;
 
         data.setLastMileDelay(stats.lastmileDelay);
-       // data.setVideoSendBitrate(stats.txVideoKBitRate);
+        // data.setVideoSendBitrate(stats.txVideoKBitRate);
         //data.setVideoRecvBitrate(stats.rxVideoKBitRate);
         data.setAudioSendBitrate(stats.txAudioKBitRate);
         data.setAudioRecvBitrate(stats.rxAudioKBitRate);
