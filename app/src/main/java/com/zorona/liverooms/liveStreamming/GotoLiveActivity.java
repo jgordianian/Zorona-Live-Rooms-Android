@@ -55,7 +55,7 @@ public class GotoLiveActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_goto_live);
-        //  initCamera();
+        requestpermission();
         initListner();
 
 
@@ -134,7 +134,7 @@ public class GotoLiveActivity extends BaseActivity {
     }
 
     @SuppressLint("RestrictedApi")
-    private void initCamera() {
+    private void requestpermission() {
         if ((ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) ||
                 ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
 
@@ -161,7 +161,7 @@ public class GotoLiveActivity extends BaseActivity {
 //            CameraX.bindToLifecycle(this, preview, videoCapture);
 //
 //            initListner();
-            TextureView viewFinder = binding.viewFinder;
+    /*        TextureView viewFinder = binding.viewFinder;
             AspectRatio ratio = AspectRatio.RATIO_4_3;
             builder = new PreviewConfig.Builder();
             previewConfig = builder.setTargetAspectRatio(ratio)
@@ -176,7 +176,7 @@ public class GotoLiveActivity extends BaseActivity {
                     .setTargetRotation(Surface.ROTATION_0)
                     .build();
             videoCapture = new VideoCapture(videoCaptureConfig);
-            CameraX.bindToLifecycle(this, preview, videoCapture);
+            CameraX.bindToLifecycle(this, preview, videoCapture);*/
 
             initListner();
         }

@@ -34,6 +34,7 @@
             android:layout_marginTop="160dp"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
+            android:paddingHorizontal="20dp"
             android:orientation="horizontal">
             <de.hdodenhof.circleimageview.CircleImageView
                 xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -85,6 +86,7 @@
             android:layout_width="400dp"
             android:id="@+id/layout_row2"
             android:layout_height="70dp"
+            android:paddingHorizontal="20dp"
             android:layout_marginTop="240dp"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
@@ -302,6 +304,7 @@
                     android:fadingEdgeLength="10dp"
                     android:orientation="horizontal"
                     android:requiresFadingEdge="horizontal"
+                    android:visibility="gone"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     tools:listitem="@layout/item_view_users" />
 
@@ -311,6 +314,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
+                    android:layout_marginStart="220dp"
                     android:background="@drawable/bg_gradient_round_black"
                     android:backgroundTint="@color/black_alpha_20"
                     android:orientation="horizontal"

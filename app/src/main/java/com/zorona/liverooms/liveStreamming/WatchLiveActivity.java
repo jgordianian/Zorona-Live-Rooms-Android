@@ -31,6 +31,7 @@ import com.zorona.liverooms.MainApplication;
 import com.zorona.liverooms.R;
 import com.zorona.liverooms.RayziUtils;
 import com.zorona.liverooms.SessionManager;
+import com.zorona.liverooms.activity.MainActivity;
 import com.zorona.liverooms.agora.AgoraBaseActivity;
 import com.zorona.liverooms.agora.stats.LocalStatsData;
 import com.zorona.liverooms.agora.stats.RemoteStatsData;
@@ -341,7 +342,9 @@ public class WatchLiveActivity extends AgoraBaseActivity {
     }
 
     private void setupMicClickListeners() {
+        startBroadcast();
         for (int i = 0; i < micImages.length; i++) {
+
             final int micIndex = i;
             micImages[i].setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -356,10 +359,10 @@ public class WatchLiveActivity extends AgoraBaseActivity {
                     isAudioEnabledMic[micIndex] = !isAudioEnabledMic[micIndex]; // Toggle audio status
 
                     if (isAudioEnabledMic[micIndex]) {
-                        rtcEngine().enableAudio(); // Enable audio
+                        rtcEngine().muteLocalAudioStream(false); // Mute Microphone
                         micImages[micIndex].setImageResource(R.drawable.ic_user_place); // Change to enabled image
                     } else {
-                        rtcEngine().disableAudio(); // Disable audio
+                        rtcEngine().muteLocalAudioStream(true); // Unmute Microphone
                         micImages[micIndex].setImageResource(R.drawable.roommic); // Change to disabled image
                     }
 
@@ -370,6 +373,7 @@ public class WatchLiveActivity extends AgoraBaseActivity {
                     }
                 }
             });
+
         }
 
 
@@ -391,9 +395,9 @@ public class WatchLiveActivity extends AgoraBaseActivity {
 
             initSoketIo(host.getLiveStreamingId(), false);
 
-            Glide.with(this).load(host.getImage())
+           /* Glide.with(this).load(host.getImage())
                     .apply(MainApplication.requestOptions)
-                    .circleCrop().into(binding.imgProfile);
+                    .circleCrop().into(binding.imgProfile);*/
             binding.tvCountry.setText(String.valueOf(host.getCountry()));
             if (host.getCountry() == null || host.getCountry().isEmpty()) {
                 binding.tvCountry.setVisibility(View.GONE);
@@ -412,7 +416,7 @@ public class WatchLiveActivity extends AgoraBaseActivity {
             joinChannel();
             //     setupAudioProfile();
             //     enableMicrophone();
-            startBroadcast();
+           // startBroadcast();
             initView();
 
             initLister();
@@ -492,7 +496,7 @@ public class WatchLiveActivity extends AgoraBaseActivity {
         Log.d(TAG, "startBroadcast: ");
         try {
             rtcEngine().setClientRole(Constants.CLIENT_ROLE_BROADCASTER);
-           //rtcEngine().enableAudio();
+           rtcEngine().enableAudio();
             rtcEngine().setEnableSpeakerphone(true);
             // SurfaceView surface = prepareRtcVideo(0, false);
             // mVideoGridContainer.addUserVideoSurface(0, surface, false);
@@ -519,6 +523,8 @@ public class WatchLiveActivity extends AgoraBaseActivity {
             endLive();
         }
         else {
+
+            startActivity(new Intent(this, MainActivity.class));
 
         }
     }

@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
+    id 'kotlin-kapt' // Apply the kotlin-kapt plugin
 }
 apply plugin: 'com.google.gms.google-services'
 
@@ -79,6 +80,9 @@ configurations.all {
 }
 dependencies {
 
+    // ...
+    implementation "androidx.databinding:databinding-runtime:8.1.1"
+
     implementation 'androidx.appcompat:appcompat:1.4.0'
     implementation 'com.google.android.material:material:1.6.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
@@ -95,7 +99,7 @@ dependencies {
     // implementation 'androidx.paging:paging-runtime:2.1.2'
 
     //glide
-    implementation 'com.github.bumptech.glide:glide:4.11.0'
+    implementation 'com.github.bumptech.glide:glide:4.15.1'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
     implementation 'jp.wasabeef:glide-transformations:4.0.0'
 

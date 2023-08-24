@@ -7,8 +7,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
-import android.view.SurfaceView;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,6 +21,7 @@ import com.zorona.liverooms.BuildConfig;
 import com.zorona.liverooms.R;
 import com.zorona.liverooms.RayziUtils;
 import com.zorona.liverooms.SessionManager;
+import com.zorona.liverooms.activity.MainActivity;
 import com.zorona.liverooms.agora.AgoraBaseActivity;
 import com.zorona.liverooms.agora.stats.LocalStatsData;
 import com.zorona.liverooms.agora.stats.RemoteStatsData;
@@ -55,7 +56,6 @@ import java.util.Queue;
 import de.hdodenhof.circleimageview.CircleImageView;
 import io.agora.rtc.Constants;
 import io.agora.rtc.IRtcEngineEventHandler;
-import io.agora.rtc.video.VideoEncoderConfiguration;
 import io.branch.indexing.BranchUniversalObject;
 import io.branch.referral.util.ContentMetadata;
 import io.branch.referral.util.LinkProperties;
@@ -184,29 +184,8 @@ public class HostLiveActivity extends AgoraBaseActivity {
                         if (giftData != null) {
                             giftQueue.add(giftData);
                             displayGift();
-
-                            Log.d(TAG, "sent a gift    :  " + BuildConfig.BASE_URL + giftData.getImage());
-
-                            Glide.with(binding.imgGift).load(BuildConfig.BASE_URL + giftData.getImage())
-                                    .into(binding.imgGift);
-                            Glide.with(binding.imgGiftCount).load(RayziUtils.getImageFromNumber(giftData.getCount()))
-                                    .into(binding.imgGiftCount);
-
-
                             String name = jsonObject.getString("userName").toString();
                             binding.tvGiftUserName.setText(name + " Sent a gift");
-
-                            binding.lytGift.setVisibility(View.VISIBLE);
-                            binding.tvGiftUserName.setVisibility(View.VISIBLE);
-                            new Handler(Looper.myLooper()).postDelayed(() -> {
-                                binding.lytGift.setVisibility(View.GONE);
-                                binding.tvGiftUserName.setVisibility(View.GONE);
-                                binding.tvGiftUserName.setText("");
-                                binding.imgGift.setImageDrawable(null);
-                                binding.imgGiftCount.setImageDrawable(null);
-                                displayGift(); // Display the next gift in the queue
-                            }, 13000);
-                            makeSound();
                         }
 
                     }
@@ -295,7 +274,9 @@ public class HostLiveActivity extends AgoraBaseActivity {
     }
 
     private void setupMicClickListeners() {
+        startBroadcast();
         for (int i = 0; i < micImages.length; i++) {
+
             final int micIndex = i;
             micImages[i].setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -310,10 +291,10 @@ public class HostLiveActivity extends AgoraBaseActivity {
                     isAudioEnabledMic[micIndex] = !isAudioEnabledMic[micIndex]; // Toggle audio status
 
                     if (isAudioEnabledMic[micIndex]) {
-                        rtcEngine().enableAudio(); // Enable audio
+                        rtcEngine().muteLocalAudioStream(false); // Mute Microphone
                         micImages[micIndex].setImageResource(R.drawable.ic_user_place); // Change to enabled image
                     } else {
-                        rtcEngine().disableAudio(); // Disable audio
+                        rtcEngine().muteLocalAudioStream(true); // Unmute Microphone
                         micImages[micIndex].setImageResource(R.drawable.roommic); // Change to disabled image
                     }
 
@@ -324,6 +305,7 @@ public class HostLiveActivity extends AgoraBaseActivity {
                     }
                 }
             });
+
         }
 
         giftViewModel = ViewModelProviders.of(this, new ViewModelFactory(new EmojiSheetViewModel()).createFor()).get(EmojiSheetViewModel.class);
@@ -353,7 +335,7 @@ public class HostLiveActivity extends AgoraBaseActivity {
         initView();
 
         joinChannel();
-        startBroadcast();
+       // startBroadcast();
 
         initLister();
         getSocket().on(Socket.EVENT_CONNECT, args -> runOnUiThread(() -> {
@@ -399,7 +381,7 @@ public class HostLiveActivity extends AgoraBaseActivity {
         if (userCount == 0) {
             endLive();
         } else {
-            finish();
+            startActivity(new Intent(this, MainActivity.class));
         }
     }
 
@@ -415,7 +397,25 @@ public class HostLiveActivity extends AgoraBaseActivity {
 
     private void displayGift() {
         if (!giftQueue.isEmpty()) {
-            GiftRoot.GiftItem giftData = giftQueue.poll(); // Retrieves and removes the head of the queue
+            GiftRoot.GiftItem giftData = giftQueue.poll();
+            Log.d(TAG, "sent a gift    :  " + BuildConfig.BASE_URL + giftData.getImage());
+
+            Glide.with(binding.imgGift).load(BuildConfig.BASE_URL + giftData.getImage())
+                    .into(binding.imgGift);
+            Glide.with(binding.imgGiftCount).load(RayziUtils.getImageFromNumber(giftData.getCount()))
+                    .into(binding.imgGiftCount);
+
+            binding.lytGift.setVisibility(View.VISIBLE);
+            binding.tvGiftUserName.setVisibility(View.VISIBLE);
+            new Handler(Looper.myLooper()).postDelayed(() -> {
+                binding.lytGift.setVisibility(View.GONE);
+                binding.tvGiftUserName.setVisibility(View.GONE);
+                binding.tvGiftUserName.setText("");
+                binding.imgGift.setImageDrawable(null);
+                binding.imgGiftCount.setImageDrawable(null);
+                displayGift(); // Display the next gift in the queue
+            }, 13000);
+            makeSound();// Retrieves and removes the head of the queue
             // Your code to display the gift goes here
         }
     }
@@ -439,7 +439,7 @@ public class HostLiveActivity extends AgoraBaseActivity {
         Log.d(TAG, "startBroadcast: ");
         try {
             rtcEngine().setClientRole(Constants.CLIENT_ROLE_BROADCASTER);
-           // rtcEngine().enableAudio();
+            rtcEngine().enableAudio();
             rtcEngine().setEnableSpeakerphone(true);
             //  SurfaceView surface = prepareRtcVideo(0, true);
             //  mVideoGridContainer.addUserVideoSurface(0, surface, true);
@@ -638,7 +638,7 @@ public class HostLiveActivity extends AgoraBaseActivity {
     public void onClickEmojiIcon(View view) {
     }
 
-    public void onLocalAudioMuteClicked(View view) {
+  /*  public void onLocalAudioMuteClicked(View view) {
         viewModel.isMuted = !viewModel.isMuted;
         rtcEngine().muteLocalAudioStream(viewModel.isMuted);
         if (viewModel.isMuted) {
@@ -649,7 +649,7 @@ public class HostLiveActivity extends AgoraBaseActivity {
             Toast.makeText(this, "Unmuted", Toast.LENGTH_SHORT).show();
             binding.btnMute.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.unmute));
         }
-    }
+    }*/
 
     public void onclickGiftIcon(View view) {
         emojiBottomsheetFragment.show(getSupportFragmentManager(), "emojifragfmetn");
