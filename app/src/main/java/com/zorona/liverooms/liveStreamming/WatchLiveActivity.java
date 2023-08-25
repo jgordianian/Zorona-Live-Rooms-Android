@@ -92,8 +92,6 @@ public class WatchLiveActivity extends AgoraBaseActivity {
 
     private Queue<GiftRoot.GiftItem> giftQueue = new LinkedList<>();
 
-    boolean isGiftPlaying = false;
-
     private int userCount = 0; // Keep track of the number of users in the channel
 
     private LiveUserRoot.UsersItem host;
@@ -165,6 +163,29 @@ public class WatchLiveActivity extends AgoraBaseActivity {
         });
     }
 
+    private Emitter.Listener gifListner = args -> {
+
+        if (args[0] != null) {
+            runOnUiThread(() -> {
+
+                Log.d(TAG, "commentlister : " + args);
+                String data = args[0].toString();
+                if (!data.isEmpty()) {
+                    StickerRoot.StickerItem sticker_dummy = new Gson().fromJson(data, StickerRoot.StickerItem.class);
+                    if (sticker_dummy != null) {
+                        binding.imgSticker.setImageURI(sticker_dummy.getSticker());
+
+                        binding.imgSticker.setVisibility(View.VISIBLE);
+                        new Handler(Looper.myLooper()).postDelayed(() -> binding.imgSticker.setVisibility(View.GONE), 2000);
+
+                    }
+                }
+
+            });
+
+        }
+
+    };
     private Emitter.Listener commentListner = args -> {
         if (args[0] != null) {
             runOnUiThread(() -> {
@@ -184,45 +205,26 @@ public class WatchLiveActivity extends AgoraBaseActivity {
 
         }
     };
-
     private Emitter.Listener giftListner = args -> {
-        // Gift sent successfully
-        // Call playNextGift() to play the next gift in the queue
-        playNextGift();
-
         runOnUiThread(() -> {
-
-            Log.d(TAG, "giftloister : " + args);
             if (args[0] != null) {
+
+                Log.d(TAG, "giftloister : " + args.toString());
                 String data = args[0].toString();
                 try {
                     JSONObject jsonObject = new JSONObject(data.toString());
                     if (jsonObject.get("gift") != null) {
+                        Log.d(TAG, "json gift : " + jsonObject.toString());
                         GiftRoot.GiftItem giftData = new Gson().fromJson(jsonObject.get("gift").toString(), GiftRoot.GiftItem.class);
                         if (giftData != null) {
-
-                            Glide.with(binding.imgGift).load(BuildConfig.BASE_URL + giftData.getImage())
-                                    .placeholder(R.drawable.placeholder)
-                                    .error(R.drawable.placeholder)
-                                    .into(binding.imgGift);
-                            Glide.with(binding.imgGiftCount).load(RayziUtils.getImageFromNumber(giftData.getCount()))
-                                    .into(binding.imgGiftCount);
-
+                            giftQueue.add(giftData);
+                            displayGift();
                             String name = jsonObject.getString("userName").toString();
                             binding.tvGiftUserName.setText(name + " Sent a gift");
-
-                            binding.lytGift.setVisibility(View.VISIBLE);
-                            binding.tvGiftUserName.setVisibility(View.VISIBLE);
-                            new Handler(Looper.myLooper()).postDelayed(() -> {
-                                binding.lytGift.setVisibility(View.GONE);
-                                binding.tvGiftUserName.setVisibility(View.GONE);
-                                binding.tvGiftUserName.setText("");
-                                binding.imgGift.setImageDrawable(null);
-                                binding.imgGiftCount.setImageDrawable(null);
-                            }, 16000);
-                            makeSound();
                         }
+
                     }
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -269,8 +271,6 @@ public class WatchLiveActivity extends AgoraBaseActivity {
 
 
     };
-
-
     private Emitter.Listener viewListner = data -> {
         runOnUiThread(() -> {
             Object args = data[0];
@@ -280,7 +280,6 @@ public class WatchLiveActivity extends AgoraBaseActivity {
 
                 JSONArray jsonArray = new JSONArray(args.toString());
                 viewModel.liveViewUserAdapter.addData(jsonArray);
-                // binding.tvViewUserCount.setText(String.valueOf(jsonArray.length()));
                 Log.d(TAG, "views2 : " + jsonArray);
             } catch (JSONException e) {
                 Log.d(TAG, "207: ");
@@ -290,6 +289,31 @@ public class WatchLiveActivity extends AgoraBaseActivity {
 
 
     };
+
+    private void displayGift() {
+        if (!giftQueue.isEmpty()) {
+            GiftRoot.GiftItem giftData = giftQueue.poll();
+            Log.d(TAG, "sent a gift    :  " + BuildConfig.BASE_URL + giftData.getImage());
+
+            Glide.with(binding.imgGift).load(BuildConfig.BASE_URL + giftData.getImage())
+                    .into(binding.imgGift);
+            Glide.with(binding.imgGiftCount).load(RayziUtils.getImageFromNumber(giftData.getCount()))
+                    .into(binding.imgGiftCount);
+
+            binding.lytGift.setVisibility(View.VISIBLE);
+            binding.tvGiftUserName.setVisibility(View.VISIBLE);
+            new Handler(Looper.myLooper()).postDelayed(() -> {
+                binding.lytGift.setVisibility(View.GONE);
+                binding.tvGiftUserName.setVisibility(View.GONE);
+                binding.tvGiftUserName.setText("");
+                binding.imgGift.setImageDrawable(null);
+                binding.imgGiftCount.setImageDrawable(null);
+                displayGift(); // Display the next gift in the queue
+            }, 13000);
+            makeSound();// Retrieves and removes the head of the queue
+            // Your code to display the gift goes here
+        }
+    }
 
     private UserProfileBottomSheet userProfileBottomSheet;
 
@@ -551,7 +575,7 @@ public class WatchLiveActivity extends AgoraBaseActivity {
     }
 
 
-    public void onLocalAudioMuteClicked(View view) {
+  /*  public void onLocalAudioMuteClicked(View view) {
         viewModel.isMuted = !viewModel.isMuted;
         rtcEngine().muteLocalAudioStream(viewModel.isMuted);
         if (viewModel.isMuted) {
@@ -562,7 +586,7 @@ public class WatchLiveActivity extends AgoraBaseActivity {
             Toast.makeText(this, "Mic unmuted", Toast.LENGTH_SHORT).show();
             binding.btnMute.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.unmute));
         }
-    }
+    }*/
     private void initLister() {
         viewModel.clickedComment.observe(this, user -> {
             getUser(user.getId());
@@ -583,15 +607,6 @@ public class WatchLiveActivity extends AgoraBaseActivity {
                     return;
                 }
 
-                // Enqueue the gift item
-                giftQueue.add(giftItem);
-
-                // Check if a gift is currently playing
-                if (!isGiftPlaying) {
-                    // If no gift is playing, start playing the next gift in the queue
-                    playNextGift();
-                }
-
 
                 try {
                     JSONObject jsonObject = new JSONObject();
@@ -610,33 +625,6 @@ public class WatchLiveActivity extends AgoraBaseActivity {
 
 
     }
-
-    private void playNextGift() {
-        // Check if the gift queue is empty
-        if (giftQueue.isEmpty()) {
-            // No more gifts in the queue, set isGiftPlaying to false and return
-            isGiftPlaying = false;
-            return;
-        }
-
-        // Get the next gift from the queue
-        GiftRoot.GiftItem nextGift = giftQueue.poll();
-
-        // Set isGiftPlaying to true
-        isGiftPlaying = true;
-
-        try {
-            JSONObject jsonObject = new JSONObject();
-            jsonObject.put("userId", sessionManager.getUser().getId());
-            jsonObject.put("coin", nextGift.getCoin() * nextGift.getCount());
-            jsonObject.put("gift", new Gson().toJson(nextGift));
-            jsonObject.put("userName", sessionManager.getUser().getName());
-            getSocket().emit(Const.EVENT_LIVEUSER_GIFT, jsonObject);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-
 
     private void getUser(String userId) {
         getSocket().on(Const.EVENT_GET_USER, args1 -> {
@@ -672,42 +660,7 @@ public class WatchLiveActivity extends AgoraBaseActivity {
     }
 
 
-
     @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
-
-            return;
-        }
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_NETWORK_STATE) != PackageManager.PERMISSION_GRANTED) {
-
-            return;
-        }
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.MODIFY_AUDIO_SETTINGS) != PackageManager.PERMISSION_GRANTED) {
-
-            return;
-        }
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_WIFI_STATE) != PackageManager.PERMISSION_GRANTED) {
-
-            return;
-        }
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.BIND_VOICE_INTERACTION) != PackageManager.PERMISSION_GRANTED) {
-
-            return;
-        }
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
-
-            return;
-        }
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH) != PackageManager.PERMISSION_GRANTED) {
-
-            return;
-        }
-
-    }
-
-  /*  @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
@@ -715,7 +668,7 @@ public class WatchLiveActivity extends AgoraBaseActivity {
             return;
         }
 
-    }*/
+    }
 
     @Override
     protected void onPause() {

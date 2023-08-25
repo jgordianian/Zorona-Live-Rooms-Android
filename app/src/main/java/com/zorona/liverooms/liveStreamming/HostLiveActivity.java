@@ -183,6 +183,10 @@ public class HostLiveActivity extends AgoraBaseActivity {
                         GiftRoot.GiftItem giftData = new Gson().fromJson(jsonObject.get("gift").toString(), GiftRoot.GiftItem.class);
                         if (giftData != null) {
                             giftQueue.add(giftData);
+
+                        }
+                        else {
+
                             displayGift();
                             String name = jsonObject.getString("userName").toString();
                             binding.tvGiftUserName.setText(name + " Sent a gift");
@@ -381,6 +385,7 @@ public class HostLiveActivity extends AgoraBaseActivity {
         if (userCount == 0) {
             endLive();
         } else {
+            onDestroy();
             startActivity(new Intent(this, MainActivity.class));
         }
     }
@@ -398,6 +403,7 @@ public class HostLiveActivity extends AgoraBaseActivity {
     private void displayGift() {
         if (!giftQueue.isEmpty()) {
             GiftRoot.GiftItem giftData = giftQueue.poll();
+
             Log.d(TAG, "sent a gift    :  " + BuildConfig.BASE_URL + giftData.getImage());
 
             Glide.with(binding.imgGift).load(BuildConfig.BASE_URL + giftData.getImage())
@@ -413,10 +419,10 @@ public class HostLiveActivity extends AgoraBaseActivity {
                 binding.tvGiftUserName.setText("");
                 binding.imgGift.setImageDrawable(null);
                 binding.imgGiftCount.setImageDrawable(null);
-                displayGift(); // Display the next gift in the queue
+                //displayGift(); // Display the next gift in the queue
             }, 13000);
-            makeSound();// Retrieves and removes the head of the queue
-            // Your code to display the gift goes here
+            makeSound();
+
         }
     }
 
@@ -514,6 +520,7 @@ public class HostLiveActivity extends AgoraBaseActivity {
         });
 
         binding.btnClose.setOnClickListener(v -> endLive());
+
         giftViewModel.finelGift.observe(this, giftItem -> {
             if (giftItem != null) {
 
@@ -659,7 +666,7 @@ public class HostLiveActivity extends AgoraBaseActivity {
     protected void onDestroy() {
         super.onDestroy();
 
-        statsManager().clearAllData();
+        //statsManager().clearAllData();
     }
 
     public void onClickSendComment(View view) {

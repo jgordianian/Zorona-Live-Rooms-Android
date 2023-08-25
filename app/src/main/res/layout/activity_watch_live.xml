@@ -221,7 +221,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_marginTop="10dp"
                 android:orientation="horizontal">
 
@@ -237,7 +237,7 @@
 
                     <LinearLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_marginVertical="5dp"
                         android:layout_marginStart="10dp"
                         android:layout_marginEnd="20dp"
@@ -246,7 +246,7 @@
                         <TextView
                             android:id="@+id/tvName"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="16dp"
                             android:fontFamily="@font/amidum"
                             android:text="Room"
                             android:textColor="@color/white" />
@@ -303,7 +303,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
-                    android:layout_marginStart="220dp"
+                    android:layout_marginStart="200dp"
                     android:background="@drawable/bg_gradient_round_black"
                     android:backgroundTint="@color/black_alpha_20"
                     android:orientation="horizontal"
@@ -329,16 +329,16 @@
                 </LinearLayout>
 
                 <ImageView
-                    android:onClick="onClickBack"
                     android:id="@+id/btnClose"
                     android:layout_width="25dp"
-                    android:layout_height="25dp"
+                    android:layout_height="17dp"
                     android:layout_alignParentEnd="true"
                     android:layout_gravity="center"
                     android:layout_marginStart="10dp"
                     android:layout_marginEnd="10dp"
                     android:background="@drawable/bg_gradient_round"
                     android:backgroundTint="@color/black_alpha_20"
+                    android:onClick="onClickBack"
                     android:padding="7dp"
                     android:src="@drawable/cancel"
                     app:tint="@color/white" />
