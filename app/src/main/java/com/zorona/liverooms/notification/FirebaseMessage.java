@@ -17,7 +17,8 @@ import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
 
-import com.zorona.liverooms.liveStreamming.WatchLiveActivity;
+//import com.zorona.liverooms.liveStreamming.WatchLiveActivity;
+import com.zorona.liverooms.liveStreamming.HostLiveActivity;
 import com.zorona.liverooms.user.guestUser.GuestActivity;
 import com.zorona.liverooms.MainApplication;
 import com.zorona.liverooms.R;
@@ -167,7 +168,7 @@ public class FirebaseMessage extends FirebaseMessagingService {
                     intent = new Intent(this, ReelsActivity.class);
                     intent.putExtra(Const.DATA, data);    //data==list[relite]
                 } else if (type.equals("LIVE")) {
-                    intent = new Intent(this, WatchLiveActivity.class);
+                    intent = new Intent(this, HostLiveActivity.class);
                     intent.putExtra(Const.DATA, data);    //data== LiveUserRoot.UsersItem
                 } else {
                     intent = new Intent(this, SpleshActivity.class);

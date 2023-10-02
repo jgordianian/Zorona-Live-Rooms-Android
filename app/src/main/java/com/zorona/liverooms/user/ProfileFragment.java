@@ -1,5 +1,6 @@
 package com.zorona.liverooms.user;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -93,6 +94,7 @@ public class ProfileFragment extends BaseFragment {
         binding.lytComplains.setOnClickListener(v -> startActivity(new Intent(getActivity(), ComplainListActivity.class)));
     }
 
+    @SuppressLint("SuspiciousIndentation")
     private void initView() {
     if (getActivity() == null) return;
 

@@ -4,14 +4,11 @@ import android.content.res.AssetFileDescriptor;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.SurfaceView;
 
 import androidx.annotation.Nullable;
 
 import com.zorona.liverooms.BuildConfig;
 import com.zorona.liverooms.activity.BaseActivity;
-import com.zorona.liverooms.agora.rtc.Constants;
-import com.zorona.liverooms.agora.rtc.EngineConfig;
 import com.zorona.liverooms.agora.rtc.EventHandler;
 import com.zorona.liverooms.agora.stats.StatsManager;
 import com.zorona.liverooms.MainApplication;
@@ -23,9 +20,8 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.net.URI;
 
-import io.agora.rtc.RtcEngine;
-import io.agora.rtc.video.VideoCanvas;
-import io.agora.rtc.video.VideoEncoderConfiguration;
+import io.agora.rtc2.RtcEngine;
+import io.agora.rtc2.IRtcEngineEventHandler;
 import io.socket.client.IO;
 import io.socket.client.Socket;
 import io.socket.client.SocketOptionBuilder;
@@ -142,7 +138,9 @@ public abstract class AgoraBaseActivity extends BaseActivity implements EventHan
     }
 
 
-  /*  public void configVideo() {
+
+
+ /*   public void configVideo() {
         VideoEncoderConfiguration configuration = new VideoEncoderConfiguration(
                 Constants.VIDEO_DIMENSIONS[config().getVideoDimenIndex()],
                 VideoEncoderConfiguration.FRAME_RATE.FRAME_RATE_FPS_15,
@@ -151,9 +149,9 @@ public abstract class AgoraBaseActivity extends BaseActivity implements EventHan
         );
         configuration.mirrorMode = Constants.VIDEO_MIRROR_MODES[config().getMirrorEncodeIndex()];
         rtcEngine().setVideoEncoderConfiguration(configuration);
-    }*/
+    }
 
- /*   protected SurfaceView prepareRtcVideo(int uid, boolean local) {
+   /* protected SurfaceView prepareRtcVideo(int uid, boolean local) {
         // Render local/remote video on a SurfaceView
 
         SurfaceView surface = RtcEngine.CreateRendererView(getApplicationContext());
@@ -177,7 +175,7 @@ public abstract class AgoraBaseActivity extends BaseActivity implements EventHan
             );
         }
         return surface;
-    }*/
+    }
 
     protected EngineConfig config() {
         return application().engineConfig();
@@ -201,4 +199,7 @@ public abstract class AgoraBaseActivity extends BaseActivity implements EventHan
         getSocket().disconnect();
     }
 
+    public abstract void onLastmileProbeResult(IRtcEngineEventHandler.LastmileProbeResult result);
+
+    public abstract void onRtcStats(IRtcEngineEventHandler.RtcStats stats);
 }

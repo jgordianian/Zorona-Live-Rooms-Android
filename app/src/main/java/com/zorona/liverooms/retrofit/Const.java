@@ -74,6 +74,9 @@ public class Const {
     public static final int BOTTOM_TO_UP = 1;
     public static final int UP_TO_BOTTOM = 2;
     public static final String ISACCEPT_CLICK = "isacceptclick";
+    public static final String IS_GUEST = "is_guest";
+
+    public static final String getChannel = "getchannel";
 
 
     public static String Currency = "$";

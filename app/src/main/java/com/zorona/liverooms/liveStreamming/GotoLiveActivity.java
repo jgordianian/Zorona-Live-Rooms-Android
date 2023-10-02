@@ -23,8 +23,10 @@ import androidx.databinding.DataBindingUtil;
 
 import com.zorona.liverooms.R;
 import com.zorona.liverooms.activity.BaseActivity;
+import com.zorona.liverooms.agora.token.RtcTokenBuilder;
 import com.zorona.liverooms.databinding.ActivityGotoLiveBinding;
 import com.zorona.liverooms.modelclass.LiveStreamRoot;
+import com.zorona.liverooms.modelclass.LiveUserRoot;
 import com.zorona.liverooms.retrofit.Const;
 import com.zorona.liverooms.retrofit.RetrofitBuilder;
 import com.zorona.liverooms.utils.AutoFitPreviewBuilder;
@@ -51,11 +53,13 @@ public class GotoLiveActivity extends BaseActivity {
     private VideoCaptureConfig videoCaptureConfig;
     private VideoCapture videoCapture;
 
+    private static final int PERMISSION_REQ_CODE = 123;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_goto_live);
-        requestpermission();
+        initAudioRecording();
         initListner();
 
 
@@ -94,9 +98,10 @@ public class GotoLiveActivity extends BaseActivity {
 
                 jsonObject.addProperty("isPublic", !isPrivate);
                 jsonObject.addProperty("channel", sessionManager.getUser().getId());
-                Random random = new Random();
-                int agoraUID = random.nextInt(999999 - 111111) + 111111;
+                RtcTokenBuilder mainClass = new RtcTokenBuilder();
+                int agoraUID = mainClass.getAgoraUID();
                 jsonObject.addProperty("agoraUID", 0);  // just for unique host int id
+
 
                 binding.loder.setVisibility(View.VISIBLE);
                 binding.btnLive.setEnabled(false);
@@ -109,6 +114,7 @@ public class GotoLiveActivity extends BaseActivity {
                                 Intent intent = new Intent(GotoLiveActivity.this, HostLiveActivity.class);
                                 intent.putExtra(Const.DATA, new Gson().toJson(response.body().getLiveUser()));
                                 intent.putExtra(Const.PRIVACY, isPrivate ? "Private" : "Public");
+                                intent.putExtra(Const.IS_GUEST, false); // Set to true if the user is a guest
                                 startActivity(intent);
                                 finish();
                             }
@@ -134,12 +140,10 @@ public class GotoLiveActivity extends BaseActivity {
     }
 
     @SuppressLint("RestrictedApi")
-    private void requestpermission() {
-        if ((ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) ||
-                ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
+    private void initAudioRecording() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO}, 1);
 
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO},
-                    1);
         } else {
 
 //
@@ -190,7 +194,8 @@ public class GotoLiveActivity extends BaseActivity {
             Toast.makeText(this, "Permission Denied", Toast.LENGTH_SHORT).show();
             return;
         }
-       // initCamera();
+
+        initAudioRecording();
 
     }
 }

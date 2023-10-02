@@ -65,10 +65,10 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-import io.agora.rtc.Constants;
-import io.agora.rtc.IRtcEngineEventHandler;
-import io.agora.rtc.RtcEngine;
-import io.agora.rtc.video.VideoEncoderConfiguration;
+import io.agora.rtc2.Constants;
+import io.agora.rtc2.IRtcEngineEventHandler;
+import io.agora.rtc2.RtcEngine;
+import io.agora.rtc2.video.VideoEncoderConfiguration;
 import io.branch.indexing.BranchUniversalObject;
 import io.branch.referral.util.ContentMetadata;
 import io.branch.referral.util.LinkProperties;
@@ -473,7 +473,7 @@ public class WatchLiveActivity extends AgoraBaseActivity {
 
             // Sets the channel profile of the Agora RtcEngine.
             // The Agora RtcEngine differentiates channel profiles and applies different optimization algorithms accordingly. For example, it prioritizes smoothness and low latency for a video call, and prioritizes video quality for a video broadcast.
-            rtcEngine().setChannelProfile(io.agora.rtc.Constants.CHANNEL_PROFILE_LIVE_BROADCASTING);
+            rtcEngine().setChannelProfile(io.agora.rtc2.Constants.CHANNEL_PROFILE_LIVE_BROADCASTING);
             // rtcEngine().enableVideo();
             // rtcEngine().enableAudio();
             //  rtcEngine().muteLocalAudioStream(true);

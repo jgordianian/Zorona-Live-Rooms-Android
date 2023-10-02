@@ -6,6 +6,8 @@ import java.util.List;
 
 public class LiveUserRoot {
 
+
+
     @SerializedName("message")
     private String message;
 

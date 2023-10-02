@@ -19,14 +19,19 @@ import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 
+import com.google.gson.JsonObject;
 import com.zorona.liverooms.BuildConfig;
+import com.zorona.liverooms.agora.token.RtcTokenBuilder;
 import com.zorona.liverooms.liveStreamming.GotoLiveActivity;
-import com.zorona.liverooms.liveStreamming.WatchLiveActivity;
+import com.zorona.liverooms.liveStreamming.HostLiveActivity;
+//import com.zorona.liverooms.liveStreamming.WatchLiveActivity;
+import com.zorona.liverooms.modelclass.LiveStreamRoot;
 import com.zorona.liverooms.modelclass.LiveUserRoot;
 import com.zorona.liverooms.modelclass.PostRoot;
 import com.zorona.liverooms.modelclass.ReliteRoot;
 import com.zorona.liverooms.reels.record.RecorderActivity;
 import com.zorona.liverooms.retrofit.Const;
+import com.zorona.liverooms.retrofit.RetrofitBuilder;
 import com.zorona.liverooms.user.guestUser.GuestActivity;
 import com.zorona.liverooms.MainApplication;
 import com.zorona.liverooms.NetWorkChangeReceiver;
@@ -49,16 +54,22 @@ import com.google.gson.Gson;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import io.socket.client.IO;
 import io.socket.client.Socket;
 import io.socket.engineio.client.transports.Polling;
 import io.socket.engineio.client.transports.WebSocket;
+import retrofit2.Call;
 
 public class MainActivity extends BaseActivity {
+
+    public static final String IS_GUEST = "is_guest";
+
     ActivityMainBinding binding;
     private BottomSheetDialog bottomSheetDialog;
     private NetWorkChangeReceiver netWorkChangeReceiver;
+    boolean isPrivate = true;
 
     @Override
     protected void onStart() {
@@ -217,9 +228,15 @@ public class MainActivity extends BaseActivity {
                 startActivity(new Intent(this, GuestActivity.class).putExtra(Const.USERID, userId));
 
             } else if (type.equals("LIVE")) {
+              //  RtcTokenBuilder mainClass = new RtcTokenBuilder();
+               // int agoraUID = mainClass.getAgoraUID();
                 LiveUserRoot.UsersItem usersItem = new Gson().fromJson(branchData, LiveUserRoot.UsersItem.class);
                 Log.d("TAG", "handleBranchData: live  " + usersItem.toString());
-                startActivity(new Intent(this, WatchLiveActivity.class).putExtra(Const.DATA, new Gson().toJson(usersItem)));
+                // Starting HostLiveActivity for guests
+                Intent start = new Intent(this, HostLiveActivity.class);
+                intent.putExtra(Const.DATA, new Gson().toJson(usersItem));
+                intent.putExtra(Const.IS_GUEST, true); // Set to true if the user is a guest
+                startActivity(start);
             }
         }
     }
@@ -246,10 +263,10 @@ public class MainActivity extends BaseActivity {
             setUpFragment(new FeedFragmentMain(), binding.animDiscover);
 
         });
-        binding.lytChat.setOnClickListener(v -> {
+        /*binding.lytChat.setOnClickListener(v -> {
             setUpFragment(new MessageFragment(), binding.animChat);
 
-        });
+        });*/
         binding.lytProfile.setOnClickListener(v -> {
             setUpFragment(new ProfileFragment(), binding.animProfile);
         });

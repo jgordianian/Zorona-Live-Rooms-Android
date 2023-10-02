@@ -60,9 +60,9 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-import io.agora.rtc.Constants;
-import io.agora.rtc.IRtcEngineEventHandler;
-import io.agora.rtc.video.VideoEncoderConfiguration;
+import io.agora.rtc2.Constants;
+import io.agora.rtc2.IRtcEngineEventHandler;
+import io.agora.rtc2.video.VideoEncoderConfiguration;
 import io.branch.indexing.BranchUniversalObject;
 import io.branch.referral.util.ContentMetadata;
 import io.branch.referral.util.LinkProperties;

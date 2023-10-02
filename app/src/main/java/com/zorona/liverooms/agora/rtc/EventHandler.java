@@ -1,6 +1,6 @@
 package com.zorona.liverooms.agora.rtc;
 
-import io.agora.rtc.IRtcEngineEventHandler;
+import io.agora.rtc2.IRtcEngineEventHandler;
 
 public interface EventHandler {
   //  void onFirstRemoteVideoDecoded(int uid, int width, int height, int elapsed);
@@ -20,6 +20,8 @@ public interface EventHandler {
     void onConnectionLost();
 
   //  void onVideoStopped();
+
+    void onAudioVolumeIndication(IRtcEngineEventHandler.AudioVolumeInfo[] speakers, int totalVolume);
 
     void onLastmileProbeResult(IRtcEngineEventHandler.LastmileProbeResult result);
 

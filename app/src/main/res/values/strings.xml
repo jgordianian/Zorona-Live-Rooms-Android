@@ -56,5 +56,7 @@
     <string name="confirmation_delete_draft">Do you really want to permanently delete this draft clip? It cannot be undone.</string>
     <string name="uploading_message">Your clip will be uploaded shortly.</string>
     <string name="usersview">usersview</string>
+    <string name="id">ID:</string>
+    <string name="lv_1">Lv. 1</string>
 
 </resources>

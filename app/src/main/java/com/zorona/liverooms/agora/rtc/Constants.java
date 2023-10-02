@@ -1,7 +1,7 @@
 package com.zorona.liverooms.agora.rtc;
 
-import io.agora.rtc.video.BeautyOptions;
-import io.agora.rtc.video.VideoEncoderConfiguration;
+import io.agora.rtc2.video.BeautyOptions;
+import io.agora.rtc2.video.VideoEncoderConfiguration;
 
 public class Constants {
     public static final String PREF_NAME = "io.agora.openlive";
@@ -31,8 +31,8 @@ public class Constants {
             VideoEncoderConfiguration.VD_1280x720
     };
     public static int[] VIDEO_MIRROR_MODES = new int[]{
-            io.agora.rtc.Constants.VIDEO_MIRROR_MODE_AUTO,
-            io.agora.rtc.Constants.VIDEO_MIRROR_MODE_ENABLED,
-            io.agora.rtc.Constants.VIDEO_MIRROR_MODE_DISABLED,
+            io.agora.rtc2.Constants.VIDEO_MIRROR_MODE_AUTO,
+            io.agora.rtc2.Constants.VIDEO_MIRROR_MODE_ENABLED,
+            io.agora.rtc2.Constants.VIDEO_MIRROR_MODE_DISABLED,
     };
 }

@@ -49,12 +49,24 @@ import java.io.File;
 import java.net.URI;
 import java.util.List;
 
-import io.agora.rtc.RtcEngine;
+import io.agora.rtc2.RtcEngine;
 import io.branch.referral.Branch;
 import io.socket.client.IO;
 import io.socket.client.Socket;
 import io.socket.engineio.client.transports.Polling;
 import io.socket.engineio.client.transports.WebSocket;
+
+import io.agora.rtm.RtmClient;
+import io.agora.rtm.RtmClientListener;
+import io.agora.rtm.RtmMessage;
+
+import io.agora.rtm.ErrorInfo;
+import io.agora.rtm.ResultCallback;
+import io.agora.rtm.RtmChannel;
+import io.agora.rtm.RtmChannelListener;
+import io.agora.rtm.RtmChannelMember;
+import io.agora.rtm.RtmStatusCode;
+import io.agora.rtm.RtmChannelAttribute;
 
 
 public class MainApplication extends Application {
@@ -81,6 +93,9 @@ public class MainApplication extends Application {
     private StatsManager mStatsManager = new StatsManager();
 
     private static Context context;
+
+    private RtmClient rtmClient;
+    private RtmChannel channel;
 
 
     @Override
@@ -353,6 +368,14 @@ public class MainApplication extends Application {
         return mRtcEngine;
     }
 
+    public RtmClient rtmClient() {
+        return rtmClient;
+    }
+
+    public RtmChannel channel() {
+        return channel;
+    }
+
     public StatsManager statsManager() {
         return mStatsManager;
     }
@@ -374,6 +397,7 @@ public class MainApplication extends Application {
     public Socket getGlobalSoket() {
         return socket;
     }
+
 }
 
 

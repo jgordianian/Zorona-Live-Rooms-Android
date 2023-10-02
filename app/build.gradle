@@ -101,7 +101,9 @@ dependencies {
     //glide
     implementation 'com.github.bumptech.glide:glide:4.15.1'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
-    implementation 'jp.wasabeef:glide-transformations:4.0.0'
+    implementation 'jp.wasabeef:glide-transformations:4.3.0'
+    // If you want to use the GPU Filters
+    implementation 'jp.co.cyberagent.android:gpuimage:2.1.0'
 
 
     // compile 'com.github.s0nerik:glide-bindingadapter:1.2.1'
@@ -228,7 +230,7 @@ dependencies {
     implementation 'com.kaopiz:kprogresshud:1.2.0'
     implementation 'com.munon:turboimageview:1.2.0'
     implementation 'info.hoang8f:android-segmented:1.0.6'
-    implementation 'jp.co.cyberagent.android:gpuimage:2.0.4'
+    implementation 'jp.co.cyberagent.android:gpuimage:2.1.0'
 //    implementation 'jp.wasabeef:recyclerview-animators:4.0.1'
     implementation 'com.github.MasayukiSuda:GPUVideo-android:v0.1.1'
     implementation 'com.github.MasayukiSuda:Mp4Composer-android:v0.4.0'
@@ -259,7 +261,7 @@ dependencies {
 
 
     //Billing
-    implementation 'com.android.billingclient:billing:6.0.0'
+    implementation 'com.android.billingclient:billing:6.0.1'
     //stripe
     implementation 'com.stripe:stripe-android:16.0.1'
     implementation "com.stripe:stripe-java:20.14.0"
@@ -274,7 +276,9 @@ dependencies {
 
 
     //agora voice
-    implementation 'io.agora.rtc:full-sdk:3.6.0.1'
+    implementation 'io.agora.rtc:full-sdk:4.2.2'
+    // https://mvnrepository.com/artifact/io.agora.rtm/rtm-sdk
+    implementation 'io.agora.rtm:rtm-sdk:1.5.3'
     implementation "commons-codec:commons-codec:1.11"
 
 
@@ -316,8 +320,6 @@ dependencies {
 
     //svga
     implementation 'com.github.yyued:SVGAPlayer-Android:2.6.1'
-
-    implementation 'com.github.ZEGOCLOUD:zego_uikit_prebuilt_live_streaming_android:+'
 
 
     implementation 'com.github.boybeak:GifMaker:master-SNAPSHOT'

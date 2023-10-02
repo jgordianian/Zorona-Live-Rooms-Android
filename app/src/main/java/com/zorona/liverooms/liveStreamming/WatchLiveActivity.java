@@ -9,13 +9,10 @@ import android.os.Looper;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
-import android.widget.EditText;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,9 +22,8 @@ import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
+import com.google.gson.JsonSyntaxException;
 import com.zorona.liverooms.BuildConfig;
-import com.zorona.liverooms.MainApplication;
 import com.zorona.liverooms.R;
 import com.zorona.liverooms.RayziUtils;
 import com.zorona.liverooms.SessionManager;
@@ -36,7 +32,7 @@ import com.zorona.liverooms.agora.AgoraBaseActivity;
 import com.zorona.liverooms.agora.stats.LocalStatsData;
 import com.zorona.liverooms.agora.stats.RemoteStatsData;
 import com.zorona.liverooms.agora.stats.StatsData;
-import com.zorona.liverooms.agora.ui.VideoGridContainer;
+import com.zorona.liverooms.agora.token.RtcTokenBuilder;
 import com.zorona.liverooms.bottomsheets.BottomSheetReport_g;
 import com.zorona.liverooms.bottomsheets.UserProfileBottomSheet;
 import com.zorona.liverooms.databinding.ActivityWatchLiveBinding;
@@ -45,7 +41,6 @@ import com.zorona.liverooms.modelclass.GiftRoot;
 import com.zorona.liverooms.modelclass.GuestProfileRoot;
 import com.zorona.liverooms.modelclass.LiveStramComment;
 import com.zorona.liverooms.modelclass.LiveUserRoot;
-import com.zorona.liverooms.modelclass.StickerRoot;
 import com.zorona.liverooms.modelclass.UserRoot;
 import com.zorona.liverooms.retrofit.Const;
 import com.zorona.liverooms.utils.Filters.FilterRoot;
@@ -61,28 +56,27 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 import java.util.Queue;
 
-import de.hdodenhof.circleimageview.CircleImageView;
-import io.agora.rtc.Constants;
-import io.agora.rtc.IRtcEngineEventHandler;
-import io.agora.rtc.video.VideoEncoderConfiguration;
+import io.agora.rtc2.Constants;
+import io.agora.rtc2.IRtcEngineEventHandler;
+import io.agora.rtc2.RtcEngine;
+import io.agora.rtc2.internal.RtcEngineImpl;
 import io.branch.indexing.BranchUniversalObject;
 import io.branch.referral.util.ContentMetadata;
 import io.branch.referral.util.LinkProperties;
 import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
 
-public class WatchLiveActivity extends AgoraBaseActivity {
+/*public class WatchLiveActivity extends AgoraBaseActivity {
 
     private static final String TAG = "watchliveact";
-    private static final int PERMISSION_REQ_ID = 22;
-    private static final String[] REQUESTED_PERMISSIONS = {
-            Manifest.permission.RECORD_AUDIO,
-            Manifest.permission.MODIFY_AUDIO_SETTINGS
-    };
     ActivityWatchLiveBinding binding;
     Handler handler = new Handler();
     SessionManager sessionManager;
@@ -90,24 +84,25 @@ public class WatchLiveActivity extends AgoraBaseActivity {
     EmojiBottomsheetFragment emojiBottomsheetFragment;
     private WatchLiveViewModel viewModel;
 
-    private Queue<GiftRoot.GiftItem> giftQueue = new LinkedList<>();
-
     private int userCount = 0; // Keep track of the number of users in the channel
 
     private LiveUserRoot.UsersItem host;
-    private CircleImageView[] micImages;
-    private boolean[] isAudioEnabledMic;
-    private int currentOccupiedSeat = -1;
-    private VideoGridContainer mVideoGridContainer;
-    private boolean checkSelfPermission(String permission, int requestCode) {
-        if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{permission}, requestCode);
-            return false;
-        }
-        return true;
-    }
+
+    private static final int PERMISSION_REQ_CODE = 123;
 
     private EmojiSheetViewModel giftViewModel;
+
+    private boolean[] seatsOccupied = new boolean[8];
+
+    // Add a list to track occupied seats
+    private Map<String, Integer> occupiedSeatsMap = new HashMap<>();
+    private boolean[] seatsMuted = new boolean[8];
+
+    // Define a threshold for audio level to consider a user as speaking
+    private static final int SPEAKING_THRESHOLD = 15;
+
+    private Button[] seatButtons = new Button[8]; // Assuming there are 8 seats
+
     private Emitter.Listener simpleFilterListner = args -> {
         if (args[0] != null) {
             runOnUiThread(() -> {
@@ -163,29 +158,7 @@ public class WatchLiveActivity extends AgoraBaseActivity {
         });
     }
 
-    private Emitter.Listener gifListner = args -> {
 
-        if (args[0] != null) {
-            runOnUiThread(() -> {
-
-                Log.d(TAG, "commentlister : " + args);
-                String data = args[0].toString();
-                if (!data.isEmpty()) {
-                    StickerRoot.StickerItem sticker_dummy = new Gson().fromJson(data, StickerRoot.StickerItem.class);
-                    if (sticker_dummy != null) {
-                        binding.imgSticker.setImageURI(sticker_dummy.getSticker());
-
-                        binding.imgSticker.setVisibility(View.VISIBLE);
-                        new Handler(Looper.myLooper()).postDelayed(() -> binding.imgSticker.setVisibility(View.GONE), 2000);
-
-                    }
-                }
-
-            });
-
-        }
-
-    };
     private Emitter.Listener commentListner = args -> {
         if (args[0] != null) {
             runOnUiThread(() -> {
@@ -205,26 +178,41 @@ public class WatchLiveActivity extends AgoraBaseActivity {
 
         }
     };
-    private Emitter.Listener giftListner = args -> {
-        runOnUiThread(() -> {
-            if (args[0] != null) {
+   /* private Emitter.Listener giftListner = args -> {
 
-                Log.d(TAG, "giftloister : " + args.toString());
+        runOnUiThread(() -> {
+
+            Log.d(TAG, "giftloister : " + args);
+            if (args[0] != null) {
                 String data = args[0].toString();
                 try {
                     JSONObject jsonObject = new JSONObject(data.toString());
                     if (jsonObject.get("gift") != null) {
-                        Log.d(TAG, "json gift : " + jsonObject.toString());
                         GiftRoot.GiftItem giftData = new Gson().fromJson(jsonObject.get("gift").toString(), GiftRoot.GiftItem.class);
                         if (giftData != null) {
-                            giftQueue.add(giftData);
-                            displayGift();
+
+                            Glide.with(binding.imgGift).load(BuildConfig.BASE_URL + giftData.getImage())
+                                    .placeholder(R.drawable.placeholder)
+                                    .error(R.drawable.placeholder)
+                                    .into(binding.imgGift);
+                            Glide.with(binding.imgGiftCount).load(RayziUtils.getImageFromNumber(giftData.getCount()))
+                                    .into(binding.imgGiftCount);
+
                             String name = jsonObject.getString("userName").toString();
                             binding.tvGiftUserName.setText(name + " Sent a gift");
+
+                            binding.lytGift.setVisibility(View.VISIBLE);
+                            binding.tvGiftUserName.setVisibility(View.VISIBLE);
+                            new Handler(Looper.myLooper()).postDelayed(() -> {
+                                binding.lytGift.setVisibility(View.GONE);
+                                binding.tvGiftUserName.setVisibility(View.GONE);
+                                binding.tvGiftUserName.setText("");
+                                binding.imgGift.setImageDrawable(null);
+                                binding.imgGiftCount.setImageDrawable(null);
+                            }, 13000);
+                            makeSound();
                         }
-
                     }
-
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -268,8 +256,83 @@ public class WatchLiveActivity extends AgoraBaseActivity {
 
 
         });
+    };*//*
 
+    // Define a queue to store incoming gifts
+    Queue<GiftRoot.GiftItem> giftQueue = new LinkedList<>();
+    JSONObject jsonObject; // Declare jsonObject as a class-level variable
 
+    private Emitter.Listener giftListner = args -> {
+        runOnUiThread(() -> {
+            if (args[0] != null) {
+                Log.d(TAG, "giftListener: " + args.toString());
+                String data = args[0].toString();
+                try {
+                    jsonObject = new JSONObject(data); // Assign the jsonObject here
+                    if (jsonObject.has("gift")) {
+                        Log.d(TAG, "json gift: " + jsonObject.toString());
+                        GiftRoot.GiftItem giftData = null;
+                        try {
+                            giftData = new Gson().fromJson(jsonObject.get("gift").toString(), GiftRoot.GiftItem.class);
+                        } catch (JsonSyntaxException e) {
+                            e.printStackTrace();
+                        }
+                        if (giftData != null) {
+                            // Add the gift to the queue
+                            giftQueue.offer(giftData);
+
+                            // Check if the queue is empty and no gift is currently playing
+                            if (giftQueue.size() == 1) {
+                                playNextGiftFromQueue();
+                            }
+                        }
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            if (args[1] != null) {  // gift sender user
+                Log.d(TAG, "user string   : " + args[1].toString());
+                try {
+                    JSONObject jsonObject = new JSONObject(args[1].toString());
+                    UserRoot.User user = new Gson().fromJson(jsonObject.toString(), UserRoot.User.class);
+                    if (user != null) {
+                        Log.d(TAG, ":getted user    " + user.toString());
+                        if (user.getId().equals(sessionManager.getUser().getId())) {
+                            sessionManager.saveUser(user);
+                            giftViewModel.localUserCoin.setValue(user.getDiamond());
+                        }
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            if (args[2] != null) {   // host
+                //Log.d(TAG, "host string: " + args[2].toString();
+                try {
+                    jsonObject = new JSONObject(args[2].toString()); // Assign the jsonObject here
+                    UserRoot.User host = null;
+                    try {
+                        host = new Gson().fromJson(jsonObject.toString(), UserRoot.User.class);
+                    } catch (JsonSyntaxException e) {
+                        e.printStackTrace();
+                    }
+                    if (host != null) {
+                        Log.d(TAG, "getted host: " + host.toString());
+                        if (sessionManager.getUser().getId().equals(host.getId())) {
+                            sessionManager.saveUser(host);
+                            binding.tvRcoins.setText(String.valueOf(host.getRCoin()));
+                            giftViewModel.localUserCoin.setValue(host.getDiamond());
+                        }
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     };
     private Emitter.Listener viewListner = data -> {
         runOnUiThread(() -> {
@@ -289,31 +352,6 @@ public class WatchLiveActivity extends AgoraBaseActivity {
 
 
     };
-
-    private void displayGift() {
-        if (!giftQueue.isEmpty()) {
-            GiftRoot.GiftItem giftData = giftQueue.poll();
-            Log.d(TAG, "sent a gift    :  " + BuildConfig.BASE_URL + giftData.getImage());
-
-            Glide.with(binding.imgGift).load(BuildConfig.BASE_URL + giftData.getImage())
-                    .into(binding.imgGift);
-            Glide.with(binding.imgGiftCount).load(RayziUtils.getImageFromNumber(giftData.getCount()))
-                    .into(binding.imgGiftCount);
-
-            binding.lytGift.setVisibility(View.VISIBLE);
-            binding.tvGiftUserName.setVisibility(View.VISIBLE);
-            new Handler(Looper.myLooper()).postDelayed(() -> {
-                binding.lytGift.setVisibility(View.GONE);
-                binding.tvGiftUserName.setVisibility(View.GONE);
-                binding.tvGiftUserName.setText("");
-                binding.imgGift.setImageDrawable(null);
-                binding.imgGiftCount.setImageDrawable(null);
-                displayGift(); // Display the next gift in the queue
-            }, 13000);
-            makeSound();// Retrieves and removes the head of the queue
-            // Your code to display the gift goes here
-        }
-    }
 
     private UserProfileBottomSheet userProfileBottomSheet;
 
@@ -345,62 +383,6 @@ public class WatchLiveActivity extends AgoraBaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_watch_live);
-        micImages = new CircleImageView[8];
-        isAudioEnabledMic = new boolean[8];
-        micImages = new CircleImageView[8];
-        isAudioEnabledMic = new boolean[8];
-
-        // Initialize your micImages array here, e.g., micImages[0] = findViewById(R.id.mic1);
-        // Initialize isAudioEnabledMic array to true for all mics
-        micImages[0]=findViewById(R.id.mic1);
-        micImages[1]=findViewById(R.id.mic2);
-        micImages[2]=findViewById(R.id.mic3);
-        micImages[3]=findViewById(R.id.mic4);
-        micImages[4]=findViewById(R.id.mic5);
-        micImages[5]=findViewById(R.id.mic6);
-        micImages[6]=findViewById(R.id.mic7);
-        micImages[7]=findViewById(R.id.mic8);
-
-
-        setupMicClickListeners();
-    }
-
-    private void setupMicClickListeners() {
-        startBroadcast();
-        for (int i = 0; i < micImages.length; i++) {
-
-            final int micIndex = i;
-            micImages[i].setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (currentOccupiedSeat != -1 && currentOccupiedSeat != micIndex) {
-                        // If a seat is already occupied and it's not the same seat
-                        // Inform the user they need to leave the occupied seat first
-                        // You can show a message, toast, or handle it as per your design
-                        return;
-                    }
-
-                    isAudioEnabledMic[micIndex] = !isAudioEnabledMic[micIndex]; // Toggle audio status
-
-                    if (isAudioEnabledMic[micIndex]) {
-                        rtcEngine().muteLocalAudioStream(false); // Mute Microphone
-                        micImages[micIndex].setImageResource(R.drawable.ic_user_place); // Change to enabled image
-                    } else {
-                        rtcEngine().muteLocalAudioStream(true); // Unmute Microphone
-                        micImages[micIndex].setImageResource(R.drawable.roommic); // Change to disabled image
-                    }
-
-                    if (isAudioEnabledMic[micIndex]) {
-                        currentOccupiedSeat = micIndex;
-                    } else {
-                        currentOccupiedSeat = -1; // User left the seat
-                    }
-                }
-            });
-
-        }
-
-
 
         giftViewModel = ViewModelProviders.of(this, new ViewModelFactory(new EmojiSheetViewModel()).createFor()).get(EmojiSheetViewModel.class);
         viewModel = ViewModelProviders.of(this, new ViewModelFactory(new WatchLiveViewModel()).createFor()).get(WatchLiveViewModel.class);
@@ -422,7 +404,7 @@ public class WatchLiveActivity extends AgoraBaseActivity {
            /* Glide.with(this).load(host.getImage())
                     .apply(MainApplication.requestOptions)
                     .circleCrop().into(binding.imgProfile);*/
-            binding.tvCountry.setText(String.valueOf(host.getCountry()));
+      /*      binding.tvCountry.setText(String.valueOf(host.getCountry()));
             if (host.getCountry() == null || host.getCountry().isEmpty()) {
                 binding.tvCountry.setVisibility(View.GONE);
             }
@@ -434,13 +416,8 @@ public class WatchLiveActivity extends AgoraBaseActivity {
 
             // init agora cred
 
-            // switchAudioRouteToSpeaker();
 
-
-            joinChannel();
-            //     setupAudioProfile();
-            //     enableMicrophone();
-           // startBroadcast();
+           // joinChannel();
             initView();
 
             initLister();
@@ -464,6 +441,14 @@ public class WatchLiveActivity extends AgoraBaseActivity {
         }
 
 
+        initSeatButtons();
+
+
+    }
+
+    @Override
+    public void onUserMuteAudio(int uid, boolean muted) {
+
     }
 
 
@@ -485,6 +470,59 @@ public class WatchLiveActivity extends AgoraBaseActivity {
         }
     }
 
+    // Function to play the next gift from the queue
+    private void playNextGiftFromQueue() {
+        try {
+            if (!giftQueue.isEmpty()) {
+                GiftRoot.GiftItem nextGift = giftQueue.poll();
+                if (nextGift != null) {
+                    // Play the gift here
+                    playGift(nextGift);
+
+                    // After playing the gift, check if there are more gifts in the queue
+                    if (!giftQueue.isEmpty()) {
+                        // Delay for some time (e.g., 5 seconds) before playing the next gift
+                        new Handler(Looper.myLooper()).postDelayed(this::playNextGiftFromQueue, 5000);
+                    }
+                }
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+            // Handle the JSONException here, e.g., log the error or take appropriate action
+        }
+    }
+
+    // Function to play a gift
+    private void playGift(GiftRoot.GiftItem giftData) throws JSONException {
+        if (jsonObject != null) { // Check if jsonObject is not null
+            Log.d(TAG, "sent a gift: " + BuildConfig.BASE_URL + giftData.getImage());
+
+            Glide.with(binding.imgGift).load(BuildConfig.BASE_URL + giftData.getImage())
+                    .into(binding.imgGift);
+            Glide.with(binding.imgGiftCount).load(RayziUtils.getImageFromNumber(giftData.getCount()))
+                    .into(binding.imgGiftCount);
+
+            String name = jsonObject.getString("userName").toString();
+            binding.tvGiftUserName.setText(name + " Sent a gift");
+
+            binding.lytGift.setVisibility(View.VISIBLE);
+            binding.tvGiftUserName.setVisibility(View.VISIBLE);
+            new Handler(Looper.myLooper()).postDelayed(() -> {
+                binding.lytGift.setVisibility(View.GONE);
+                binding.tvGiftUserName.setVisibility(View.GONE);
+                binding.tvGiftUserName.setText("");
+                binding.imgGift.setImageDrawable(null);
+                binding.imgGiftCount.setImageDrawable(null);
+            }, 13000);
+           // makeSound();
+        }
+    }
+
+    // Call this function to start playing gifts
+    private void startGiftQueue() throws JSONException {
+        playNextGiftFromQueue();
+    }
+
     private void joinChannel() {
         // Initialize token, extra info here before joining channel
         // 1. Users can only see each other after they join the
@@ -498,37 +536,356 @@ public class WatchLiveActivity extends AgoraBaseActivity {
                 token = null; // default, no token
             }
 
-            // Sets the channel profile of the Agora RtcEngine.
-            // The Agora RtcEngine differentiates channel profiles and applies different optimization algorithms accordingly. For example, it prioritizes smoothness and low latency for a video call, and prioritizes video quality for a video broadcast.
             rtcEngine().setChannelProfile(Constants.CHANNEL_PROFILE_LIVE_BROADCASTING);
-            // rtcEngine().enableVideo();
-           // rtcEngine().enableAudio();
-            //  rtcEngine().muteLocalAudioStream(true);
-            // rtcEngine().setEnableSpeakerphone(true);
+            rtcEngine().setClientRole(Constants.CLIENT_ROLE_BROADCASTER);
+            //rtcEngine().enableVideo(); // Enable video if needed
+            rtcEngine().enableAudio(); // Enable audio
+            rtcEngine().setEnableSpeakerphone(true);
 
             //  configVideo();
-            Log.d("TAG", "joinChannel: " + config().getChannelName());
+            Log.d("TAG", "joinChannel: " + host.getChannel());
             rtcEngine().joinChannel(token, host.getChannel(), "", 0);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    //Start broadcast
+    // Initialize seat buttons and set click listeners
+  /*  private void initSeatButtons() {
+        for (int i = 0; i < 8; i++) {
+            int buttonId = getResources().getIdentifier("seat" + (i + 1) + "Button", "id", getPackageName());
+            seatButtons[i] = findViewById(buttonId);
+            final int seatIndex = i;
 
-    private void startBroadcast() {
-        Log.d(TAG, "startBroadcast: ");
-        try {
-            rtcEngine().setClientRole(Constants.CLIENT_ROLE_BROADCASTER);
-           rtcEngine().enableAudio();
-            rtcEngine().setEnableSpeakerphone(true);
-            // SurfaceView surface = prepareRtcVideo(0, false);
-            // mVideoGridContainer.addUserVideoSurface(0, surface, false);
-        } catch (Exception e) {
-            e.printStackTrace();
+            // Handle long tap to join a seat or leave a joined seat
+            seatButtons[i].setOnLongClickListener(v -> {
+                if (seatsOccupied[seatIndex]) {
+                    // The seat is already joined, so leave it
+                    onLeaveSeat(seatIndex);
+                } else {
+                    // Implement logic to check if the user is already seated in another seat
+                    if (isUserSeated()) {
+                        // Show a Toast message indicating they can only join one seat at a time
+                        Toast.makeText(this, "You can join only one seat at a time.", Toast.LENGTH_SHORT).show();
+                    } else {
+                        // User long-tapped an unoccupied seat, join the seat
+                        onJoinSeat(seatIndex);
+                    }
+                }
+                return true;
+            });
+
+            // Handle tap to mute/unmute if the seat is occupied
+            seatButtons[i].setOnClickListener(v -> {
+                // Implement logic to mute/unmute the user in this seat
+                if (seatsOccupied[seatIndex]) {
+                    onSeatTap(seatIndex);
+                }
+            });
         }
     }
-    private void initView() {
+
+    // Check if the user is already seated in a seat
+    private boolean isUserSeated() {
+        for (boolean occupied : seatsOccupied) {
+            if (occupied) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // Helper method to join a seat and associate a user with it
+    private void onJoinSeat(int seatIndex) {
+        if (!seatsOccupied[seatIndex]) {
+            // Check if the seat is not already occupied
+            int userUid = 12345; // Replace with your logic to get the user's UID
+
+            // Join the Agora channel with the user's UID as the seat identifier
+            joinChannelWithSeat(userUid, seatIndex);
+
+            seatsOccupied[seatIndex] = true;
+            occupiedSeats.add(seatIndex); // Add to the list of occupied seats
+
+            // Change the seat icon to a mic icon (replace with your drawable resource)
+            seatButtons[seatIndex].setBackgroundResource(R.drawable.roommic);
+
+            // Show a Toast message indicating successful seat joining
+            Toast.makeText(this, "Joined seat " + (seatIndex + 1), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
+    // Handle tap on a joined seat to mute/unmute the user
+    private void onSeatTap(int seatIndex) {
+        // Toggle mute/unmute for the user in this seat
+        seatsMuted[seatIndex] = !seatsMuted[seatIndex];
+
+        // Implement logic to mute/unmute the user's audio using Agora SDK
+        rtcEngine().muteLocalAudioStream(seatsMuted[seatIndex]);
+
+        // Update UI to indicate mute/unmute state
+        Button seatButton = seatButtons[seatIndex];
+        if (seatsMuted[seatIndex]) {
+            // Change the button background or appearance to represent muted mic (replace with your logic)
+            seatButton.setBackgroundResource(R.drawable.ic_mic_muted);
+            Toast.makeText(this, "Seat " + (seatIndex + 1) + " Muted", Toast.LENGTH_SHORT).show();
+        } else {
+            // Change the button background or appearance to represent mic (replace with your logic)
+            seatButton.setBackgroundResource(R.drawable.roommic);
+            Toast.makeText(this, "Seat " + (seatIndex + 1) + " Unmuted", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    // Helper method to leave a seat and disassociate a user from it
+    private void onLeaveSeat(int seatIndex) {
+        if (seatsOccupied[seatIndex]) {
+            // Check if the seat is occupied before leaving it
+            int userUid = 12345; // Replace with your logic to get the user's UID
+
+            // Leave the Agora channel and release the seat
+            leaveChannelWithSeat(userUid, seatIndex);
+
+            // Update UI to indicate that the user has left the seat
+            seatsOccupied[seatIndex] = false;
+            occupiedSeats.remove(Integer.valueOf(seatIndex)); // Remove from the list of occupied seats
+
+            // Reset the button's background to the default seat icon (replace with your drawable resource)
+            seatButtons[seatIndex].setBackgroundResource(R.drawable.seat);
+
+            // Show a Toast message to indicate leaving the seat
+            Toast.makeText(this, "Left seat " + (seatIndex + 1), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    // Helper method to join the Agora channel with a user's UID and associate them with a seat
+    private void joinChannelWithSeat(int userUid, int seatIndex) {
+        // Implement logic to join the Agora channel with the user's UID as the seat identifier
+        // You should use Agora's SDK methods to join the channel and set the seat identifier.
+        // Here's a simplified example:
+        String channelName = "your_channel_name"; // Replace with your channel name
+        rtcEngine().joinChannel(null, channelName, null, userUid);
+
+        // Associate the seat with the user's UID
+        occupiedSeatsMap.put(seatIndex, userUid);
+    }
+
+    // Helper method to leave the Agora channel and release a seat
+    private void leaveChannelWithSeat(int userUid, int seatIndex) {
+        // Implement logic to leave the Agora channel and release the seat
+        // You should use Agora's SDK methods to leave the channel.
+        // Here's a simplified example:
+        rtcEngine().leaveChannel();
+
+        // Release the seat by removing the association
+        occupiedSeatsMap.remove(seatIndex);
+    }
+
+    // Implement the onAudioVolumeIndication callback
+    private final IRtcEngineEventHandler mRtcEventHandler = new IRtcEngineEventHandler() {
+        @Override
+        public void onAudioVolumeIndication(AudioVolumeInfo[] speakers, int totalVolume) {
+            for (AudioVolumeInfo info : speakers) {
+                if (info.volume > SPEAKING_THRESHOLD) {
+                    // User is speaking, find the corresponding seat and highlight it
+                    int seatIndex = findSeatIndexByUid(info.uid);
+                    if (seatIndex != -1) {
+                        highlightSeat(seatIndex);
+                    }
+                }
+            }
+        }
+    };
+
+    // Helper method to find the seat index by user ID (uid)
+    private int findSeatIndexByUid(int uid) {
+        for (int i = 0; i < occupiedSeats.size(); i++) {
+            if (occupiedSeats.get(i) == uid) {
+                return i;
+            }
+        }
+        return -1; // User not found in occupied seats
+    }
+
+    // Helper method to highlight the seat by changing its background
+    private void highlightSeat(int seatIndex) {
+        // Change the button background or appearance to represent speaking (replace with your logic)
+        seatButtons[seatIndex].setBackgroundResource(R.drawable.speaking_roommic);
+    }*//*
+
+    // Initialize seat buttons and set click listeners
+    private void initSeatButtons() {
+        for (int i = 0; i < 8; i++) {
+            int buttonId = getResources().getIdentifier("seat" + (i + 1) + "Button", "id", getPackageName());
+            seatButtons[i] = findViewById(buttonId);
+            final int seatIndex = i;
+
+            // Handle long tap to join a seat or leave a joined seat
+            seatButtons[i].setOnLongClickListener(v -> {
+                if (seatsOccupied[seatIndex]) {
+                    // The seat is already joined, so leave it
+                    leaveChannelWithSeat(seatIndex);
+                    // Update the seat state to unoccupied
+                    seatsOccupied[seatIndex] = false;
+                    // Update the UI to reflect the seat state
+                    updateSeatUI(seatIndex);
+                } else {
+                    // Implement logic to check if the user is already seated in another seat
+                    if (isUserSeated()) {
+                        // Show a Toast message indicating they can only join one seat at a time
+                        Toast.makeText(this, "You can join only one seat at a time.", Toast.LENGTH_SHORT).show();
+                    } else {
+                        // User long-tapped an unoccupied seat, join the seat
+                        joinChannelWithSeat(seatIndex);
+                        // Update the seat state to occupied
+                        seatsOccupied[seatIndex] = true;
+                        // Update the UI to reflect the seat state
+                        updateSeatUI(seatIndex);
+                    }
+                }
+                return true;
+            });
+
+            // Handle tap to mute/unmute if the seat is occupied
+            seatButtons[i].setOnClickListener(v -> {
+                // Implement logic to mute/unmute the user in this seat
+                if (seatsOccupied[seatIndex]) {
+                    onSeatTap(seatIndex);
+                }
+            });
+        }
+    }
+
+    // Helper method to update the UI of a seat based on its state
+    private void updateSeatUI(int seatIndex) {
+        Button seatButton = seatButtons[seatIndex];
+        if (seatsOccupied[seatIndex]) {
+            // Change the button background or appearance to represent a joined seat
+            seatButton.setBackgroundResource(R.drawable.roommic);
+        } else {
+            // Change the button background or appearance to represent an unoccupied seat
+            seatButton.setBackgroundResource(R.drawable.seat);
+        }
+    }
+
+    // Check if the user is already seated in a seat
+    private boolean isUserSeated() {
+        for (boolean occupied : seatsOccupied) {
+            if (occupied) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // Handle tap on a joined seat to mute/unmute the user
+    private void onSeatTap(int seatIndex) {
+        // Toggle mute/unmute for the user in this seat
+        seatsMuted[seatIndex] = !seatsMuted[seatIndex];
+
+        // Implement logic to mute/unmute the user's audio using Agora SDK
+        rtcEngine().muteLocalAudioStream(seatsMuted[seatIndex]);
+
+        // Update UI to indicate mute/unmute state
+        Button seatButton = seatButtons[seatIndex];
+        if (seatsMuted[seatIndex]) {
+            // Change the button background or appearance to represent muted mic (replace with your logic)
+            seatButton.setBackgroundResource(R.drawable.ic_mic_muted);
+            Toast.makeText(this, "Seat " + (seatIndex + 1) + " Muted", Toast.LENGTH_SHORT).show();
+        } else {
+            // Change the button background or appearance to represent mic (replace with your logic)
+            seatButton.setBackgroundResource(R.drawable.roommic);
+            Toast.makeText(this, "Seat " + (seatIndex + 1) + " Unmuted", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    // Helper method to join a seat and associate a user with it
+    private void joinChannelWithSeat(int seatIndex) {
+        // Check if the seat is already occupied by another user
+        if (occupiedSeatsMap.containsValue(seatIndex)) {
+            // Seat is already occupied, show a message or take appropriate action
+            Toast.makeText(this, "Seat " + (seatIndex + 1) + " is already occupied.", Toast.LENGTH_SHORT).show();
+        } else {
+            // Join the Agora channel with the user's name as the seat identifier
+            // Replace this with your Agora SDK logic to join the channel
+            // For example: rtcEngine().joinChannel(null, channelName, null, userUid);
+
+            if (TextUtils.isEmpty(token) || TextUtils.equals(token, "#YOUR ACCESS TOKEN#")) {
+                token = null; // default, no token
+            }
+
+            rtcEngine().setChannelProfile(Constants.CHANNEL_PROFILE_LIVE_BROADCASTING);
+
+            // rtcEngine().enableVideo(); // Enable video if needed
+            rtcEngine().enableAudio(); // Enable audio
+            rtcEngine().setEnableSpeakerphone(true);
+
+            // Join the channel
+            Log.d("TAG", "joinChannel: " + host.getChannel());
+            Log.d("TAG", "joinChannel:tkn " + host.getToken());
+            Log.d("TAG", "joinChannel:agoraUID " + agoraUID);
+            // Now, you can use userIdString when joining the Agora channel
+            // rtcEngine().joinChannel(liveUser.getToken(), liveUser.getChannel(), String.valueOf(agoraUID), agoraUID); // Omit the last argument or provide an empty string
+            //rtcEngine().joinChannel(token, host.getChannel(), String.valueOf(agoraUID), agoraUID);
+            rtcEngine().joinChannel(token, host.getChannel(), String.valueOf(agoraUID), agoraUID);
+
+            // Enable the user's audio so they can hear others
+            rtcEngine().muteLocalAudioStream(false);
+
+            // Associate the user's name with the seat index
+            occupiedSeatsMap.put(String.valueOf(agoraUID), seatIndex);
+        }
+    }
+
+    // Helper method to leave a seat and disassociate a user from it
+    private void leaveChannelWithSeat(int seatIndex) {
+        // Check if the user is associated with the specified seat
+        if (occupiedSeatsMap.containsKey(String.valueOf(agoraUID)) && occupiedSeatsMap.get(String.valueOf(agoraUID)) == seatIndex) {
+            // Leave the Agora channel and release the seat
+            // Replace this with your Agora SDK logic to leave the channel
+            // For example: rtcEngine().leaveChannel();
+
+            // Disable the user's audio when they leave the seat
+            rtcEngine().muteLocalAudioStream(true);
+
+            // Disassociate the user's name from the seat index
+            occupiedSeatsMap.remove(String.valueOf(agoraUID));
+        }
+    }
+
+    // Implement the onAudioVolumeIndication callback
+    private final IRtcEngineEventHandler mRtcEventHandler = new IRtcEngineEventHandler() {
+        @Override
+        public void onAudioVolumeIndication(AudioVolumeInfo[] speakers, int totalVolume) {
+            for (AudioVolumeInfo info : speakers) {
+                if (info.volume > SPEAKING_THRESHOLD) {
+                    // User is speaking, find the corresponding seat by username and highlight it
+                    int seatIndex = findSeatIndexByUid(info.uid);
+                    if (seatIndex != -1) {
+                        highlightSeat(seatIndex);
+                    }
+                }
+            }
+        }
+    };
+
+    // Helper method to find the seat index by uid
+    private int findSeatIndexByUid(int uid) {
+        for (Map.Entry<String, Integer> entry : occupiedSeatsMap.entrySet()) {
+            if (entry.getValue() == uid) {
+                return entry.getValue();
+            }
+        }
+        return -1; // User not found in occupied seats
+    }
+
+    // Helper method to highlight the seat by changing its background
+    private void highlightSeat(int seatIndex) {
+        // Change the button background or appearance to represent speaking (replace with your logic)
+        seatButtons[seatIndex].setBackgroundResource(R.drawable.speaking_roommic);
+    }
+
+      private void initView() {
         //  mVideoGridContainer = binding.liveVideoGridLayout;
         //  mVideoGridContainer.setStatsManager(statsManager());
         emojiBottomsheetFragment = new EmojiBottomsheetFragment();
@@ -543,15 +900,10 @@ public class WatchLiveActivity extends AgoraBaseActivity {
 
     @Override
     public void onBackPressed() {
-        if (userCount == 0) {
             endLive();
-        }
-        else {
-
-            startActivity(new Intent(this, MainActivity.class));
 
         }
-    }
+
 
     private void endLive() {
         addLessView(false);
@@ -586,7 +938,7 @@ public class WatchLiveActivity extends AgoraBaseActivity {
             Toast.makeText(this, "Mic unmuted", Toast.LENGTH_SHORT).show();
             binding.btnMute.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.unmute));
         }
-    }*/
+    }*//*
     private void initLister() {
         viewModel.clickedComment.observe(this, user -> {
             getUser(user.getId());
@@ -617,6 +969,15 @@ public class WatchLiveActivity extends AgoraBaseActivity {
                     jsonObject.put("coin", giftItem.getCoin() * giftItem.getCount());
                     jsonObject.put("gift", new Gson().toJson(giftItem));
                     getSocket().emit(Const.EVENT_NORMALUSER_GIFT, jsonObject);
+
+                    // Add the gift to the queue
+                    giftQueue.add(giftItem);
+
+                    // Play the gift immediately if the queue was empty
+                    if (giftQueue.size() == 1) {
+                        playNextGiftFromQueue();
+                    }
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -657,17 +1018,6 @@ public class WatchLiveActivity extends AgoraBaseActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-    }
-
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-
-            return;
-        }
-
     }
 
     @Override
@@ -754,8 +1104,7 @@ public class WatchLiveActivity extends AgoraBaseActivity {
         Log.d(TAG, "onVideoStopped: ");
     }*/
 
-
-
+/*
     public void onclickGiftIcon(View view) {
         emojiBottomsheetFragment.show(getSupportFragmentManager(), "emojifragfmetn");
     }
@@ -767,7 +1116,7 @@ public class WatchLiveActivity extends AgoraBaseActivity {
             renderRemoteUser(uid);
             addLessView(true);
         });
-    }*/
+    }*//*
 
     private void renderRemoteUser(int uid) {
         Log.d(TAG, "renderRemoteUser: ");
@@ -810,11 +1159,11 @@ public class WatchLiveActivity extends AgoraBaseActivity {
                 endLive();
             }
         }, 5000);*/
-    }
+/*    }
 
     @Override
     public void onUserOffline(int uid, int reason) {
-        Log.d(TAG, "onUserOffline: " + uid + " reason" + reason);
+       // Log.d(TAG, "onUserOffline: " + uid + " reason" + reason);
         userCount--; // Decrement the user count when a user leaves the channel
         updateUI(); // Update the UI to display the new user count
         runOnUiThread(new Runnable() {
@@ -827,10 +1176,20 @@ public class WatchLiveActivity extends AgoraBaseActivity {
     }
 
     @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
+
+            return;
+        }
+
+    }
+
+    @Override
     public void onUserJoined(int uid, int elapsed) {
         Log.d(TAG, "onUserJoined: " + uid + "  elapsed" + elapsed);
-        userCount++; // Decrement the user count when a user leaves the channel
-        updateUI(); // Update the UI to display the new user count
+      //  userCount++; // Decrement the user count when a user leaves the channel
+      //  updateUI(); // Update the UI to display the new user count
     }
 
     @Override
@@ -855,7 +1214,7 @@ public class WatchLiveActivity extends AgoraBaseActivity {
         data.setFramerate(stats.sentFrameRate);
     }*/
 
-    @Override
+  /*  @Override
     public void onRtcStats(IRtcEngineEventHandler.RtcStats stats) {
         if (!statsManager().isEnabled()) return;
 
@@ -896,7 +1255,7 @@ public class WatchLiveActivity extends AgoraBaseActivity {
         data.setFramerate(stats.rendererOutputFrameRate);
         data.setVideoDelay(stats.delay);
     }*/
-
+/*
     @Override
     public void onRemoteAudioStats(IRtcEngineEventHandler.RemoteAudioStats stats) {
         if (!statsManager().isEnabled()) return;
@@ -931,4 +1290,4 @@ public class WatchLiveActivity extends AgoraBaseActivity {
 
         });
     }
-}
+}*/

@@ -6,11 +6,14 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.widget.ImageView;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.io.IOException;
 
 import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
@@ -18,15 +21,14 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.bumptech.glide.Glide;
 import com.zorona.liverooms.BuildConfig;
+import com.zorona.liverooms.MainApplication;
 import com.zorona.liverooms.R;
 import com.zorona.liverooms.RayziUtils;
 import com.zorona.liverooms.SessionManager;
-import com.zorona.liverooms.activity.MainActivity;
 import com.zorona.liverooms.agora.AgoraBaseActivity;
 import com.zorona.liverooms.agora.stats.LocalStatsData;
 import com.zorona.liverooms.agora.stats.RemoteStatsData;
 import com.zorona.liverooms.agora.stats.StatsData;
-import com.zorona.liverooms.agora.ui.VideoGridContainer;
 import com.zorona.liverooms.bottomsheets.UserProfileBottomSheet;
 import com.zorona.liverooms.databinding.ActivityHostLiveBinding;
 import com.zorona.liverooms.emoji.EmojiBottomsheetFragment;
@@ -34,10 +36,10 @@ import com.zorona.liverooms.modelclass.GiftRoot;
 import com.zorona.liverooms.modelclass.GuestProfileRoot;
 import com.zorona.liverooms.modelclass.LiveStramComment;
 import com.zorona.liverooms.modelclass.LiveStreamRoot;
+import com.zorona.liverooms.modelclass.LiveUserRoot;
 import com.zorona.liverooms.modelclass.UserRoot;
 import com.zorona.liverooms.retrofit.Const;
-import com.zorona.liverooms.utils.Filters.FilterRoot;
-import com.zorona.liverooms.utils.Filters.FilterUtils;
+import com.zorona.liverooms.retrofit.UserApiCall;
 import com.zorona.liverooms.viewModel.EmojiSheetViewModel;
 import com.zorona.liverooms.viewModel.HostLiveViewModel;
 import com.zorona.liverooms.viewModel.ViewModelFactory;
@@ -49,90 +51,86 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.Calendar;
-import java.util.LinkedList;
-import java.util.Queue;
+import io.agora.rtc2.IRtcEngineEventHandler;
+import io.agora.rtc2.Constants;
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
+import retrofit2.Call;
+import retrofit2.http.GET;
+import retrofit2.http.POST;
+import retrofit2.http.Path;
 
-import de.hdodenhof.circleimageview.CircleImageView;
-import io.agora.rtc.Constants;
-import io.agora.rtc.IRtcEngineEventHandler;
+// Add these imports at the top of your Java file
+
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
 import io.branch.indexing.BranchUniversalObject;
 import io.branch.referral.util.ContentMetadata;
 import io.branch.referral.util.LinkProperties;
 import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
+import io.agora.rtm.RtmClient;
+
+import io.agora.rtm.RtmChannel;
+
+import com.zorona.liverooms.agora.token.RtcTokenBuilder;
 
 public class HostLiveActivity extends AgoraBaseActivity {
     public static final String TAG = "hostliveactivity";
     ActivityHostLiveBinding binding;
     SessionManager sessionManager;
+    String token = "";
     EmojiBottomsheetFragment emojiBottomsheetFragment;
     UserProfileBottomSheet userProfileBottomSheet;
     JSONArray blockedUsersList = new JSONArray();
     private HostLiveViewModel viewModel;
-    private VideoGridContainer mVideoGridContainer;
     private EmojiSheetViewModel giftViewModel;
-    private int userCount = 0;
-    private CircleImageView[] micImages;
-    private boolean[] isAudioEnabledMic;
-    private int currentOccupiedSeat = -1;
+    private static final int PERMISSION_REQ_CODE = 123;
 
-    Queue<GiftRoot.GiftItem> giftQueue = new LinkedList<>();
+    private boolean[] seatsOccupied = new boolean[8];
 
-    private Emitter.Listener simpleFilterListner = args -> {
-        if (args[0] != null) {
-            runOnUiThread(() -> {
+    // Add a list to track occupied seats
+   // private Map<Integer, Integer> occupiedSeatsMap = new HashMap<>();
 
-                String filtertype = null;
+    // Define the HashMap using SeatKey as keys
+    private Map<SeatKey, Integer> occupiedSeatsMap = new HashMap<>();
+    private boolean[] seatsMuted = new boolean[8];
 
-                filtertype = args[0].toString();
-                FilterRoot filterRoot = new Gson().fromJson(filtertype, FilterRoot.class);
-                if (filterRoot != null) {
-                    if (filterRoot.getTitle().equalsIgnoreCase("None")) {
-                        Log.d(TAG, "initLister: null");
-                        binding.imgFilter.setImageDrawable(null);
-                    } else {
-                        Log.d(TAG, "initLister: ffff");
-                        Glide.with(binding.imgFilter).load(FilterUtils.getDraw(filterRoot.getTitle())).into(binding.imgFilter);
-                        //  Glide.with(this).asGif().load(selectedFilter.getFilter()).into(binding.imgFilter);
-                    }
+    private Button[] seatButtons = new Button[8]; // Assuming there are 8 seats
 
-                }
+    private LiveUserRoot.UsersItem host;
 
-            });
+    private boolean isGuest;
 
-        }
+    private int userCount = 0; // Keep track of the number of users in the channel
 
+    private final Handler handler = new Handler();
+    private static final int OCCUPY_SEAT_INTERVAL_MS = 800; // 1/8 seconds in milliseconds
 
-    };
+    private UserRoot.User user;
+    private UserApiCall userApiCall;
+
+    RtcTokenBuilder mainClass = new RtcTokenBuilder();
+    int agoraUID = mainClass.getAgoraUID();
+
+    // Initialize Agora RTM
+    RtmClient rtmClient;
+    RtmChannel rtmChannel;
 
 
-    private Emitter.Listener animatedFilterListner = args -> {
-        if (args[0] != null) {
-            runOnUiThread(() -> {
-
-                String filtertype = null;
-
-                filtertype = args[0].toString();
-                FilterRoot filterRoot = new Gson().fromJson(filtertype, FilterRoot.class);
-                if (filterRoot != null) {
-                    if (filterRoot.getTitle().equalsIgnoreCase("None")) {
-                        binding.imgFilter2.setImageDrawable(null);
-                    } else {
-                        Glide.with(binding.imgFilter2).load(FilterUtils.getDraw(filterRoot.getTitle()))
-                                .placeholder(R.drawable.placeholder)
-                                .error(R.drawable.placeholder)
-                                .into(binding.imgFilter2);
-                    }
-                }
-
-            });
-
-        }
-    };
     private Emitter.Listener gifListner = args -> {
 
     };
+
     private Emitter.Listener commentListner = args -> {
         if (args[0] != null) {
             runOnUiThread(() -> {
@@ -160,69 +158,6 @@ public class HostLiveActivity extends AgoraBaseActivity {
 
     };
 
-    private void updateUI() {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                TextView userCountTextView = findViewById(R.id.userCountTextView);
-                userCountTextView.setText(String.format("%d online users", userCount));
-            }
-        });
-    }
-    private Emitter.Listener giftListner = args -> {
-        runOnUiThread(() -> {
-            if (args[0] != null) {
-
-
-                Log.d(TAG, "giftloister : " + args.toString());
-                String data = args[0].toString();
-                try {
-                    JSONObject jsonObject = new JSONObject(data.toString());
-                    if (jsonObject.get("gift") != null) {
-                        Log.d(TAG, "json gift : " + jsonObject.toString());
-                        GiftRoot.GiftItem giftData = new Gson().fromJson(jsonObject.get("gift").toString(), GiftRoot.GiftItem.class);
-                        if (giftData != null) {
-                            giftQueue.add(giftData);
-
-                        }
-                        else {
-
-                            displayGift();
-                            String name = jsonObject.getString("userName").toString();
-                            binding.tvGiftUserName.setText(name + " Sent a gift");
-                        }
-
-                    }
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-            }
-
-
-            if (args[2] != null) {   // host
-                Log.d(TAG, "host string   : " + args[2].toString());
-                try {
-                    JSONObject jsonObject = new JSONObject(args[2].toString());
-                    UserRoot.User host = new Gson().fromJson(jsonObject.toString(), UserRoot.User.class);
-                    if (host != null) {
-                        Log.d(TAG, ":getted host    " + host.toString());
-                        if (sessionManager.getUser().getId().equals(host.getId())) {
-                            sessionManager.saveUser(host);
-                            // binding.tvDiamonds.setText(String.valueOf(host.getDiamond()));
-                            binding.tvRcoins.setText(String.valueOf(host.getRCoin()));
-                            giftViewModel.localUserCoin.setValue(host.getDiamond());
-                        }
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-            }
-
-        });
-    };
     private LiveStreamRoot.LiveUser liveUser;
     private Emitter.Listener viewListner = data -> {
         runOnUiThread(() -> {
@@ -233,7 +168,7 @@ public class HostLiveActivity extends AgoraBaseActivity {
 
                 JSONArray jsonArray = new JSONArray(args.toString());
                 viewModel.liveViewUserAdapter.addData(jsonArray);
-                //binding.tvViewUserCount.setText(String.valueOf(jsonArray.length()));
+                //  binding.tvViewUserCount.setText(String.valueOf(jsonArray.length()));
                 Log.d(TAG, "views2 : " + jsonArray);
                 //  binding.tvNoOneJoined.setVisibility(viewModel.liveViewUserAdapter.getItemCount() > 0 ? View.GONE : View.VISIBLE);
 
@@ -253,214 +188,829 @@ public class HostLiveActivity extends AgoraBaseActivity {
 
     };
 
+    private Emitter.Listener giftListner = args -> {
+        runOnUiThread(() -> {
+            if (args[0] != null) {
+
+
+                Log.d(TAG, "giftloister : " + args.toString());
+                String data = args[0].toString();
+                try {
+                    JSONObject jsonObject = new JSONObject(data.toString());
+                    if (jsonObject.get("gift") != null) {
+                        Log.d(TAG, "json gift : " + jsonObject.toString());
+                        GiftRoot.GiftItem giftData = new Gson().fromJson(jsonObject.get("gift").toString(), GiftRoot.GiftItem.class);
+                        if (giftData != null) {
+
+                            Log.d(TAG, "sent a gift    :  " + BuildConfig.BASE_URL + giftData.getImage());
+
+                            Glide.with(binding.imgGift).load(BuildConfig.BASE_URL + giftData.getImage())
+                                    .into(binding.imgGift);
+                            Glide.with(binding.imgGiftCount).load(RayziUtils.getImageFromNumber(giftData.getCount()))
+                                    .into(binding.imgGiftCount);
+
+
+                            String name = jsonObject.getString("userName").toString();
+                            binding.tvGiftUserName.setText(name + " Sent a gift");
+
+                            binding.lytGift.setVisibility(View.VISIBLE);
+                            binding.tvGiftUserName.setVisibility(View.VISIBLE);
+                            new Handler(Looper.myLooper()).postDelayed(() -> {
+                                binding.lytGift.setVisibility(View.GONE);
+                                binding.tvGiftUserName.setVisibility(View.GONE);
+                                binding.tvGiftUserName.setText("");
+                                binding.imgGift.setImageDrawable(null);
+                                binding.imgGiftCount.setImageDrawable(null);
+                            }, 13000);
+                            // makeSound();
+                        }
+
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            // Determine if the user is a host or guest based on the 'isGuest' flag
+            if (isGuest) {
+                // This user is a guest, perform guest-specific actions
+                if (args[1] != null) {  // gift sender user
+                    Log.d(TAG, "user string   : " + args[1].toString());
+                    try {
+                        JSONObject jsonObject = new JSONObject(args[1].toString());
+                        UserRoot.User user = new Gson().fromJson(jsonObject.toString(), UserRoot.User.class);
+                        if (user != null) {
+                            Log.d(TAG, ":getted user    " + user.toString());
+                            if (user.getId().equals(sessionManager.getUser().getId())) {
+                                sessionManager.saveUser(user);
+                                giftViewModel.localUserCoin.setValue(user.getDiamond());
+                            }
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+
+                if (args[2] != null) {   // host
+                    Log.d(TAG, "host string   : " + args[2].toString());
+                    try {
+                        JSONObject jsonObject = new JSONObject(args[2].toString());
+                        UserRoot.User host = new Gson().fromJson(jsonObject.toString(), UserRoot.User.class);
+                        if (host != null) {
+                            Log.d(TAG, ":getted host    " + host.toString());
+
+                            binding.tvRcoins.setText(String.valueOf(host.getRCoin()));
+
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            } else {
+                if (args[2] != null) {   // host
+                    Log.d(TAG, "host string   : " + args[2].toString());
+                    try {
+                        JSONObject jsonObject = new JSONObject(args[2].toString());
+                        UserRoot.User host = new Gson().fromJson(jsonObject.toString(), UserRoot.User.class);
+                        if (host != null) {
+                            Log.d(TAG, ":getted host    " + host.toString());
+                            if (sessionManager.getUser().getId().equals(host.getId())) {
+                                sessionManager.saveUser(host);
+                                // binding.tvDiamonds.setText(String.valueOf(host.getDiamond()));
+                                binding.tvRcoins.setText(String.valueOf(host.getRCoin()));
+                                giftViewModel.localUserCoin.setValue(host.getDiamond());
+                            }
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+
+            }
+        });
+    };
+
+    private Emitter.Listener blockedUsersListner = args -> {
+        Log.d(TAG, "blockedUsersListner: " + args[0].toString());
+        runOnUiThread(() -> {
+            if (args[0] != null) {
+                Object data = args[0];
+                try {
+                    JSONObject jsonObject = new JSONObject(data.toString());
+                    JSONArray blockedList = jsonObject.getJSONArray("blocked");
+                    for (int i = 0; i < blockedList.length(); i++) {
+                        Log.d(TAG, "block user : " + blockedList.get(i).toString());
+                        if (blockedList.get(i).toString().equals(sessionManager.getUser().getId())) {
+                            Toast.makeText(HostLiveActivity.this, "You are blocked by host", Toast.LENGTH_SHORT).show();
+                            if(isGuest){
+                                new Handler(Looper.myLooper()).postDelayed(() -> endLiveGuest(), 500);
+                            }else {
+                                new Handler(Looper.myLooper()).postDelayed(() -> endLive(), 500);
+                            }
+                        }
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    };
+
+    // Update the UI to display the user count
+    private void updateUI() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                TextView userCountTextView = findViewById(R.id.userCountTextView);
+                userCountTextView.setText(String.format("%d online", userCount));
+            }
+        });
+    }
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_host_live);
-        micImages = new CircleImageView[8];
-        isAudioEnabledMic = new boolean[8];
-        micImages = new CircleImageView[8];
-        isAudioEnabledMic = new boolean[8];
 
-        // Initialize your micImages array here, e.g., micImages[0] = findViewById(R.id.mic1);
-        // Initialize isAudioEnabledMic array to true for all mics
-        micImages[0]=findViewById(R.id.mic1);
-        micImages[1]=findViewById(R.id.mic2);
-        micImages[2]=findViewById(R.id.mic3);
-        micImages[3]=findViewById(R.id.mic4);
-        micImages[4]=findViewById(R.id.mic5);
-        micImages[5]=findViewById(R.id.mic6);
-        micImages[6]=findViewById(R.id.mic7);
-        micImages[7]=findViewById(R.id.mic8);
+        // Retrieve the 'IS_GUEST' flag from the intent
+        isGuest = getIntent().getBooleanExtra(Const.IS_GUEST, false);
 
 
-        setupMicClickListeners();
+
+        // Determine if the user is a host or guest based on the 'isGuest' flag
+        if (isGuest) {
+
+            giftViewModel = ViewModelProviders.of(this, new ViewModelFactory(new EmojiSheetViewModel()).createFor()).get(EmojiSheetViewModel.class);
+            viewModel = ViewModelProviders.of(this, new ViewModelFactory(new HostLiveViewModel()).createFor()).get(HostLiveViewModel.class);
+            sessionManager = new SessionManager(this);
+            binding.setViewModel(viewModel);
+            viewModel.initLister();
+            giftViewModel.getGiftCategory();
+
+            Intent intent = getIntent();
+            String userStr = intent.getStringExtra(Const.DATA);
+            if (userStr != null && !userStr.isEmpty()) {
+                host = new Gson().fromJson(userStr, LiveUserRoot.UsersItem.class);
+                token = host.getToken();
+
+                initSoketIo(host.getLiveStreamingId(), false);
+
+                Glide.with(this).load(host.getImage())
+                        .apply(MainApplication.requestOptions)
+                        .circleCrop().into(binding.imgProfile);
+                binding.tvCountry.setText(String.valueOf(host.getCountry()));
+                if (host.getCountry() == null || host.getCountry().isEmpty()) {
+                    binding.tvCountry.setVisibility(View.GONE);
+                }
+
+                binding.tvRcoins.setText(String.valueOf(host.getRCoin()));
+                binding.tvName.setText(host.getName());
+
+
+                // init agora cred
+
+
+                initView();
+                joinChannel();
+
+                initLister();
+
+
+                binding.rvComments.scrollToPosition(viewModel.liveStramCommentAdapter.getItemCount() - 1);
+
+                getSocket().on(Socket.EVENT_CONNECT, args -> runOnUiThread(() -> {
+                    getSocket().on(Const.EVENT_GIF, gifListner);
+                    getSocket().on(Const.EVENT_COMMENT, commentListner);
+                    getSocket().on(Const.EVENT_GIFT, giftListner);
+                    getSocket().on(Const.EVENT_VIEW, viewListner);
+
+                    getSocket().on(Const.EVENT_BLOCK, blockedUsersListner);
+                    Log.d(TAG, "onCreate: live send");
+                    //  addLessView(true);
+                }));
+
+                // Add listeners for seat occupancy updates
+                getSocket().on("occupiedSeatsMapUpdated", new Emitter.Listener() {
+                    @Override
+                    public void call(final Object... args) {
+                        // Handle the updated occupiedSeatsMap here
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                JSONObject seatIndex = (JSONObject) args[0];
+                                // Update your UI based on the data received
+                                // data will contain the updated seat occupancy information
+                            }
+                        });
+                    }
+                });
+
+            }
+
+        } else {
+
+            giftViewModel = ViewModelProviders.of(this, new ViewModelFactory(new EmojiSheetViewModel()).createFor()).get(EmojiSheetViewModel.class);
+            viewModel = ViewModelProviders.of(this, new ViewModelFactory(new HostLiveViewModel()).createFor()).get(HostLiveViewModel.class);
+            sessionManager = new SessionManager(this);
+            binding.setViewModel(viewModel);
+
+            giftViewModel.getGiftCategory();
+
+            Intent intent = getIntent();
+            if (intent != null) {
+                String data = intent.getStringExtra(Const.DATA);
+                String privacy = intent.getStringExtra(Const.PRIVACY);
+                binding.tvPrivacy.setText(privacy);
+                if (privacy.equalsIgnoreCase("Private")) {
+                    binding.imgPrivacyk.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.lock));
+                }
+                if (data != null && !data.isEmpty()) {
+                    liveUser = new Gson().fromJson(data, LiveStreamRoot.LiveUser.class);
+
+                    Log.d(TAG, "onCreate: live room id " + liveUser.getLiveStreamingId());
+                    initSoketIo(liveUser.getLiveStreamingId(), true);
+                }
+            }
+
+            Glide.with(this).load(liveUser.getImage())
+                    .apply(MainApplication.requestOptions)
+                    .circleCrop().into(binding.imgProfile);
+            binding.tvCountry.setText(String.valueOf(liveUser.getCountry()));
+            if (liveUser.getCountry() == null || liveUser.getCountry().isEmpty()) {
+                binding.tvCountry.setVisibility(View.GONE);
+            }
+
+            viewModel.initLister();
+            initView();
+
+            joinChannel();
+
+            initLister();
+            getSocket().on(Socket.EVENT_CONNECT, args -> runOnUiThread(() -> {
+
+
+                getSocket().on(Const.EVENT_GIF, gifListner);
+                getSocket().on(Const.EVENT_COMMENT, commentListner);
+                getSocket().on(Const.EVENT_GIFT, giftListner);
+                getSocket().on(Const.EVENT_VIEW, viewListner);
+
+            }));
+
+            // Add listeners for seat occupancy updates
+            getSocket().on("occupiedSeatsMapUpdated", new Emitter.Listener() {
+                @Override
+                public void call(final Object... args) {
+                    // Handle the updated occupiedSeatsMap here
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            JSONObject seatIndex = (JSONObject) args[0];
+                            // Update your UI based on the data received
+                            // data will contain the updated seat occupancy information
+                        }
+                    });
+                }
+            });
+        }
+
+        // Call the initSeatButtons method and pass the channel
+        initSeatButtons();
+
     }
 
-    private void setupMicClickListeners() {
-        startBroadcast();
-        for (int i = 0; i < micImages.length; i++) {
-
-            final int micIndex = i;
-            micImages[i].setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (currentOccupiedSeat != -1 && currentOccupiedSeat != micIndex) {
-                        // If a seat is already occupied and it's not the same seat
-                        // Inform the user they need to leave the occupied seat first
-                        // You can show a message, toast, or handle it as per your design
-                        return;
-                    }
-
-                    isAudioEnabledMic[micIndex] = !isAudioEnabledMic[micIndex]; // Toggle audio status
-
-                    if (isAudioEnabledMic[micIndex]) {
-                        rtcEngine().muteLocalAudioStream(false); // Mute Microphone
-                        micImages[micIndex].setImageResource(R.drawable.ic_user_place); // Change to enabled image
-                    } else {
-                        rtcEngine().muteLocalAudioStream(true); // Unmute Microphone
-                        micImages[micIndex].setImageResource(R.drawable.roommic); // Change to disabled image
-                    }
-
-                    if (isAudioEnabledMic[micIndex]) {
-                        currentOccupiedSeat = micIndex;
-                    } else {
-                        currentOccupiedSeat = -1; // User left the seat
-                    }
-                }
-            });
-
-        }
-
-        giftViewModel = ViewModelProviders.of(this, new ViewModelFactory(new EmojiSheetViewModel()).createFor()).get(EmojiSheetViewModel.class);
-        viewModel = ViewModelProviders.of(this, new ViewModelFactory(new HostLiveViewModel()).createFor()).get(HostLiveViewModel.class);
-        sessionManager = new SessionManager(this);
-        binding.setViewModel(viewModel);
-
-        giftViewModel.getGiftCategory();
-
-        Intent intent = getIntent();
-        if (intent != null) {
-            String data = intent.getStringExtra(Const.DATA);
-            String privacy = intent.getStringExtra(Const.PRIVACY);
-            binding.tvPrivacy.setText(privacy);
-            if (privacy.equalsIgnoreCase("Private")) {
-                binding.imgPrivacyk.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.lock));
-            }
-            if (data != null && !data.isEmpty()) {
-                liveUser = new Gson().fromJson(data, LiveStreamRoot.LiveUser.class);
-
-                Log.d(TAG, "onCreate: live room id " + liveUser.getLiveStreamingId());
-                initSoketIo(liveUser.getLiveStreamingId(), true);
-            }
-        }
-
-        viewModel.initLister();
-        initView();
-
-        joinChannel();
-       // startBroadcast();
-
-        initLister();
-        getSocket().on(Socket.EVENT_CONNECT, args -> runOnUiThread(() -> {
-
-            getSocket().on(Const.EVENT_SIMPLEFILTER, simpleFilterListner);
-            getSocket().on(Const.EVENT_ANIMFILTER, animatedFilterListner);
-            getSocket().on(Const.EVENT_GIF, gifListner);
-            getSocket().on(Const.EVENT_COMMENT, commentListner);
-            getSocket().on(Const.EVENT_GIFT, giftListner);
-            getSocket().on(Const.EVENT_VIEW, viewListner);
-
-        }));
-
-      /*  SVGAImageView imageView = binding.svgaImage;r
-        SVGAParser parser = new SVGAParser(this);
+    // Function to join the Agora channel
+    private void joinChannel() {
         try {
-            parser.decodeFromURL(new URL("https://github.com/yyued/SVGA-Samples/blob/master/posche.svga?raw=true"), new SVGAParser.ParseCompletion() {
-                @Override
-                public void onComplete(@NonNull SVGAVideoEntity svgaVideoEntity) {
-                    SVGADrawable drawable = new SVGADrawable(svgaVideoEntity);
-                    imageView.setImageDrawable(drawable);
-                    imageView.startAnimation();
-                }
+            // Join the Agora channel with the user's name as the seat identifier
+            // Replace this with your Agora SDK logic to join the channel
+            // For example: rtcEngine().joinChannel(null, channelName, null, userUid);
 
-                @Override
-                public void onError() {
+            rtcEngine().setChannelProfile(Constants.CHANNEL_PROFILE_LIVE_BROADCASTING);
+            rtcEngine().setClientRole(Constants.CLIENT_ROLE_BROADCASTER);
+            rtcEngine().enableAudio(); // Enable audio
+            rtcEngine().muteLocalAudioStream(true);
+            rtcEngine().muteAllRemoteAudioStreams(false);
 
-                }
-            }, new SVGAParser.PlayCallback() {
-                @Override
-                public void onPlay(@NonNull List<? extends File> list) {
+            rtcEngine().enableAudioVolumeIndication(200, 3, false); // Set up the callback
 
-                }
-            });
-        } catch (MalformedURLException e) {
+            // rtcEngine().setEnableSpeakerphone(true);
+
+            if (TextUtils.isEmpty(token) || TextUtils.equals(token, "#YOUR ACCESS TOKEN#")) {
+                token = null; // default, no token
+            }
+
+
+
+
+            if (isGuest) {
+                // Join the channel
+                Log.d("TAG", "joinChannel: " + host.getChannel());
+                Log.d("TAG", "joinChannel:agoraUID " + agoraUID);
+                // Now, you can use userIdString when joining the Agora channel
+                // rtcEngine().joinChannel(liveUser.getToken(), liveUser.getChannel(), String.valueOf(agoraUID), agoraUID); // Omit the last argument or provide an empty string
+                //rtcEngine().joinChannel(token, host.getChannel(), String.valueOf(agoraUID), agoraUID);
+                rtcEngine().joinChannel(token, host.getChannel(), String.valueOf(agoraUID), agoraUID);
+            } else {
+                // Join the channel
+                Log.d("TAG", "joinChannel:tkn " + liveUser.getToken());
+                Log.d("TAG", "joinChannel:chanel " + liveUser.getChannel());
+                Log.d("TAG", "joinChannel:agoraUID " + agoraUID);
+                rtcEngine().joinChannel(liveUser.getToken(), liveUser.getChannel(), String.valueOf(agoraUID), agoraUID);
+            }
+        } catch (Exception e) {
             e.printStackTrace();
-        }*/
-
+        }
     }
 
     @Override
     public void onBackPressed() {
-        if (userCount == 0) {
-            endLive();
+        if (isGuest) {
+            endLiveGuest();
+            handler.removeCallbacksAndMessages(null);
         } else {
-            onDestroy();
-            startActivity(new Intent(this, MainActivity.class));
+            endLive();
+            handler.removeCallbacksAndMessages(null);
         }
     }
 
-    private void endLive() {
+    private void endLiveGuest() {
+        addLessView(false);
+        try {
+            //   removeRtcVideo(0, true);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        //  mVideoGridContainer.removeUserVideo(0, true);
+        getSocket().disconnect();
+        finish();
 
-//        removeRtcVideo(0, true);
-        //    mVideoGridContainer.removeUserVideo(0, true);
+    }
+
+    private void addLessView(boolean isAdd) {
+        if (isGuest){
+                JSONObject jsonObject = new JSONObject();
+                try {
+                    jsonObject.put("liveStreamingId", host.getLiveStreamingId());
+                    jsonObject.put("liveUserMongoId", host.getId());
+                    jsonObject.put("userId", sessionManager.getUser().getId());
+                    jsonObject.put("isVIP", sessionManager.getUser().isIsVIP());
+                    jsonObject.put("image", sessionManager.getUser().getImage());
+                    if (isAdd) {
+                        getSocket().emit(Const.EVENT_ADDVIEW, jsonObject);
+                    } else {
+                        getSocket().emit(Const.EVENT_LESSVIEW, jsonObject);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        else {
+            JSONObject jsonObject = new JSONObject();
+            try {
+                jsonObject.put("liveStreamingId", liveUser.getLiveStreamingId());
+                jsonObject.put("liveUserMongoId", host.getId());
+                jsonObject.put("userId", sessionManager.getUser().getId());
+                jsonObject.put("isVIP", sessionManager.getUser().isIsVIP());
+                jsonObject.put("image", sessionManager.getUser().getImage());
+                if (isAdd) {
+                    getSocket().emit(Const.EVENT_ADDVIEW, jsonObject);
+                } else {
+                    getSocket().emit(Const.EVENT_LESSVIEW, jsonObject);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
+
+    private void endLive() {
 
         startActivity(new Intent(this, LiveSummaryActivity.class).putExtra(Const.DATA, liveUser.getLiveStreamingId()));
         finish();
 
     }
 
-    private void displayGift() {
-        if (!giftQueue.isEmpty()) {
-            GiftRoot.GiftItem giftData = giftQueue.poll();
+    private void initSeatButtons() {
+        for (int i = 0; i < 8; i++) {
+            int buttonId = getResources().getIdentifier("seat" + (i + 1) + "Button", "id", getPackageName());
+            seatButtons[i] = findViewById(buttonId);
+            final int seatIndex = i;
 
-            Log.d(TAG, "sent a gift    :  " + BuildConfig.BASE_URL + giftData.getImage());
+            // Handle long tap to join a seat or leave a joined seat
+            seatButtons[i].setOnLongClickListener(v -> {
+                if (seatsOccupied[seatIndex]) {
+                    // The seat is already joined, so leave it
+                    // Check seat occupancy with the backend before leaving
+                    if(isGuest){
+                        checkSeatAvailability(seatIndex, false, sessionManager.getUser().getUsername(), host.getLiveStreamingId()); // Replace "your_username_here" with the actual username
+                    }else {
+                        checkSeatAvailability(seatIndex, false, liveUser.getUsername(), liveUser.getLiveStreamingId());
+                    }// Replace "your_username_here" with the actual username
+                    // Clear the association of the user with this seat
+                    seatsOccupied[seatIndex] = false;
+                    if(isGuest){
+                        SeatKey seatKey = new SeatKey(host.getLiveStreamingId(), seatIndex, agoraUID);
+                        occupiedSeatsMap.remove(seatKey, agoraUID);
+                    }else{
+                        SeatKey seatKey = new SeatKey(liveUser.getLiveStreamingId(), seatIndex, agoraUID);
+                        occupiedSeatsMap.remove(seatKey, agoraUID);
+                    }
+                } else {
+                    // Implement logic to check if the user is already seated in another seat
+                    if (isUserSeated()) {
+                        // Show a Toast message indicating they can only join one seat at a time
+                        Toast.makeText(this, "You can join only one seat at a time.", Toast.LENGTH_SHORT).show();
+                    } else {
+                        // User long-tapped an unoccupied seat, join the seat
+                        // Check seat occupancy with the backend before joining
+                        if(isGuest) {
+                            checkSeatAvailability(seatIndex, true, sessionManager.getUser().getUsername(), host.getLiveStreamingId());// Replace "your_username_here" with the actual username
+                        }
+                        else {
+                            checkSeatAvailability(seatIndex, true, liveUser.getUsername(), liveUser.getLiveStreamingId());// Replace "your_username_here" with the actual username
+                        }
+                    }
+                }
+                // Update the UI to reflect the seat state
+                updateSeatUI(seatIndex);
+                return true;
+            });
 
-            Glide.with(binding.imgGift).load(BuildConfig.BASE_URL + giftData.getImage())
-                    .into(binding.imgGift);
-            Glide.with(binding.imgGiftCount).load(RayziUtils.getImageFromNumber(giftData.getCount()))
-                    .into(binding.imgGiftCount);
-
-            binding.lytGift.setVisibility(View.VISIBLE);
-            binding.tvGiftUserName.setVisibility(View.VISIBLE);
-            new Handler(Looper.myLooper()).postDelayed(() -> {
-                binding.lytGift.setVisibility(View.GONE);
-                binding.tvGiftUserName.setVisibility(View.GONE);
-                binding.tvGiftUserName.setText("");
-                binding.imgGift.setImageDrawable(null);
-                binding.imgGiftCount.setImageDrawable(null);
-                //displayGift(); // Display the next gift in the queue
-            }, 13000);
-            makeSound();
-
+            // Handle tap to mute/unmute if the seat is occupied
+            seatButtons[i].setOnClickListener(v -> {
+                // Implement logic to mute/unmute the user in this seat
+                if (seatsOccupied[seatIndex]) {
+                    onSeatTap(seatIndex);
+                }
+            });
         }
     }
 
-    private void joinChannel() {
-        try {
+    // Helper method to update the UI of a seat based on its state
+    private void updateSeatUI(int seatIndex) {
+        Button seatButton = seatButtons[seatIndex];
+        if (seatsOccupied[seatIndex]) {
+            // Change the button background or appearance to represent a joined seat
+            seatButton.setBackgroundResource(R.drawable.roommic);
+        } else {
+            // Change the button background or appearance to represent an unoccupied seat
+            seatButton.setBackgroundResource(R.drawable.seat);
+        }
+    }
+
+    // Helper method to update the UI of a seat based on its state
+    private void highlightSeat(int seatIndex) {
+        Button seatButton = seatButtons[seatIndex];
+        Log.d("Speaker", "Speaking Index: " + seatIndex);
+            // Highlight the seat with a yellow round circle background
+            seatButton.setBackgroundResource(R.drawable.yellow_round_circle);
+    }
+
+    public interface ApiService {
+        // Define an endpoint to check if a seat is occupied with userName and channel
+        @GET("/seat/{seatIndex}/{channel}")
+        Call<Boolean> isSeatOccupiedWithuserName(@Path("seatIndex") int seatIndex,  @Path("channel") String channel);
+
+        // Define an endpoint to mark a seat as occupied with userName and channel
+        @POST("/seat/{seatIndex}/{userName}/{channel}/occupy")
+        Call<Void> occupySeatWithuserName(@Path("seatIndex") int seatIndex, @Path("userName") String userName, @Path("channel") String channel);
+
+        // Define an endpoint to mark a seat as unoccupied with userName and channel
+        @POST("/seat/{seatIndex}/{userName}/{channel}/vacate")
+        Call<Void> vacateSeatWithuserName(@Path("seatIndex") int seatIndex, @Path("userName") String userName, @Path("channel") String channel);
+    }
+
+    private void checkSeatAvailability(int seatIndex, boolean isJoining, String userName, String channel) {
+        // Create an OkHttpClient with HttpLoggingInterceptor
+        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
+        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+
+        OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                .addInterceptor(loggingInterceptor) // Add the logging interceptor
+                .build();
+        // Create an HTTP request to check seat occupancy with your Node.js backend
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(BuildConfig.BASE_URL) // Replace with your backend URL
+                .addConverterFactory(GsonConverterFactory.create())
+                .client(okHttpClient)
+                .build();
+
+        ApiService apiService = retrofit.create(ApiService.class);
+
+        // Define your API endpoint for checking seat occupancy with userName
+        Call<Boolean> call = apiService.isSeatOccupiedWithuserName(seatIndex, channel);
+
+        call.enqueue(new Callback<Boolean>() {
+            @Override
+            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                if (response.isSuccessful()) {
+                    boolean isOccupied = response.body();
+                    if (isOccupied && isJoining) {
+                        // The seat is already occupied, show a message or take appropriate action
+                        Log.d("SeatStatus", "Seat " + (seatIndex + 1) + " is already occupied.");
+                        Toast.makeText(HostLiveActivity.this, "Seat " + (seatIndex + 1) + " is already occupied.", Toast.LENGTH_SHORT).show();
+                    } else {
+                        // Seat is available, join or leave as appropriate
+                        if (isJoining) {
+                            if(isGuest) {
+                                joinSeat(seatIndex, sessionManager.getUser().getUsername(), host.getLiveStreamingId());
+                                scheduleOccupyingTask(seatIndex, sessionManager.getUser().getUsername(), host.getLiveStreamingId());
+                            }else{
+                                joinSeat(seatIndex, liveUser.getUsername(), liveUser.getLiveStreamingId());
+                                scheduleOccupyingTask(seatIndex, liveUser.getUsername(), liveUser.getLiveStreamingId());
+                            }
+                            seatsOccupied[seatIndex] = true;
+                            // Mark the seat as occupied in the backend
+                            if(isGuest) {
+                                markSeatAsOccupied(seatIndex, sessionManager.getUser().getUsername(), host.getLiveStreamingId());
+                            }else {
+                                markSeatAsOccupied(seatIndex, liveUser.getUsername(), liveUser.getLiveStreamingId());
+                            }
+                        } else {
+                            if(isGuest){
+                                leaveSeat(seatIndex, sessionManager.getUser().getUsername(), host.getLiveStreamingId());
+                            }else{
+                                leaveSeat(seatIndex, liveUser.getUsername(), liveUser.getLiveStreamingId());
+                            }
+                            // Clear the association of the user with this seat
+                            seatsOccupied[seatIndex] = false;
+                            if (isGuest){
+                                SeatKey seatKey = new SeatKey(host.getLiveStreamingId(), seatIndex, agoraUID);
+                                occupiedSeatsMap.remove(seatKey, agoraUID);
+                            }else{
+                                SeatKey seatKey = new SeatKey(liveUser.getLiveStreamingId(), seatIndex, agoraUID);
+                                occupiedSeatsMap.remove(seatKey, agoraUID);
+                            }
+                            // Mark the seat as unoccupied in the backend
+                            if(isGuest) {
+                                markSeatAsUnoccupied(seatIndex, sessionManager.getUser().getUsername(),host.getLiveStreamingId());
+                            }else{
+                                markSeatAsUnoccupied(seatIndex, liveUser.getUsername(), liveUser.getLiveStreamingId());
+                            }
+                            Log.d("SeatStatus", "User left seat " + (seatIndex + 1));
+                        }
+                    }
+                } else {
+                    // Handle an unsuccessful response from the backend
+                    // You may want to retry or show an error message
+                    Log.e("SeatStatus", "Failed to check seat occupancy. Response code: " + response.code());
+
+                    // Log the response body if needed
+                    try {
+                        String errorBody = response.errorBody() != null ? response.errorBody().string() : "No error body";
+                        Log.e("SeatStatus", "Error body: " + errorBody);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                // Update the UI to reflect the seat state
+                updateSeatUI(seatIndex);
+            }
+
+            @Override
+            public void onFailure(Call<Boolean> call, Throwable t) {
+                // Handle a network failure or other errors here
+                Log.e("SeatStatus", "Failed to check seat occupancy. Error: " + t.getMessage());
+            }
+        });
+    }
+
+    // Helper method to schedule a task for occupying the seat every 4 seconds
+    private void scheduleOccupyingTask(final int seatIndex, final String userName, String channel) {
+        Runnable occupyingTask = new Runnable() {
+            @Override
+            public void run() {
+                // Check if the user is still seated
+                if (seatsOccupied[seatIndex]) {
+                    // Mark the seat as occupied again
+                    if(isGuest) {
+                        markSeatAsOccupied(seatIndex, sessionManager.getUser().getUsername(), host.getLiveStreamingId());
+                    }else {
+                        markSeatAsOccupied(seatIndex, liveUser.getUsername(), liveUser.getLiveStreamingId());
+                    }
+
+                    // Schedule the task again after 4 seconds
+                    handler.postDelayed(this, OCCUPY_SEAT_INTERVAL_MS);
+                }
+            }
+        };
+
+        // Schedule the initial task to occupy the seat after 4 seconds
+        handler.postDelayed(occupyingTask, OCCUPY_SEAT_INTERVAL_MS);
+    }
+
+    // Helper method to mark a seat as occupied in the backend with userName
+    private void markSeatAsOccupied(int seatIndex, String userName, String channel) {
+        // Create an OkHttpClient with HttpLoggingInterceptor
+        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
+        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+
+        OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                .addInterceptor(loggingInterceptor) // Add the logging interceptor
+                .build();
+        // Create an HTTP request to mark the seat as occupied with your Node.js backend
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(BuildConfig.BASE_URL) // Replace with your backend URL
+                .addConverterFactory(GsonConverterFactory.create())
+                .client(okHttpClient)
+                .build();
+
+        ApiService apiService = retrofit.create(ApiService.class);
+
+        // Define your API endpoint for marking the seat as occupied with userName
+        Call<Void> call = apiService.occupySeatWithuserName(seatIndex, userName, channel);
+
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    // Handle a successful response from the backend
+                    // You can update your UI or perform other actions here
+                } else {
+                    // Handle an unsuccessful response from the backend
+                    // You may want to retry or show an error message
+                    Log.e("SeatStatus", "Failed to mark seat as occupied. Response code: " + response.code());
+
+                    // Log the response body if needed
+                    try {
+                        String errorBody = response.errorBody() != null ? response.errorBody().string() : "No error body";
+                        Log.e("SeatStatus", "Error body: " + errorBody);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                // Handle a network failure or other errors here
+                Log.e("SeatStatus", "Failed to mark seat as occupied. Error: " + t.getMessage());
+            }
+        });
+    }
+
+    // Helper method to mark a seat as unoccupied in the backend with userName
+    private void markSeatAsUnoccupied(int seatIndex, String userName, String channel) {
+        // Create an OkHttpClient with HttpLoggingInterceptor
+        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
+        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+
+        OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                .addInterceptor(loggingInterceptor) // Add the logging interceptor
+                .build();
+        // Create an HTTP request to mark the seat as unoccupied with your Node.js backend
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(BuildConfig.BASE_URL) // Replace with your backend URL
+                .addConverterFactory(GsonConverterFactory.create())
+                .client(okHttpClient)
+                .build();
+
+        ApiService apiService = retrofit.create(ApiService.class);
+
+        // Define your API endpoint for marking the seat as unoccupied with userName
+        Call<Void> call = apiService.vacateSeatWithuserName(seatIndex, userName, channel);
+
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+
+                } else {
+                    // Handle an unsuccessful response from the backend
+                    // You may want to retry or show an error message
+                    Log.e("SeatStatus", "Failed to mark seat as unoccupied. Response code: " + response.code());
+
+                    // Log the response body if needed
+                    try {
+                        String errorBody = response.errorBody() != null ? response.errorBody().string() : "No error body";
+                        Log.e("SeatStatus", "Error body: " + errorBody);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                // Handle a network failure or other errors here
+                Log.e("SeatStatus", "Failed to mark seat as unoccupied. Error: " + t.getMessage());
+            }
+        });
+    }
+
+    // Check if the user is already seated in a seat
+    private boolean isUserSeated() {
+        for (boolean occupied : seatsOccupied) {
+            if (occupied) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // Handle tap on a joined seat to mute/unmute the user
+    private void onSeatTap(int seatIndex) {
+        // Toggle mute/unmute for the user in this seat
+        seatsMuted[seatIndex] = !seatsMuted[seatIndex];
+
+        // Implement logic to mute/unmute the user's audio using Agora SDK
+        rtcEngine().muteLocalAudioStream(seatsMuted[seatIndex]);
+
+        // Update UI to indicate mute/unmute state
+        Button seatButton = seatButtons[seatIndex];
+        if (seatsMuted[seatIndex]) {
+            // Change the button background or appearance to represent muted mic (replace with your logic)
+            seatButton.setBackgroundResource(R.drawable.ic_mic_muted);
+            Toast.makeText(this, "Seat " + (seatIndex + 1) + " Muted", Toast.LENGTH_SHORT).show();
+        } else {
+            // Change the button background or appearance to represent mic (replace with your logic)
+            seatButton.setBackgroundResource(R.drawable.roommic);
+            Toast.makeText(this, "Seat " + (seatIndex + 1) + " Unmuted", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    // Helper method to join a seat and associate a user with it
+    private void joinSeat(int seatIndex, String username, String channel) {
+        // Check if the seat is already occupied by another user
+        if (occupiedSeatsMap.containsValue(seatIndex)) {
+            // Seat is already occupied, show a message or take appropriate action
+            Toast.makeText(this, "Seat " + (seatIndex + 1) + " is already occupied.", Toast.LENGTH_SHORT).show();
+        } else {
+            // Join the Agora channel with the user's name as the seat identifier
+            // Replace this with your Agora SDK logic to join the channel
+            // For example: rtcEngine().joinChannel(null, channelName, null, userUid);
+
+            getSocket().emit("occupySeat", seatIndex);
+
             rtcEngine().setChannelProfile(Constants.CHANNEL_PROFILE_LIVE_BROADCASTING);
-            //rtcEngine().enableVideo();
-           //rtcEngine().enableAudio();
-
-            //    configVideo();
-            Log.d("TAG", "joinChannel:tkn " + liveUser.getToken());
-            Log.d("TAG", "joinChannel:chanel " + liveUser.getChannel());
-            rtcEngine().joinChannel(liveUser.getToken(), liveUser.getChannel(), "", 0);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void startBroadcast() {
-        Log.d(TAG, "startBroadcast: ");
-        try {
             rtcEngine().setClientRole(Constants.CLIENT_ROLE_BROADCASTER);
-            rtcEngine().enableAudio();
-            rtcEngine().setEnableSpeakerphone(true);
-            //  SurfaceView surface = prepareRtcVideo(0, true);
-            //  mVideoGridContainer.addUserVideoSurface(0, surface, true);
-        } catch (Exception e) {
-            e.printStackTrace();
+            rtcEngine().enableAudio(); // Enable audio
+            // Disable the user's audio when they leave the seat
+            rtcEngine().muteLocalAudioStream(false);
+            rtcEngine().muteAllRemoteAudioStreams(false);
+          // rtcEngine().setEnableSpeakerphone(true);
+
+            Toast.makeText(this, "Joined Seat: " + (seatIndex + 1) + "", Toast.LENGTH_SHORT).show();
+
+
+        }
+
+        // Associate the user's name (username) with the seat index
+        if(isGuest){
+            SeatKey seatKey = new SeatKey(host.getLiveStreamingId(), seatIndex, agoraUID);
+            occupiedSeatsMap.put(seatKey, agoraUID); // Use the username as the key
+        }else{
+            SeatKey seatKey = new SeatKey(liveUser.getLiveStreamingId(), seatIndex, agoraUID);
+            occupiedSeatsMap.put(seatKey, agoraUID); // Use the username as the key
+        }
+
+    }
+
+    // Helper method to leave a seat and disassociate a user from it
+    private void leaveSeat(int seatIndex, String userName, String channel) {
+        // Check if the user is associated with the specified seat
+     //   if (occupiedSeatsMap.containsKey(String.valueOf(agoraUID)) && occupiedSeatsMap.get(String.valueOf(agoraUID)) == seatIndex) {
+            // Leave the Agora channel and release the seat
+            // Replace this with your Agora SDK logic to leave the channel
+            // For example: rtcEngine().leaveChannel();
+
+            getSocket().emit("vacateSeat", seatIndex);
+
+            // Disable the user's audio when they leave the seat
+            rtcEngine().muteLocalAudioStream(true);
+            rtcEngine().muteAllRemoteAudioStreams(false);
+            Toast.makeText(this, "Left Seat: " + (seatIndex + 1), Toast.LENGTH_SHORT).show();
+
+        // Associate the user's name (username) with the seat index
+        if(isGuest){
+            SeatKey seatKey = new SeatKey(host.getLiveStreamingId(), seatIndex, agoraUID);
+            occupiedSeatsMap.remove(seatKey, agoraUID); // Use the username as the key
+            // Remove the scheduled occupying task for this seat
+            handler.removeCallbacksAndMessages(null);
+        }else{
+            SeatKey seatKey = new SeatKey(liveUser.getLiveStreamingId(), seatIndex, agoraUID);
+            occupiedSeatsMap.remove(seatKey, agoraUID); // Use the username as the key
+            // Remove the scheduled occupying task for this seat
+            handler.removeCallbacksAndMessages(null);
         }
     }
+
 
     private void initView() {
         //  binding.tvDiamonds.setText(String.valueOf(sessionManager.getUser().getDiamond()));
         binding.tvRcoins.setText(String.valueOf(sessionManager.getUser().getRCoin()));
 
 
-        //  mVideoGridContainer = binding.liveVideoGridLayout;
-//        mVideoGridContainer.setStatsManager(statsManager());
+        //mVideoGridContainer = binding.liveVideoGridLayout;
+        // mVideoGridContainer.setStatsManager(statsManager());
         emojiBottomsheetFragment = new EmojiBottomsheetFragment();
         userProfileBottomSheet = new UserProfileBottomSheet(this);
 
@@ -468,18 +1018,19 @@ public class HostLiveActivity extends AgoraBaseActivity {
     }
 
     private void initLister() {
+
         viewModel.isShowFilterSheet.observe(this, aBoolean -> {
             Log.d(TAG, "initLister:filter sheet  " + aBoolean);
             if (aBoolean) {
-                binding.lytFilters.setVisibility(View.VISIBLE);
+                //  binding.lytFilters.setVisibility(View.VISIBLE);
             } else {
-                binding.lytFilters.setVisibility(View.GONE);
+                // binding.lytFilters.setVisibility(View.GONE);
             }
         });
         viewModel.selectedFilter.observe(this, selectedFilter -> {
             if (selectedFilter.getTitle().equalsIgnoreCase("None")) {
                 Log.d(TAG, "initLister: null");
-                binding.imgFilter.setImageDrawable(null);
+                //  binding.imgFilter.setImageDrawable(null);
             } else {
                 Log.d(TAG, "initLister: ffff");
 //                  Glide.with(this).asGif().load(FilterUtils.getDraw(selectedFilter.getTitle())).into(binding.imgFilter);
@@ -490,7 +1041,7 @@ public class HostLiveActivity extends AgoraBaseActivity {
         viewModel.selectedFilter2.observe(this, selectedFilter -> {
             if (selectedFilter.getTitle().equalsIgnoreCase("None")) {
                 Log.d(TAG, "initLister: null");
-                binding.imgFilter.setImageDrawable(null);
+                // binding.imgFilter.setImageDrawable(null);
             } else {
                 Log.d(TAG, "initLister: ffff");
 
@@ -520,7 +1071,6 @@ public class HostLiveActivity extends AgoraBaseActivity {
         });
 
         binding.btnClose.setOnClickListener(v -> endLive());
-
         giftViewModel.finelGift.observe(this, giftItem -> {
             if (giftItem != null) {
 
@@ -538,6 +1088,7 @@ public class HostLiveActivity extends AgoraBaseActivity {
                     jsonObject.put("gift", new Gson().toJson(giftItem));
                     jsonObject.put("userName", sessionManager.getUser().getName());
                     getSocket().emit(Const.EVENT_LIVEUSER_GIFT, jsonObject);
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -595,28 +1146,6 @@ public class HostLiveActivity extends AgoraBaseActivity {
         }
     }
 
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-
-            return;
-        }
-
-    }
-
-
-    public void onClickFilter(View view) {
-        viewModel.isShowFilterSheet.setValue(true);
-        binding.rvFilters.setAdapter(viewModel.filterAdapter_tt);
-
-    }
-
-    public void onSwitchCameraClicked(View view) {
-        rtcEngine().switchCamera();
-    }
-
     @Override
     public void onErr(int err) {
         Log.d(TAG, "onErr: " + err);
@@ -627,36 +1156,14 @@ public class HostLiveActivity extends AgoraBaseActivity {
         Log.d(TAG, "onConnectionLost: ");
     }
 
-/*    @Override
+   /* @Override
     public void onVideoStopped() {
         Log.d(TAG, "onVideoStopped: ");
     }*/
 
-    public void onClickGifIcon(View view) {
-        viewModel.isShowFilterSheet.setValue(true);
-        binding.rvFilters.setAdapter(viewModel.filterAdapter2);
-    }
-
-    public void onClickStickerIcon(View view) {
-        viewModel.isShowFilterSheet.setValue(true);
-        binding.rvFilters.setAdapter(viewModel.stickerAdapter);
-    }
 
     public void onClickEmojiIcon(View view) {
     }
-
-  /*  public void onLocalAudioMuteClicked(View view) {
-        viewModel.isMuted = !viewModel.isMuted;
-        rtcEngine().muteLocalAudioStream(viewModel.isMuted);
-        if (viewModel.isMuted) {
-            binding.btnMute.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.mute));
-
-            Toast.makeText(this, "Muted", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(this, "Unmuted", Toast.LENGTH_SHORT).show();
-            binding.btnMute.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.unmute));
-        }
-    }*/
 
     public void onclickGiftIcon(View view) {
         emojiBottomsheetFragment.show(getSupportFragmentManager(), "emojifragfmetn");
@@ -666,29 +1173,37 @@ public class HostLiveActivity extends AgoraBaseActivity {
     protected void onDestroy() {
         super.onDestroy();
 
-        //statsManager().clearAllData();
+        statsManager().clearAllData();
     }
 
     public void onClickSendComment(View view) {
-        String comment = binding.etComment.getText().toString();
-        if (!comment.isEmpty()) {
-            binding.etComment.setText("");
-            LiveStramComment liveStramComment = new LiveStramComment(liveUser.getLiveStreamingId(), comment, sessionManager.getUser(), false);
-            getSocket().emit(Const.EVENT_COMMENT, new Gson().toJson(liveStramComment));
-
-            Log.d(TAG, "onClickSendComment: " + liveStramComment.toString());
-
-
+        if (isGuest) {
+            String comment = binding.etComment.getText().toString();
+            if (!comment.isEmpty()) {
+                binding.etComment.setText("");
+                LiveStramComment liveStramComment = new LiveStramComment(liveUser.getLiveStreamingId(), comment, sessionManager.getUser(), false);
+                getSocket().emit(Const.EVENT_COMMENT, new Gson().toJson(liveStramComment));
 //            try {
 //                JSONObject jsonObject = new JSONObject();
-//                jsonObject.put("liveStreamingId", liveUser.getLiveStreamingId());
+//               jsonObject.put("liveStreamingId", liveUser.getLiveStreamingId());
 //                jsonObject.put("comment", new Gson().toJson(liveStramComment));
-//                getSocket().emit(Const.EVENT_COMMENT, jsonObject);
+//
 //            } catch (JSONException e) {
 //                e.printStackTrace();
 //            }
+            }
+        } else {
+            String comment = binding.etComment.getText().toString();
+            if (!comment.isEmpty()) {
+                binding.etComment.setText("");
+                LiveStramComment liveStramComment = new LiveStramComment(liveUser.getLiveStreamingId(), comment, sessionManager.getUser(), false);
+                getSocket().emit(Const.EVENT_COMMENT, new Gson().toJson(liveStramComment));
+
+                Log.d(TAG, "onClickSendComment: " + liveStramComment.toString());
+            }
         }
     }
+
 
     public void onclickShare(View view) {
         BranchUniversalObject buo = new BranchUniversalObject()
@@ -723,24 +1238,14 @@ public class HostLiveActivity extends AgoraBaseActivity {
         });
     }
 
-  /*  @Override
-    public void onFirstRemoteVideoDecoded(int uid, int width, int height, int elapsed) {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                renderRemoteUser(uid);
-            }
-        });
-    }*/
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
 
-    private void renderRemoteUser(int uid) {
-        // SurfaceView surface = prepareRtcVideo(uid, false);
-        // mVideoGridContainer.addUserVideoSurface(uid, surface, false);
-    }
+            return;
+        }
 
-    private void removeRemoteUser(int uid) {
-        // removeRtcVideo(uid, false);
-        //  mVideoGridContainer.removeUserVideo(uid, false);
     }
 
     @Override
@@ -756,6 +1261,7 @@ public class HostLiveActivity extends AgoraBaseActivity {
     @Override
     public void onUserOffline(int uid, int reason) {
         Log.d(TAG, "onUserOffline: " + uid + " reason" + reason);
+
         userCount--; // Decrement the user count when a user leaves the channel
         updateUI(); // Update the UI to display the new user count
 
@@ -764,8 +1270,11 @@ public class HostLiveActivity extends AgoraBaseActivity {
     @Override
     public void onUserJoined(int uid, int elapsed) {
         Log.d(TAG, "onUserJoined: " + uid + "  elapsed" + elapsed);
-        userCount++; // Decrement the user count when a user leaves the channel
+
+        userCount++; // Increment the user count when a user joins the channel
         updateUI(); // Update the UI to display the new user count
+
+
     }
 
     @Override
@@ -778,19 +1287,6 @@ public class HostLiveActivity extends AgoraBaseActivity {
 
     }
 
-/*    @Override
-    public void onLocalVideoStats(IRtcEngineEventHandler.LocalVideoStats stats) {
-        if (!statsManager().isEnabled()) return;
-
-        LocalStatsData data = (LocalStatsData) statsManager().getStatsData(0);
-        if (data == null) return;
-
-        VideoEncoderConfiguration.VideoDimensions mVideoDimension = VideoEncoderConfiguration.VD_960x720;
-        data.setWidth(mVideoDimension.width);
-        data.setHeight(mVideoDimension.height);
-        data.setFramerate(stats.sentFrameRate);
-    }*/
-
     @Override
     public void onRtcStats(IRtcEngineEventHandler.RtcStats stats) {
         if (!statsManager().isEnabled()) return;
@@ -799,8 +1295,6 @@ public class HostLiveActivity extends AgoraBaseActivity {
         if (data == null) return;
 
         data.setLastMileDelay(stats.lastmileDelay);
-        // data.setVideoSendBitrate(stats.txVideoKBitRate);
-        //data.setVideoRecvBitrate(stats.rxVideoKBitRate);
         data.setAudioSendBitrate(stats.txAudioKBitRate);
         data.setAudioRecvBitrate(stats.rxAudioKBitRate);
         data.setCpuApp(stats.cpuAppUsage);
@@ -820,19 +1314,6 @@ public class HostLiveActivity extends AgoraBaseActivity {
         data.setRecvQuality(statsManager().qualityToString(rxQuality));
     }
 
-/*    @Override
-    public void onRemoteVideoStats(IRtcEngineEventHandler.RemoteVideoStats stats) {
-        if (!statsManager().isEnabled()) return;
-
-        RemoteStatsData data = (RemoteStatsData) statsManager().getStatsData(stats.uid);
-        if (data == null) return;
-
-        data.setWidth(stats.width);
-        data.setHeight(stats.height);
-        data.setFramerate(stats.rendererOutputFrameRate);
-        data.setVideoDelay(stats.delay);
-    }*/
-
     @Override
     public void onRemoteAudioStats(IRtcEngineEventHandler.RemoteAudioStats stats) {
         if (!statsManager().isEnabled()) return;
@@ -844,6 +1325,50 @@ public class HostLiveActivity extends AgoraBaseActivity {
         data.setAudioNetJitter(stats.jitterBufferDelay);
         data.setAudioLoss(stats.audioLossRate);
         data.setAudioQuality(statsManager().qualityToString(stats.quality));
+    }
+
+    @Override
+    public void onAudioVolumeIndication(IRtcEngineEventHandler.AudioVolumeInfo[] speakers, int totalVolume) {
+        // Create a set to keep track of seat indices that should be highlighted
+        Set<Integer> speakingSeats = new HashSet<>();
+
+        for (IRtcEngineEventHandler.AudioVolumeInfo info : speakers) {
+            if (isGuest) {
+                int seatIndex = findSeatIndexByUidAndChannel(info.uid, host.getLiveStreamingId());
+                if (info.volume > 10 && !seatsMuted[seatIndex]) {
+                    speakingSeats.add(seatIndex);
+                }
+            } else {
+                int seatIndex = findSeatIndexByUidAndChannel(info.uid, liveUser.getLiveStreamingId());
+                if (info.volume > 10 && !seatsMuted[seatIndex]) {
+                    speakingSeats.add(seatIndex);
+                }
+            }
+        }
+
+        // Now, loop through the seat buttons and update their background based on speaking state
+        for (int seatIndex = 0; seatIndex < seatButtons.length; seatIndex++) {
+            if (speakingSeats.contains(seatIndex)) {
+                highlightSeat(seatIndex);
+            } else {
+                updateSeatUI(seatIndex);
+            }
+        }
+    }
+
+
+
+    // Helper method to find the seat index by UID and channel
+    private int findSeatIndexByUidAndChannel(int uid, String channel) {
+        for (Map.Entry<SeatKey, Integer> entry : occupiedSeatsMap.entrySet()) {
+            SeatKey seatKey = entry.getKey();
+            uid = entry.getValue(); // Assuming the value is the user ID
+            Log.d("OccupiedSeatsMap", "Seat Index: " + seatKey.getSeatIndex() + ", UID: " + uid + ", Channel: " + seatKey.getChannel());
+            if (seatKey.getagoraUID() == uid && seatKey.getChannel().equals(channel)) {
+                return seatKey.getSeatIndex(); // Return the seat index associated with the UID and channel
+            }
+        }
+        return -1; // User not found in occupied seats or the user's channel doesn't match
     }
 
     @Override

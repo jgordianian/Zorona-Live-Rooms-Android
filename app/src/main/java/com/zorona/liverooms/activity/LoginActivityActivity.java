@@ -43,7 +43,7 @@ public class LoginActivityActivity extends BaseActivity {
 
     Random random = new Random();
     Locale locale = Locale.getDefault(); // or specify a specific locale
-    String userName = String.format(locale, "ID: %04d", random.nextInt(10000));
+    String userName = String.format(locale, "1%03d", random.nextInt(1000));
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

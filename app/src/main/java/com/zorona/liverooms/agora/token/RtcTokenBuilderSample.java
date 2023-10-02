@@ -2,11 +2,11 @@ package com.zorona.liverooms.agora.token;
 
 
 import android.util.Log;
-
+ /*
 public class RtcTokenBuilderSample {
 
 
-    static int uid = 2082341273;
+   static int uid = 2082341273;
     static int expirationTimeInSeconds = 360000;
 
     public static String main(String chennalName, String appId, String appCerti) throws Exception {
@@ -22,5 +22,5 @@ public class RtcTokenBuilderSample {
                 chennalName, uid, RtcTokenBuilder.Role.Role_Publisher, timestamp);
         System.out.println(result);
         Log.d("TAG", "main: tkn22===  "+result);*/
-    }
-}
+   /* }
+}*/

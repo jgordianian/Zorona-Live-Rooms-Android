@@ -21,7 +21,7 @@ public class AccessToken {
     public PrivilegeMessage message;
     public int expireTimestamp;
 
-    public AccessToken(String appId, String appCertificate, String channelName, String uid) {
+    public AccessToken(String appId, String appCertificate, String channelName, String uid, int agoraUID) {
         this.appId = appId;
         this.appCertificate = appCertificate;
         this.channelName = channelName;

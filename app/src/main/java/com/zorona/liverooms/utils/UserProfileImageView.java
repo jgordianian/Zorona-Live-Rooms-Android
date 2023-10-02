@@ -21,6 +21,9 @@ import com.bumptech.glide.request.target.Target;
 import com.zorona.liverooms.MainApplication;
 import com.zorona.liverooms.R;
 import com.zorona.liverooms.databinding.ItemUserprofileImageviewBinding;
+import io.agora.rtc2.RtcEngine;
+import io.agora.rtc2.Constants;
+import io.agora.rtc2.IRtcEngineEventHandler;
 
 public class UserProfileImageView extends RelativeLayout {
 
@@ -81,7 +84,7 @@ public class UserProfileImageView extends RelativeLayout {
                         public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
                             return false;
                         }
-            }).circleCrop().into(binding.imguser);
+                    }).circleCrop().into(binding.imguser);
             binding.imgvip.setVisibility(GONE);
         }
 
@@ -102,8 +105,8 @@ public class UserProfileImageView extends RelativeLayout {
                         public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
                             Log.d("TAG", "onResourceReady: " + imageUrl);
                             return false;
-                }
-            }).circleCrop().into(binding.imguser);
+                        }
+                    }).circleCrop().into(binding.imguser);
             if (isVip) {
                 binding.imgvip.setVisibility(VISIBLE);
             } else {

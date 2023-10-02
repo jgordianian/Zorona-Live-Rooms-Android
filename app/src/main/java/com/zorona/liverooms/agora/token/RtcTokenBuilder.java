@@ -1,6 +1,17 @@
 package com.zorona.liverooms.agora.token;
 
+import java.util.Random;
+
 public class RtcTokenBuilder {
+
+
+    Random random = new Random();
+    int agoraUID = random.nextInt(999999 - 111111) + 111111;
+
+    public int getAgoraUID() {
+        return agoraUID;
+    }
+
     /**
      * Builds an RTC token using an int uid.
      *
@@ -15,7 +26,7 @@ public class RtcTokenBuilder {
      *                          <li> The space.</li>
      *                          <li> "!", "#", "$", "%", "&", "(", ")", "+", "-", ":", ";", "<", "=", ".", ">", "?", "@", "[", "]", "^", "_", " {", "}", "|", "~", ",".
      *                       </ul>
-     * @param uid            User ID. A 32-bit unsigned integer with a value ranging from
+     * @param agoraUID            User ID. A 32-bit unsigned integer with a value ranging from
      *                       1 to (2^32-1).
      * @param role           The user role.
      *                       <ul>
@@ -28,10 +39,10 @@ public class RtcTokenBuilder {
      *                       + 600 (seconds).
      */
     public String buildTokenWithUid(String appId, String appCertificate,
-                                    String channelName, int uid, Role role, int privilegeTs) {
-        String account = uid == 0 ? "" : String.valueOf(uid);
+                                    String channelName, int agoraUID, Role role, int privilegeTs) {
+        String account = agoraUID == 0 ? "" : String.valueOf(agoraUID);
         return buildTokenWithUserAccount(appId, appCertificate, channelName,
-                account, role, privilegeTs);
+                account, role, privilegeTs, agoraUID);
     }
 
     /**
@@ -60,10 +71,10 @@ public class RtcTokenBuilder {
      *                       + 600 (seconds).
      */
     public String buildTokenWithUserAccount(String appId, String appCertificate,
-                                            String channelName, String account, Role role, int privilegeTs) {
+                                            String channelName, String account, Role role, int privilegeTs, int agoraUID) {
 
         // Assign appropriate access privileges to each role.
-        AccessToken builder = new AccessToken(appId, appCertificate, channelName, account);
+        AccessToken builder = new AccessToken(appId, appCertificate, channelName, account, agoraUID);
         builder.addPrivilege(AccessToken.Privileges.kJoinChannel, privilegeTs);
         if (role == Role.Role_Publisher || role == Role.Role_Subscriber || role == Role.Role_Admin) {
             builder.addPrivilege(AccessToken.Privileges.kPublishAudioStream, privilegeTs);

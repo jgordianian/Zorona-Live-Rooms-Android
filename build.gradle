@@ -5,11 +5,11 @@ buildscript {
     ext.camerax_ext_version = "1.0.0-alpha03"
     ext.kotlin_version = '1.8.0'
     repositories {
+        jcenter()
         google()
         mavenCentral()
-       // jcenter() * //Outdated repo
+        maven { url "https://jitpack.io" }
         maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
-
     }
     dependencies {
         classpath "com.android.tools.build:gradle:4.2.2"
@@ -22,14 +22,17 @@ buildscript {
 
 allprojects {
     repositories {
+        jcenter()
         google()
         mavenCentral()
         maven { url "https://jitpack.io" }
         maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
 
-        jcenter() // Warning: this repository is going to shut down soon
+            // jcenter() // Warning: this repository is going to shut down soon
+        }
     }
-}
+
+
 
 task clean(type: Delete) {
     delete rootProject.buildDir

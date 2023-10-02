@@ -2,7 +2,7 @@ package com.zorona.liverooms.agora.rtc;
 
 import java.util.ArrayList;
 
-import io.agora.rtc.IRtcEngineEventHandler;
+import io.agora.rtc2.IRtcEngineEventHandler;
 
 public class AgoraEventHandler extends IRtcEngineEventHandler {
     private ArrayList<EventHandler> mHandler = new ArrayList<>();
@@ -24,9 +24,9 @@ public class AgoraEventHandler extends IRtcEngineEventHandler {
 
 
     @Override
-    public void onLeaveChannel(RtcStats stats) {
+    public void onLeaveChannel(RtcStats RtcStats) {
         for (EventHandler handler : mHandler) {
-            handler.onLeaveChannel(stats);
+            handler.onLeaveChannel(RtcStats);
         }
     }
 
@@ -59,9 +59,9 @@ public class AgoraEventHandler extends IRtcEngineEventHandler {
     }*/
 
     @Override
-    public void onRtcStats(RtcStats stats) {
+    public void onRtcStats(RtcStats RtcStats) {
         for (EventHandler handler : mHandler) {
-            handler.onRtcStats(stats);
+            handler.onRtcStats(RtcStats);
         }
     }
 
@@ -80,9 +80,16 @@ public class AgoraEventHandler extends IRtcEngineEventHandler {
     }*/
 
     @Override
-    public void onRemoteAudioStats(RemoteAudioStats stats) {
+    public void onRemoteAudioStats(RemoteAudioStats RtcStats) {
         for (EventHandler handler : mHandler) {
-            handler.onRemoteAudioStats(stats);
+            handler.onRemoteAudioStats(RtcStats);
+        }
+    }
+
+    @Override
+    public void onAudioVolumeIndication(IRtcEngineEventHandler.AudioVolumeInfo[] speakers, int totalVolume) {
+        for (EventHandler handler : mHandler) {
+            handler.onAudioVolumeIndication(speakers, totalVolume);
         }
     }
 

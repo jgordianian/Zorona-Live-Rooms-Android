@@ -87,8 +87,12 @@ public class LiveListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     .apply(MainApplication.requestOptionsLive)
                     .centerCrop().into(binding.image);
             binding.tvViewCount.setText(String.valueOf(userDummy.getView()));
-            binding.getRoot().setOnClickListener(v -> context.startActivity(new Intent(context, WatchLiveActivity.class).putExtra(Const.DATA, new Gson().toJson(userDummy))));
-        }
+            binding.getRoot().setOnClickListener(v -> {
+                Intent intent = new Intent(context, HostLiveActivity.class);
+                intent.putExtra(Const.DATA, new Gson().toJson(userDummy));
+                intent.putExtra(Const.IS_GUEST, true); // Set to true if the user is a guest
+                context.startActivity(intent);
+            });}
     }
 
     private class AdViewHolder extends RecyclerView.ViewHolder {

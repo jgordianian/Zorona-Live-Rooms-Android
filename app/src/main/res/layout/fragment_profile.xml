@@ -108,8 +108,8 @@
                                         android:layout_weight="1"
                                         android:fontFamily="@font/alight"
                                         android:gravity="center"
-                                        android:text=""
-                                        android:textColor="@color/text_gray"
+                                        android:text="@string/id"
+                                        android:textColor="@color/common_google_signin_btn_text_dark"
                                         android:textSize="14sp" />
 
                                     <LinearLayout
@@ -125,7 +125,7 @@
                                             android:backgroundTint="@color/pink"
                                             android:paddingHorizontal="7dp"
                                             android:paddingVertical="1dp"
-                                            android:text="Lv. 1"
+                                            android:text="@string/lv_1"
                                             android:textColor="@color/white" />
 
                                         <LinearLayout

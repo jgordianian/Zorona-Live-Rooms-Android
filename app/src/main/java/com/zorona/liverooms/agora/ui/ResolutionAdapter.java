@@ -14,7 +14,7 @@ import com.zorona.liverooms.agora.rtc.Constants;
 
 import java.util.ArrayList;
 
-import io.agora.rtc.video.VideoEncoderConfiguration;
+import io.agora.rtc2.video.VideoEncoderConfiguration;
 
 public class ResolutionAdapter extends RecyclerView.Adapter {
     private Context mContext;
