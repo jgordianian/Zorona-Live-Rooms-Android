@@ -266,7 +266,7 @@
                             android:layout_width="25dp"
                             android:layout_height="25dp"
                             android:padding="4dp"
-                            android:src="@drawable/rcoin" />
+                            android:src="@drawable/logo" />
 
                         <TextView
                             android:id="@+id/tvRcoins"
@@ -440,6 +440,8 @@
             </LinearLayout>
 
         </LinearLayout>
+
+
 
 
         <androidx.recyclerview.widget.RecyclerView

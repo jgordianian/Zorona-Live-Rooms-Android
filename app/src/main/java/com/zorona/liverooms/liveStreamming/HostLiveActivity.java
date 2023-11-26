@@ -62,9 +62,12 @@ import retrofit2.http.Path;
 
 // Add these imports at the top of your Java file
 
+import java.net.URI;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
@@ -98,8 +101,7 @@ public class HostLiveActivity extends AgoraBaseActivity {
 
     private boolean[] seatsOccupied = new boolean[8];
 
-    // Add a list to track occupied seats
-   // private Map<Integer, Integer> occupiedSeatsMap = new HashMap<>();
+    private boolean[] seatsOccupied2 = new boolean[8];
 
     // Define the HashMap using SeatKey as keys
     private Map<SeatKey, Integer> occupiedSeatsMap = new HashMap<>();
@@ -121,10 +123,6 @@ public class HostLiveActivity extends AgoraBaseActivity {
 
     RtcTokenBuilder mainClass = new RtcTokenBuilder();
     int agoraUID = mainClass.getAgoraUID();
-
-    // Initialize Agora RTM
-    RtmClient rtmClient;
-    RtmChannel rtmChannel;
 
 
     private Emitter.Listener gifListner = args -> {
@@ -159,6 +157,7 @@ public class HostLiveActivity extends AgoraBaseActivity {
     };
 
     private LiveStreamRoot.LiveUser liveUser;
+
     private Emitter.Listener viewListner = data -> {
         runOnUiThread(() -> {
             Object args = data[0];
@@ -307,9 +306,9 @@ public class HostLiveActivity extends AgoraBaseActivity {
                         Log.d(TAG, "block user : " + blockedList.get(i).toString());
                         if (blockedList.get(i).toString().equals(sessionManager.getUser().getId())) {
                             Toast.makeText(HostLiveActivity.this, "You are blocked by host", Toast.LENGTH_SHORT).show();
-                            if(isGuest){
+                            if (isGuest) {
                                 new Handler(Looper.myLooper()).postDelayed(() -> endLiveGuest(), 500);
-                            }else {
+                            } else {
                                 new Handler(Looper.myLooper()).postDelayed(() -> endLive(), 500);
                             }
                         }
@@ -341,8 +340,6 @@ public class HostLiveActivity extends AgoraBaseActivity {
 
         // Retrieve the 'IS_GUEST' flag from the intent
         isGuest = getIntent().getBooleanExtra(Const.IS_GUEST, false);
-
-
 
         // Determine if the user is a host or guest based on the 'isGuest' flag
         if (isGuest) {
@@ -396,22 +393,6 @@ public class HostLiveActivity extends AgoraBaseActivity {
                     //  addLessView(true);
                 }));
 
-                // Add listeners for seat occupancy updates
-                getSocket().on("occupiedSeatsMapUpdated", new Emitter.Listener() {
-                    @Override
-                    public void call(final Object... args) {
-                        // Handle the updated occupiedSeatsMap here
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                JSONObject seatIndex = (JSONObject) args[0];
-                                // Update your UI based on the data received
-                                // data will contain the updated seat occupancy information
-                            }
-                        });
-                    }
-                });
-
             }
 
         } else {
@@ -454,8 +435,6 @@ public class HostLiveActivity extends AgoraBaseActivity {
 
             initLister();
             getSocket().on(Socket.EVENT_CONNECT, args -> runOnUiThread(() -> {
-
-
                 getSocket().on(Const.EVENT_GIF, gifListner);
                 getSocket().on(Const.EVENT_COMMENT, commentListner);
                 getSocket().on(Const.EVENT_GIFT, giftListner);
@@ -463,27 +442,54 @@ public class HostLiveActivity extends AgoraBaseActivity {
 
             }));
 
-            // Add listeners for seat occupancy updates
-            getSocket().on("occupiedSeatsMapUpdated", new Emitter.Listener() {
-                @Override
-                public void call(final Object... args) {
-                    // Handle the updated occupiedSeatsMap here
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            JSONObject seatIndex = (JSONObject) args[0];
-                            // Update your UI based on the data received
-                            // data will contain the updated seat occupancy information
-                        }
-                    });
-                }
-            });
         }
+
+        handleSocketEvents();
 
         // Call the initSeatButtons method and pass the channel
         initSeatButtons();
 
+    }//
+
+
+    private void mute(int seatIndex) {
+
+        // Toggle mute/unmute for the user in this seat
+        seatsMuted[seatIndex] = !seatsMuted[seatIndex];
+
+        Button seatButton = seatButtons[seatIndex];
+            // Change the button background or appearance to represent a joined seat
+            /*runOnUiThread(() ->*/ seatButton.setBackgroundResource(R.drawable.ic_mic_muted);
+
     }
+
+    private void unmute(int seatIndex) {
+
+        // Toggle mute/unmute for the user in this seat
+        seatsMuted[seatIndex] = !seatsMuted[seatIndex];
+
+        Button seatButton = seatButtons[seatIndex];
+            // Change the button background or appearance to represent a joined seat
+        /*runOnUiThread(() ->*/ seatButton.setBackgroundResource(R.drawable.roommic);
+
+    }
+
+
+    // Method to highlight a seat
+    private void highlightSeat(int seatIndex) {
+        Button seatButton = seatButtons[seatIndex];
+            // Change the button background or appearance to represent a joined seat
+        /*runOnUiThread(() ->*/ seatButton.setBackgroundResource(R.drawable.yellow_round_circle);
+    }
+
+
+    // Method to highlight a seat
+    private void unhighlightSeat(int seatIndex) {
+        Button seatButton = seatButtons[seatIndex];
+        // Change the button background or appearance to represent a joined seat
+        /*runOnUiThread(() ->*/ seatButton.setBackgroundResource(R.drawable.roommic);
+    }
+
 
     // Function to join the Agora channel
     private void joinChannel() {
@@ -498,6 +504,7 @@ public class HostLiveActivity extends AgoraBaseActivity {
             rtcEngine().muteLocalAudioStream(true);
             rtcEngine().muteAllRemoteAudioStreams(false);
 
+
             rtcEngine().enableAudioVolumeIndication(200, 3, false); // Set up the callback
 
             // rtcEngine().setEnableSpeakerphone(true);
@@ -505,8 +512,6 @@ public class HostLiveActivity extends AgoraBaseActivity {
             if (TextUtils.isEmpty(token) || TextUtils.equals(token, "#YOUR ACCESS TOKEN#")) {
                 token = null; // default, no token
             }
-
-
 
 
             if (isGuest) {
@@ -524,6 +529,7 @@ public class HostLiveActivity extends AgoraBaseActivity {
                 Log.d("TAG", "joinChannel:agoraUID " + agoraUID);
                 rtcEngine().joinChannel(liveUser.getToken(), liveUser.getChannel(), String.valueOf(agoraUID), agoraUID);
             }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -554,24 +560,23 @@ public class HostLiveActivity extends AgoraBaseActivity {
     }
 
     private void addLessView(boolean isAdd) {
-        if (isGuest){
-                JSONObject jsonObject = new JSONObject();
-                try {
-                    jsonObject.put("liveStreamingId", host.getLiveStreamingId());
-                    jsonObject.put("liveUserMongoId", host.getId());
-                    jsonObject.put("userId", sessionManager.getUser().getId());
-                    jsonObject.put("isVIP", sessionManager.getUser().isIsVIP());
-                    jsonObject.put("image", sessionManager.getUser().getImage());
-                    if (isAdd) {
-                        getSocket().emit(Const.EVENT_ADDVIEW, jsonObject);
-                    } else {
-                        getSocket().emit(Const.EVENT_LESSVIEW, jsonObject);
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
+        if (isGuest) {
+            JSONObject jsonObject = new JSONObject();
+            try {
+                jsonObject.put("liveStreamingId", host.getLiveStreamingId());
+                jsonObject.put("liveUserMongoId", host.getId());
+                jsonObject.put("userId", sessionManager.getUser().getId());
+                jsonObject.put("isVIP", sessionManager.getUser().isIsVIP());
+                jsonObject.put("image", sessionManager.getUser().getImage());
+                if (isAdd) {
+                    getSocket().emit(Const.EVENT_ADDVIEW, jsonObject);
+                } else {
+                    getSocket().emit(Const.EVENT_LESSVIEW, jsonObject);
                 }
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
-        else {
+        } else {
             JSONObject jsonObject = new JSONObject();
             try {
                 jsonObject.put("liveStreamingId", liveUser.getLiveStreamingId());
@@ -609,17 +614,17 @@ public class HostLiveActivity extends AgoraBaseActivity {
                 if (seatsOccupied[seatIndex]) {
                     // The seat is already joined, so leave it
                     // Check seat occupancy with the backend before leaving
-                    if(isGuest){
+                    if (isGuest) {
                         checkSeatAvailability(seatIndex, false, sessionManager.getUser().getUsername(), host.getLiveStreamingId()); // Replace "your_username_here" with the actual username
-                    }else {
+                    } else {
                         checkSeatAvailability(seatIndex, false, liveUser.getUsername(), liveUser.getLiveStreamingId());
-                    }// Replace "your_username_here" with the actual username
+                    }
                     // Clear the association of the user with this seat
                     seatsOccupied[seatIndex] = false;
-                    if(isGuest){
+                    if (isGuest) {
                         SeatKey seatKey = new SeatKey(host.getLiveStreamingId(), seatIndex, agoraUID);
                         occupiedSeatsMap.remove(seatKey, agoraUID);
-                    }else{
+                    } else {
                         SeatKey seatKey = new SeatKey(liveUser.getLiveStreamingId(), seatIndex, agoraUID);
                         occupiedSeatsMap.remove(seatKey, agoraUID);
                     }
@@ -631,10 +636,9 @@ public class HostLiveActivity extends AgoraBaseActivity {
                     } else {
                         // User long-tapped an unoccupied seat, join the seat
                         // Check seat occupancy with the backend before joining
-                        if(isGuest) {
+                        if (isGuest) {
                             checkSeatAvailability(seatIndex, true, sessionManager.getUser().getUsername(), host.getLiveStreamingId());// Replace "your_username_here" with the actual username
-                        }
-                        else {
+                        } else {
                             checkSeatAvailability(seatIndex, true, liveUser.getUsername(), liveUser.getLiveStreamingId());// Replace "your_username_here" with the actual username
                         }
                     }
@@ -647,8 +651,10 @@ public class HostLiveActivity extends AgoraBaseActivity {
             // Handle tap to mute/unmute if the seat is occupied
             seatButtons[i].setOnClickListener(v -> {
                 // Implement logic to mute/unmute the user in this seat
-                if (seatsOccupied[seatIndex]) {
-                    onSeatTap(seatIndex);
+                if (isGuest) {
+                    onSeatTap(seatIndex, host.getLiveStreamingId());
+                } else {
+                    onSeatTap(seatIndex, liveUser.getLiveStreamingId());
                 }
             });
         }
@@ -659,25 +665,18 @@ public class HostLiveActivity extends AgoraBaseActivity {
         Button seatButton = seatButtons[seatIndex];
         if (seatsOccupied[seatIndex]) {
             // Change the button background or appearance to represent a joined seat
-            seatButton.setBackgroundResource(R.drawable.roommic);
+            runOnUiThread(() -> seatButton.setBackgroundResource(R.drawable.roommic));
         } else {
             // Change the button background or appearance to represent an unoccupied seat
-            seatButton.setBackgroundResource(R.drawable.seat);
+            runOnUiThread(() -> seatButton.setBackgroundResource(R.drawable.seat));
         }
     }
 
-    // Helper method to update the UI of a seat based on its state
-    private void highlightSeat(int seatIndex) {
-        Button seatButton = seatButtons[seatIndex];
-        Log.d("Speaker", "Speaking Index: " + seatIndex);
-            // Highlight the seat with a yellow round circle background
-            seatButton.setBackgroundResource(R.drawable.yellow_round_circle);
-    }
 
     public interface ApiService {
         // Define an endpoint to check if a seat is occupied with userName and channel
         @GET("/seat/{seatIndex}/{channel}")
-        Call<Boolean> isSeatOccupiedWithuserName(@Path("seatIndex") int seatIndex,  @Path("channel") String channel);
+        Call<Boolean> isSeatOccupiedWithuserName(@Path("seatIndex") int seatIndex, @Path("channel") String channel);
 
         // Define an endpoint to mark a seat as occupied with userName and channel
         @POST("/seat/{seatIndex}/{userName}/{channel}/occupy")
@@ -720,39 +719,39 @@ public class HostLiveActivity extends AgoraBaseActivity {
                     } else {
                         // Seat is available, join or leave as appropriate
                         if (isJoining) {
-                            if(isGuest) {
+                            if (isGuest) {
                                 joinSeat(seatIndex, sessionManager.getUser().getUsername(), host.getLiveStreamingId());
                                 scheduleOccupyingTask(seatIndex, sessionManager.getUser().getUsername(), host.getLiveStreamingId());
-                            }else{
+                            } else {
                                 joinSeat(seatIndex, liveUser.getUsername(), liveUser.getLiveStreamingId());
                                 scheduleOccupyingTask(seatIndex, liveUser.getUsername(), liveUser.getLiveStreamingId());
                             }
                             seatsOccupied[seatIndex] = true;
                             // Mark the seat as occupied in the backend
-                            if(isGuest) {
+                            if (isGuest) {
                                 markSeatAsOccupied(seatIndex, sessionManager.getUser().getUsername(), host.getLiveStreamingId());
-                            }else {
+                            } else {
                                 markSeatAsOccupied(seatIndex, liveUser.getUsername(), liveUser.getLiveStreamingId());
                             }
                         } else {
-                            if(isGuest){
+                            if (isGuest) {
                                 leaveSeat(seatIndex, sessionManager.getUser().getUsername(), host.getLiveStreamingId());
-                            }else{
+                            } else {
                                 leaveSeat(seatIndex, liveUser.getUsername(), liveUser.getLiveStreamingId());
                             }
                             // Clear the association of the user with this seat
                             seatsOccupied[seatIndex] = false;
-                            if (isGuest){
+                            if (isGuest) {
                                 SeatKey seatKey = new SeatKey(host.getLiveStreamingId(), seatIndex, agoraUID);
                                 occupiedSeatsMap.remove(seatKey, agoraUID);
-                            }else{
+                            } else {
                                 SeatKey seatKey = new SeatKey(liveUser.getLiveStreamingId(), seatIndex, agoraUID);
                                 occupiedSeatsMap.remove(seatKey, agoraUID);
                             }
                             // Mark the seat as unoccupied in the backend
-                            if(isGuest) {
-                                markSeatAsUnoccupied(seatIndex, sessionManager.getUser().getUsername(),host.getLiveStreamingId());
-                            }else{
+                            if (isGuest) {
+                                markSeatAsUnoccupied(seatIndex, sessionManager.getUser().getUsername(), host.getLiveStreamingId());
+                            } else {
                                 markSeatAsUnoccupied(seatIndex, liveUser.getUsername(), liveUser.getLiveStreamingId());
                             }
                             Log.d("SeatStatus", "User left seat " + (seatIndex + 1));
@@ -791,9 +790,9 @@ public class HostLiveActivity extends AgoraBaseActivity {
                 // Check if the user is still seated
                 if (seatsOccupied[seatIndex]) {
                     // Mark the seat as occupied again
-                    if(isGuest) {
+                    if (isGuest) {
                         markSeatAsOccupied(seatIndex, sessionManager.getUser().getUsername(), host.getLiveStreamingId());
-                    }else {
+                    } else {
                         markSeatAsOccupied(seatIndex, liveUser.getUsername(), liveUser.getLiveStreamingId());
                     }
 
@@ -917,38 +916,65 @@ public class HostLiveActivity extends AgoraBaseActivity {
     }
 
     // Handle tap on a joined seat to mute/unmute the user
-    private void onSeatTap(int seatIndex) {
+    private void onSeatTap(int seatIndex, String channel) {
+
         // Toggle mute/unmute for the user in this seat
         seatsMuted[seatIndex] = !seatsMuted[seatIndex];
 
         // Implement logic to mute/unmute the user's audio using Agora SDK
         rtcEngine().muteLocalAudioStream(seatsMuted[seatIndex]);
 
-        // Update UI to indicate mute/unmute state
-        Button seatButton = seatButtons[seatIndex];
-        if (seatsMuted[seatIndex]) {
-            // Change the button background or appearance to represent muted mic (replace with your logic)
-            seatButton.setBackgroundResource(R.drawable.ic_mic_muted);
-            Toast.makeText(this, "Seat " + (seatIndex + 1) + " Muted", Toast.LENGTH_SHORT).show();
+        if (isGuest) {
+            // Update UI to indicate mute/unmute state
+            Button seatButton = seatButtons[seatIndex];
+            if (seatsMuted[seatIndex]) {
+                // Change the button background or appearance to represent muted mic (replace with your logic)
+               // seatButton.setBackgroundResource(R.drawable.ic_mic_muted);
+                Toast.makeText(this, "Seat " + (seatIndex + 1) + " Muted", Toast.LENGTH_SHORT).show();
+                // Emit an event to the server to synchronize mute/unmute state
+                getSocket().emit("muteSeat", seatIndex);
+            } else {
+                // Change the button background or appearance to represent mic (replace with your logic)
+              //  seatButton.setBackgroundResource(R.drawable.roommic);
+                Toast.makeText(this, "Seat " + (seatIndex + 1) + " Unmuted", Toast.LENGTH_SHORT).show();
+                // Emit an event to the server to synchronize mute/unmute state
+                getSocket().emit("unmuteSeat", seatIndex);
+            }
         } else {
-            // Change the button background or appearance to represent mic (replace with your logic)
-            seatButton.setBackgroundResource(R.drawable.roommic);
-            Toast.makeText(this, "Seat " + (seatIndex + 1) + " Unmuted", Toast.LENGTH_SHORT).show();
+            // Update UI to indicate mute/unmute state
+            Button seatButton = seatButtons[seatIndex];
+            if (seatsMuted[seatIndex]) {
+                // Change the button background or appearance to represent muted mic (replace with your logic)
+             //   seatButton.setBackgroundResource(R.drawable.ic_mic_muted);
+                Toast.makeText(this, "Seat " + (seatIndex + 1) + " Muted", Toast.LENGTH_SHORT).show();
+                // Emit an event to the server to synchronize mute/unmute state
+                getSocket().emit("muteSeat", seatIndex);
+            } else {
+                // Change the button background or appearance to represent mic (replace with your logic)
+              //  seatButton.setBackgroundResource(R.drawable.roommic);
+                Toast.makeText(this, "Seat " + (seatIndex + 1) + " Unmuted", Toast.LENGTH_SHORT).show();
+                // Emit an event to the server to synchronize mute/unmute state
+                getSocket().emit("unmuteSeat", seatIndex);
+            }
         }
     }
 
+
     // Helper method to join a seat and associate a user with it
     private void joinSeat(int seatIndex, String username, String channel) {
+        // Emit the "muteSeat" event with channel information
+        channel = isGuest ? host.getLiveStreamingId() : liveUser.getLiveStreamingId();
+
         // Check if the seat is already occupied by another user
         if (occupiedSeatsMap.containsValue(seatIndex)) {
             // Seat is already occupied, show a message or take appropriate action
             Toast.makeText(this, "Seat " + (seatIndex + 1) + " is already occupied.", Toast.LENGTH_SHORT).show();
         } else {
+            // Update UI to indicate mute/unmute state
+            Button seatButton = seatButtons[seatIndex];
             // Join the Agora channel with the user's name as the seat identifier
             // Replace this with your Agora SDK logic to join the channel
             // For example: rtcEngine().joinChannel(null, channelName, null, userUid);
-
-            getSocket().emit("occupySeat", seatIndex);
 
             rtcEngine().setChannelProfile(Constants.CHANNEL_PROFILE_LIVE_BROADCASTING);
             rtcEngine().setClientRole(Constants.CLIENT_ROLE_BROADCASTER);
@@ -956,7 +982,7 @@ public class HostLiveActivity extends AgoraBaseActivity {
             // Disable the user's audio when they leave the seat
             rtcEngine().muteLocalAudioStream(false);
             rtcEngine().muteAllRemoteAudioStreams(false);
-          // rtcEngine().setEnableSpeakerphone(true);
+            // rtcEngine().setEnableSpeakerphone(true);
 
             Toast.makeText(this, "Joined Seat: " + (seatIndex + 1) + "", Toast.LENGTH_SHORT).show();
 
@@ -964,45 +990,133 @@ public class HostLiveActivity extends AgoraBaseActivity {
         }
 
         // Associate the user's name (username) with the seat index
-        if(isGuest){
+        if (isGuest) {
+            // Update UI to indicate mute/unmute state
+            Button seatButton = seatButtons[seatIndex];
             SeatKey seatKey = new SeatKey(host.getLiveStreamingId(), seatIndex, agoraUID);
-            occupiedSeatsMap.put(seatKey, agoraUID); // Use the username as the key
-        }else{
+          //  occupiedSeatsMap.put(seatKey, agoraUID); // Use the username as the key
+            // Emit an event to the server to synchronize mute/unmute state
+            // After successfully joining the seat, emit an event to inform other clients
+          //  runOnUiThread(() -> seatButton.setBackgroundResource(R.drawable.roommic));
+            getSocket().emit("joinSeat", seatIndex);
+        } else {
+            // Update UI to indicate mute/unmute state
+            Button seatButton = seatButtons[seatIndex];
             SeatKey seatKey = new SeatKey(liveUser.getLiveStreamingId(), seatIndex, agoraUID);
-            occupiedSeatsMap.put(seatKey, agoraUID); // Use the username as the key
+            occupiedSeatsMap.put(seatKey, agoraUID); // Use the agoraUID as the key
+            // When a user occupies a seat
+            //socket.emit("occupySeat", seatIndex);
+            //getSocket().emit("occupySeat", seatIndex);
+            // Emit an event to the server to synchronize mute/unmute state
+            // After successfully joining the seat, emit an event to inform other clients
+          //  runOnUiThread(() -> seatButton.setBackgroundResource(R.drawable.roommic));
+            getSocket().emit("joinSeat", seatIndex);
         }
 
     }
 
     // Helper method to leave a seat and disassociate a user from it
     private void leaveSeat(int seatIndex, String userName, String channel) {
+        // Emit the "muteSeat" event with channel information
+        channel = isGuest ? host.getLiveStreamingId() : liveUser.getLiveStreamingId();
         // Check if the user is associated with the specified seat
-     //   if (occupiedSeatsMap.containsKey(String.valueOf(agoraUID)) && occupiedSeatsMap.get(String.valueOf(agoraUID)) == seatIndex) {
-            // Leave the Agora channel and release the seat
-            // Replace this with your Agora SDK logic to leave the channel
-            // For example: rtcEngine().leaveChannel();
+        //   if (occupiedSeatsMap.containsKey(String.valueOf(agoraUID)) && occupiedSeatsMap.get(String.valueOf(agoraUID)) == seatIndex) {
+        // Leave the Agora channel and release the seat
+        // Replace this with your Agora SDK logic to leave the channel
+        // For example: rtcEngine().leaveChannel();
 
-            getSocket().emit("vacateSeat", seatIndex);
-
-            // Disable the user's audio when they leave the seat
-            rtcEngine().muteLocalAudioStream(true);
-            rtcEngine().muteAllRemoteAudioStreams(false);
-            Toast.makeText(this, "Left Seat: " + (seatIndex + 1), Toast.LENGTH_SHORT).show();
+        // Disable the user's audio when they leave the seat
+        rtcEngine().muteLocalAudioStream(true);
+        rtcEngine().muteAllRemoteAudioStreams(false);
+        Toast.makeText(this, "Left Seat: " + (seatIndex + 1), Toast.LENGTH_SHORT).show();
 
         // Associate the user's name (username) with the seat index
-        if(isGuest){
+        if (isGuest) {
+            // Update UI to indicate mute/unmute state
+            Button seatButton = seatButtons[seatIndex];
             SeatKey seatKey = new SeatKey(host.getLiveStreamingId(), seatIndex, agoraUID);
             occupiedSeatsMap.remove(seatKey, agoraUID); // Use the username as the key
+           // runOnUiThread(() -> seatButton.setBackgroundResource(R.drawable.seat));
             // Remove the scheduled occupying task for this seat
             handler.removeCallbacksAndMessages(null);
-        }else{
+            // After successfully leaving the seat, emit an event to inform other clients
+            getSocket().emit("leaveSeat", seatIndex);
+        } else {
+            // Update UI to indicate mute/unmute state
+            Button seatButton = seatButtons[seatIndex];
             SeatKey seatKey = new SeatKey(liveUser.getLiveStreamingId(), seatIndex, agoraUID);
             occupiedSeatsMap.remove(seatKey, agoraUID); // Use the username as the key
             // Remove the scheduled occupying task for this seat
             handler.removeCallbacksAndMessages(null);
+          //  runOnUiThread(() -> seatButton.setBackgroundResource(R.drawable.seat));
+            // After successfully leaving the seat, emit an event to inform other clients
+            getSocket().emit("leaveSeat", seatIndex);
         }
     }
 
+    // Handle Socket.IO events
+    private void handleSocketEvents() {
+        getSocket().on(Socket.EVENT_CONNECT, args -> {
+            // Add event listeners for synchronization with the server
+            getSocket().on("seatOccupied", data -> {
+                // Handle seat occupancy event
+                // Update UI to show that the seat is occupied
+                int seatIndex = (int) data[0];
+                Button seatButton = seatButtons[seatIndex];
+                    // Change the button background or appearance to represent a joined seat
+                    runOnUiThread(() -> seatButton.setBackgroundResource(R.drawable.roommic));
+            });
+
+            getSocket().on("seatVacated", data -> {
+                // Handle seat vacation event
+                // Update UI to show that the seat is vacated
+                int seatIndex = (int) data[0];
+                Button seatButton = seatButtons[seatIndex];
+                    // Change the button background or appearance to represent an unoccupied seat
+                    runOnUiThread(() -> seatButton.setBackgroundResource(R.drawable.seat));
+            });
+
+            getSocket().on("seatMuted", data -> {
+                // Handle seat muted event
+                int seatIndex = (int) data[0];
+                // Update UI to show that the seat is muted
+                seatsMuted[seatIndex] = true;
+                mute(seatIndex);
+            });
+
+            getSocket().on("seatUnmuted", data -> {
+                // Handle seat unmuted event
+                int seatIndex = (int) data[0];
+                // Update UI to show that the seat is unmuted
+                seatsMuted[seatIndex] = false;
+                unmute(seatIndex);
+            });
+
+            getSocket().on("Seathighlighted", data -> {
+                // Handle seat unmuted event
+                int seatIndex = (int) data[0];
+                // Update UI to show that the seat is unmuted
+                 highlightSeat(seatIndex);
+            });
+
+            getSocket().on("Seatunhighlighted", data -> {
+                // Handle seat unmuted event
+                int seatIndex = (int) data[0];
+                // Update UI to show that the seat is unmuted
+                unhighlightSeat(seatIndex);
+            });
+
+            // Add more event handlers as needed
+
+            Log.d(TAG, "Socket.IO connected");
+        });
+
+        getSocket().on(Socket.EVENT_DISCONNECT, args -> {
+            Log.d(TAG, "Socket.IO disconnected");
+        });
+
+        getSocket().connect();
+    }
 
     private void initView() {
         //  binding.tvDiamonds.setText(String.valueOf(sessionManager.getUser().getDiamond()));
@@ -1113,7 +1227,8 @@ public class HostLiveActivity extends AgoraBaseActivity {
 
     }
 
-    private void getUser(String userId) {
+
+        private void getUser(String userId) {
         getSocket().on(Const.EVENT_GET_USER, args1 -> {
             runOnUiThread(() -> {
                 if (args1[0] != null) {
@@ -1274,7 +1389,6 @@ public class HostLiveActivity extends AgoraBaseActivity {
         userCount++; // Increment the user count when a user joins the channel
         updateUI(); // Update the UI to display the new user count
 
-
     }
 
     @Override
@@ -1346,12 +1460,19 @@ public class HostLiveActivity extends AgoraBaseActivity {
             }
         }
 
+        // Emit the speakingSeats data to the server if needed
+      //  getSocket().emit("userAudioVolume", speakingSeats);
+
         // Now, loop through the seat buttons and update their background based on speaking state
         for (int seatIndex = 0; seatIndex < seatButtons.length; seatIndex++) {
             if (speakingSeats.contains(seatIndex)) {
                 highlightSeat(seatIndex);
+                getSocket().emit("highlightSeat", seatIndex); // Emit event when speaking starts
             } else {
-                updateSeatUI(seatIndex);
+                if (!seatsMuted[seatIndex]) {
+                    unhighlightSeat(seatIndex);
+                    getSocket().emit("unhighlightSeat", seatIndex); // Emit event when speaking stops
+                }
             }
         }
     }

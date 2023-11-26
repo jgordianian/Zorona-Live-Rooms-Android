@@ -11,6 +11,7 @@ import com.zorona.liverooms.R;
 import com.zorona.liverooms.databinding.ItemViewUsersBinding;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 public class LiveViewUserAdapter extends RecyclerView.Adapter<LiveViewUserAdapter.ChatUserViewHolder> {

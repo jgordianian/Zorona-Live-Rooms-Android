@@ -127,6 +127,6 @@ public class SettingActivity extends BaseActivity {
     }
 
     public void onClickTerms(View view) {
-        WebActivity.open(this, "Terms of Service", sessionManager.getSetting().getPrivacyPolicyLink());
+        WebActivity.open(this, "Terms of Service", "https://terms.zoronaliverooms.com/");
     }
 }

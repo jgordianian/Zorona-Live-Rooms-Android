@@ -2,7 +2,7 @@ package com.zorona.liverooms.retrofit;
 
 public class Const {
 
-    public static final String KEY = "security261";
+    public static final String KEY = "securityMaster";
 
 
     public static final String DUMMYIMAGE = "";
@@ -33,6 +33,8 @@ public class Const {
     public static final String EVENT_LIVEUSER_GIFT = "liveUserGift";
     public static final String EVENT_NORMALUSER_GIFT = "normalUserGift";
     public static final String EVENT_VIEW = "view";
+
+    public static final String EVENT_ = "like";
     public static final String EVENT_ADDVIEW = "addView";
     public static final String EVENT_LESSVIEW = "lessView";
     public static final String EVENT_GET_USER = "getUserProfile";

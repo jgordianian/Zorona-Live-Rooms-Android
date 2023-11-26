@@ -45,7 +45,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/amidum"
-                            android:text="My Rcoins"
+                            android:text="My Zcoins"
                             android:textColor="@color/white"
                             android:textSize="16dp" />
 
@@ -147,7 +147,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/abold"
-                        android:text="10 Rcoins"
+                        android:text="10 Zcoins"
                         android:textColor="@color/purple"
                         android:textSize="22sp" />
 
@@ -206,8 +206,7 @@
                     android:paddingVertical="10dp"
                     android:text="Cash out"
                     android:textColor="@color/black_back"
-                    android:textSize="16dp"
-                    android:visibility="gone"/>
+                    android:textSize="16dp" />
 
 
                 <TextView

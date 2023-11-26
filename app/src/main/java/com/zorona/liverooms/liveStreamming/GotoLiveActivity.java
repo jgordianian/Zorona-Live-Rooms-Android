@@ -191,7 +191,7 @@ public class GotoLiveActivity extends BaseActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if ((ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) ||
                 ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
-            Toast.makeText(this, "Permission Denied", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Permission Granted", Toast.LENGTH_SHORT).show();
             return;
         }
 

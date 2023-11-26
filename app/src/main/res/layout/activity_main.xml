@@ -44,8 +44,8 @@
 
                     <ImageView
                         android:id="@+id/animHome"
-                        android:layout_width="21dp"
-                        android:layout_height="30dp"
+                        android:layout_width="40dp"
+                        android:layout_height="match_parent"
                         android:layout_gravity="center"
                         android:padding="5dp"
                         android:src="@drawable/home" />
@@ -54,15 +54,15 @@
 
                 <LinearLayout
                     android:id="@+id/lytDiscover"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="center">
 
                     <ImageView
                         android:id="@+id/animDiscover"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
+                        android:layout_width="40dp"
+                        android:layout_height="match_parent"
                         android:padding="5dp"
                         android:src="@drawable/post" />
 
@@ -80,6 +80,7 @@
                     android:id="@+id/lytChat"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
+                    android:visibility="gone"
                     android:layout_weight="1">
 
                     <ImageView
@@ -90,6 +91,7 @@
                         android:layout_gravity="center"
                         android:padding="3dp"
                         android:src="@drawable/chat"
+                        android:visibility="invisible"
                         app:tint="@color/blackpure" />
 
                     <View
@@ -99,7 +101,6 @@
                         android:layout_height="7dp"
                         android:layout_alignParentEnd="true"
                         android:layout_marginEnd="25dp"
-                        android:visibility="gone"
                         android:background="@drawable/bg_round_pink" />
                 </RelativeLayout>
 
@@ -107,13 +108,13 @@
                     android:id="@+id/lytProfile"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
+                    android:layout_weight="2"
                     android:gravity="center">
 
                     <ImageView
                         android:id="@+id/animProfile"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
+                        android:layout_width="100dp"
+                        android:layout_height="match_parent"
                         android:layout_gravity="center"
                         android:padding="5dp"
                         android:src="@drawable/profile" />
