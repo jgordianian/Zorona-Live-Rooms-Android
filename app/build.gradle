@@ -32,17 +32,17 @@ android {
 
     buildTypes {
         release {
-            buildConfigField("String", "BASE_URL", "\"" + "https://back.zoronaliverooms.com:5000/" + "\"")
-
-            //minifyEnabled false
+            buildConfigField("String", "BASE_URL", "\"" + "http://10.0.0.18:5555/" + "\"")
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            // Add any additional ProGuard configuration files if needed
         }
         debug {
             //  minifyEnabled true  //<-- minify your code
             // shrinkResources true //<-- remove any unused resources
             //zipAlignEnabled true //<-- optimization
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            buildConfigField("String", "BASE_URL", "\"" + "https://back.zoronaliverooms.com:5000/" + "\"")
+           // proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField("String", "BASE_URL", "\"" + "http://10.0.0.18:5555/" + "\"")
         }
     }
     compileOptions {
