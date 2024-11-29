@@ -1,14 +1,14 @@
-package com.zorona.liverooms.viewModel;
+package com.app.liverooms.viewModel;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.zorona.liverooms.modelclass.ChatItem;
-import com.zorona.liverooms.modelclass.ChatListRoot;
-import com.zorona.liverooms.modelclass.RestResponse;
-import com.zorona.liverooms.chat.ChatAdapter;
-import com.zorona.liverooms.retrofit.Const;
-import com.zorona.liverooms.retrofit.RetrofitBuilder;
+import com.app.liverooms.modelclass.ChatItem;
+import com.app.liverooms.modelclass.ChatListRoot;
+import com.app.liverooms.modelclass.RestResponse;
+import com.app.liverooms.chat.ChatAdapter;
+import com.app.liverooms.retrofit.Const;
+import com.app.liverooms.retrofit.RetrofitBuilder;
 
 import retrofit2.Call;
 import retrofit2.Callback;

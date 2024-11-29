@@ -1,4 +1,4 @@
-package com.zorona.liverooms.agora.token;
+package com.app.liverooms.agora.token;
 
 /**
  * Created by Li on 10/1/2016.

@@ -1,4 +1,4 @@
-package com.zorona.liverooms.models;
+package com.app.liverooms.models;
 
 public class LiveCommentRoot_dummy {
     String userId, commentId, comment;

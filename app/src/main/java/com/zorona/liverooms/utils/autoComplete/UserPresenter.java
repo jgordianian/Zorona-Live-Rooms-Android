@@ -1,14 +1,14 @@
-package com.zorona.liverooms.utils.autoComplete;
+package com.app.liverooms.utils.autoComplete;
 
 import android.content.Context;
 import android.util.Log;
 
 import androidx.annotation.Nullable;
 
-import com.zorona.liverooms.SessionManager;
-import com.zorona.liverooms.modelclass.GuestProfileRoot;
-import com.zorona.liverooms.modelclass.GuestUsersListRoot;
-import com.zorona.liverooms.retrofit.RetrofitBuilder;
+import com.app.liverooms.SessionManager;
+import com.app.liverooms.modelclass.GuestProfileRoot;
+import com.app.liverooms.modelclass.GuestUsersListRoot;
+import com.app.liverooms.retrofit.RetrofitBuilder;
 import com.google.gson.JsonObject;
 import com.otaliastudios.autocomplete.RecyclerViewPresenter;
 

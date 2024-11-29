@@ -1,4 +1,4 @@
-package com.zorona.liverooms.utils;
+package com.app.liverooms.utils;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
@@ -18,9 +18,9 @@ import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
-import com.zorona.liverooms.MainApplication;
-import com.zorona.liverooms.R;
-import com.zorona.liverooms.databinding.ItemUserprofileImageviewBinding;
+import com.app.liverooms.MainApplication;
+import com.app.liverooms.R;
+import com.app.liverooms.databinding.ItemUserprofileImageviewBinding;
 import io.agora.rtc2.RtcEngine;
 import io.agora.rtc2.Constants;
 import io.agora.rtc2.IRtcEngineEventHandler;

@@ -1,4 +1,4 @@
-package com.zorona.liverooms.utils.Filters;
+package com.app.liverooms.utils.Filters;
 
 public class FilterRoot {
 

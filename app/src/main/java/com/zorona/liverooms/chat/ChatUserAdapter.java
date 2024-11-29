@@ -1,4 +1,4 @@
-package com.zorona.liverooms.chat;
+package com.app.liverooms.chat;
 
 import android.content.Context;
 import android.content.Intent;
@@ -8,10 +8,10 @@ import android.view.ViewGroup;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.zorona.liverooms.R;
-import com.zorona.liverooms.databinding.ItemChatusersBinding;
-import com.zorona.liverooms.modelclass.ChatUserListRoot;
-import com.zorona.liverooms.retrofit.Const;
+import com.app.liverooms.R;
+import com.app.liverooms.databinding.ItemChatusersBinding;
+import com.app.liverooms.modelclass.ChatUserListRoot;
+import com.app.liverooms.retrofit.Const;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;

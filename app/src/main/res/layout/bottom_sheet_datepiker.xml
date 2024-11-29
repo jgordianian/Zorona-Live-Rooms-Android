@@ -41,7 +41,7 @@
         </RelativeLayout>
 
 
-        <com.zorona.liverooms.utils.datepicker.view.datePicker.DatePicker
+        <com.app.liverooms.utils.datepicker.view.datePicker.DatePicker
             android:id="@+id/datepicker"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

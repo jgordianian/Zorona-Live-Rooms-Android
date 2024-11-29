@@ -1,4 +1,4 @@
-package com.zorona.liverooms.comments;
+package com.app.liverooms.comments;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,19 +10,19 @@ import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProviders;
 
-import com.zorona.liverooms.R;
-import com.zorona.liverooms.bottomsheets.BottomSheetCommentDetails;
-import com.zorona.liverooms.modelclass.PostCommentRoot;
-import com.zorona.liverooms.modelclass.PostRoot;
-import com.zorona.liverooms.modelclass.ReliteRoot;
-import com.zorona.liverooms.modelclass.RestResponse;
-import com.zorona.liverooms.retrofit.Const;
-import com.zorona.liverooms.viewModel.CommentLikeListViewModel;
-import com.zorona.liverooms.viewModel.ViewModelFactory;
-import com.zorona.liverooms.SessionManager;
-import com.zorona.liverooms.activity.BaseActivity;
-import com.zorona.liverooms.databinding.FragmentCommentBinding;
-import com.zorona.liverooms.retrofit.RetrofitBuilder;
+import com.app.liverooms.R;
+import com.app.liverooms.bottomsheets.BottomSheetCommentDetails;
+import com.app.liverooms.modelclass.PostCommentRoot;
+import com.app.liverooms.modelclass.PostRoot;
+import com.app.liverooms.modelclass.ReliteRoot;
+import com.app.liverooms.modelclass.RestResponse;
+import com.app.liverooms.retrofit.Const;
+import com.app.liverooms.viewModel.CommentLikeListViewModel;
+import com.app.liverooms.viewModel.ViewModelFactory;
+import com.app.liverooms.SessionManager;
+import com.app.liverooms.activity.BaseActivity;
+import com.app.liverooms.databinding.FragmentCommentBinding;
+import com.app.liverooms.retrofit.RetrofitBuilder;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 

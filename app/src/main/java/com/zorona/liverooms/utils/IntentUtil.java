@@ -1,4 +1,4 @@
-package com.zorona.liverooms.utils;
+package com.app.liverooms.utils;
 
 import android.app.Activity;
 import android.content.Context;
@@ -6,7 +6,7 @@ import android.content.Intent;
 
 import androidx.fragment.app.Fragment;
 
-import com.zorona.liverooms.R;
+import com.app.liverooms.R;
 
 
 final public class IntentUtil {

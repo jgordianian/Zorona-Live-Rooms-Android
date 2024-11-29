@@ -1,11 +1,11 @@
-package com.zorona.liverooms.dilog;
+package com.app.liverooms.dilog;
 
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.Window;
 
-import com.zorona.liverooms.R;
+import com.app.liverooms.R;
 
 
 public class CustomDialogClass extends Dialog {

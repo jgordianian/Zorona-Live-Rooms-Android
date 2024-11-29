@@ -1,4 +1,4 @@
-package com.zorona.liverooms.viewModel;
+package com.app.liverooms.viewModel;
 
 import android.util.Log;
 
@@ -10,15 +10,15 @@ import androidx.camera.core.VideoCaptureConfig;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.zorona.liverooms.liveStreamming.FilterAdapter2;
-import com.zorona.liverooms.liveStreamming.FilterAdapter_tt;
-import com.zorona.liverooms.liveStreamming.HostLiveActivity;
-import com.zorona.liverooms.liveStreamming.LiveStramCommentAdapter;
-import com.zorona.liverooms.liveStreamming.LiveViewUserAdapter;
-import com.zorona.liverooms.liveStreamming.StickerAdapter;
-import com.zorona.liverooms.modelclass.StickerRoot;
-import com.zorona.liverooms.modelclass.UserRoot;
-import com.zorona.liverooms.utils.Filters.FilterRoot;
+import com.app.liverooms.liveStreamming.FilterAdapter2;
+import com.app.liverooms.liveStreamming.FilterAdapter_tt;
+import com.app.liverooms.liveStreamming.HostLiveActivity;
+import com.app.liverooms.liveStreamming.LiveStramCommentAdapter;
+import com.app.liverooms.liveStreamming.LiveViewUserAdapter;
+import com.app.liverooms.liveStreamming.StickerAdapter;
+import com.app.liverooms.modelclass.StickerRoot;
+import com.app.liverooms.modelclass.UserRoot;
+import com.app.liverooms.utils.Filters.FilterRoot;
 
 import org.json.JSONObject;
 
@@ -40,7 +40,7 @@ public class HostLiveViewModel extends ViewModel {
     public MutableLiveData<Boolean> isShowFilterSheet = new MutableLiveData<>(false);
     public MutableLiveData<FilterRoot> selectedFilter = new MutableLiveData<>();
     public MutableLiveData<FilterRoot> selectedFilter2 = new MutableLiveData<>();
-    public MutableLiveData<StickerRoot.StickerItem> selectedSticker = new MutableLiveData<com.zorona.liverooms.modelclass.StickerRoot.StickerItem>();
+    public MutableLiveData<StickerRoot.StickerItem> selectedSticker = new MutableLiveData<com.app.liverooms.modelclass.StickerRoot.StickerItem>();
 
 
     public MutableLiveData<UserRoot.User> clickedComment = new MutableLiveData<UserRoot.User>();

@@ -1,4 +1,4 @@
-package com.zorona.liverooms.user.wallet;
+package com.app.liverooms.user.wallet;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,13 +8,13 @@ import android.view.ViewGroup;
 
 import androidx.databinding.DataBindingUtil;
 
-import com.zorona.liverooms.R;
-import com.zorona.liverooms.activity.BaseFragment;
-import com.zorona.liverooms.databinding.FragmentRcoinBinding;
-import com.zorona.liverooms.modelclass.UserRoot;
-import com.zorona.liverooms.popups.PopupBuilder;
-import com.zorona.liverooms.retrofit.Const;
-import com.zorona.liverooms.retrofit.RetrofitBuilder;
+import com.app.liverooms.R;
+import com.app.liverooms.activity.BaseFragment;
+import com.app.liverooms.databinding.FragmentRcoinBinding;
+import com.app.liverooms.modelclass.UserRoot;
+import com.app.liverooms.popups.PopupBuilder;
+import com.app.liverooms.retrofit.Const;
+import com.app.liverooms.retrofit.RetrofitBuilder;
 import com.google.gson.JsonObject;
 
 import retrofit2.Call;

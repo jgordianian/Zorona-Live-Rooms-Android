@@ -1,13 +1,13 @@
-package com.zorona.liverooms.retrofit;
+package com.app.liverooms.retrofit;
 
 import android.content.Context;
 import android.util.Log;
 
-import com.zorona.liverooms.modelclass.ChatTopicRoot;
-import com.zorona.liverooms.modelclass.FollowUnfollowResponse;
-import com.zorona.liverooms.modelclass.GuestProfileRoot;
-import com.zorona.liverooms.modelclass.UserRoot;
-import com.zorona.liverooms.SessionManager;
+import com.app.liverooms.modelclass.ChatTopicRoot;
+import com.app.liverooms.modelclass.FollowUnfollowResponse;
+import com.app.liverooms.modelclass.GuestProfileRoot;
+import com.app.liverooms.modelclass.UserRoot;
+import com.app.liverooms.SessionManager;
 import com.google.gson.JsonObject;
 
 import retrofit2.Call;

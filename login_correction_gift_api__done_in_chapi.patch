@@ -7,16 +7,16 @@ diff --git a/app/src/main/java/com/example/rayzi/emoji/EmojiBottomsheetFragment.
 --- a/app/src/main/java/com/example/rayzi/emoji/EmojiBottomsheetFragment.java	(revision c0b07bfc7054239eaec9ad52c22212e4b91b1737)
 +++ b/app/src/main/java/com/example/rayzi/emoji/EmojiBottomsheetFragment.java	(revision 17c897182b8a66ed628101080bb9c66c1efd7e5e)
 @@ -18,16 +18,21 @@
- import com.zorona.liverooms.R;
- import com.zorona.liverooms.databinding.FragmentEmojiBottomsheetBinding;
- import com.zorona.liverooms.databinding.ItemEmojiGridBinding;
--import com.zorona.liverooms.models.GiftCategory_dummy;
-+import com.zorona.liverooms.modelclass.GiftCategoryRoot;
-+import com.zorona.liverooms.modelclass.GiftRoot;
-+import com.zorona.liverooms.retrofit.RetrofitBuilder;
- import com.zorona.liverooms.viewModel.EmojiSheetViewModel;
- import com.zorona.liverooms.viewModel.ViewModelFactory;
--import com.zorona.liverooms.z_demo.Demo_contents;
+ import com.app.liverooms.R;
+ import com.app.liverooms.databinding.FragmentEmojiBottomsheetBinding;
+ import com.app.liverooms.databinding.ItemEmojiGridBinding;
+-import com.app.liverooms.models.GiftCategory_dummy;
++import com.app.liverooms.modelclass.GiftCategoryRoot;
++import com.app.liverooms.modelclass.GiftRoot;
++import com.app.liverooms.retrofit.RetrofitBuilder;
+ import com.app.liverooms.viewModel.EmojiSheetViewModel;
+ import com.app.liverooms.viewModel.ViewModelFactory;
+-import com.app.liverooms.z_demo.Demo_contents;
  import com.google.android.material.bottomsheet.BottomSheetBehavior;
  import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
  import com.google.android.material.tabs.TabLayout;
@@ -129,13 +129,13 @@ diff --git a/app/src/main/java/com/example/rayzi/emoji/EmojiFragment.java b/app/
 --- a/app/src/main/java/com/example/rayzi/emoji/EmojiFragment.java	(revision c0b07bfc7054239eaec9ad52c22212e4b91b1737)
 +++ b/app/src/main/java/com/example/rayzi/emoji/EmojiFragment.java	(revision 17c897182b8a66ed628101080bb9c66c1efd7e5e)
 @@ -10,10 +10,13 @@
- import com.zorona.liverooms.R;
- import com.zorona.liverooms.activity.BaseFragment;
- import com.zorona.liverooms.databinding.FragmentEmojiBinding;
--import com.zorona.liverooms.models.GiftRoot_dummy;
-+import com.zorona.liverooms.modelclass.GiftCategoryRoot;
-+import com.zorona.liverooms.modelclass.GiftRoot;
-+import com.zorona.liverooms.retrofit.RetrofitBuilder;
+ import com.app.liverooms.R;
+ import com.app.liverooms.activity.BaseFragment;
+ import com.app.liverooms.databinding.FragmentEmojiBinding;
+-import com.app.liverooms.models.GiftRoot_dummy;
++import com.app.liverooms.modelclass.GiftCategoryRoot;
++import com.app.liverooms.modelclass.GiftRoot;
++import com.app.liverooms.retrofit.RetrofitBuilder;
  
 -import java.util.ArrayList;
 -import java.util.List;
@@ -208,11 +208,11 @@ diff --git a/app/src/main/java/com/example/rayzi/emoji/EmojiGridAdapter.java b/a
  import androidx.recyclerview.widget.RecyclerView;
  
  import com.bumptech.glide.Glide;
-+import com.zorona.liverooms.BuildConfig;
- import com.zorona.liverooms.R;
- import com.zorona.liverooms.databinding.ItemEmojiGridBinding;
--import com.zorona.liverooms.models.GiftRoot_dummy;
-+import com.zorona.liverooms.modelclass.GiftRoot;
++import com.app.liverooms.BuildConfig;
+ import com.app.liverooms.R;
+ import com.app.liverooms.databinding.ItemEmojiGridBinding;
+-import com.app.liverooms.models.GiftRoot_dummy;
++import com.app.liverooms.modelclass.GiftRoot;
  
  import java.util.ArrayList;
  import java.util.List;
@@ -259,8 +259,8 @@ diff --git a/app/src/main/java/com/example/rayzi/emoji/EmojiViewPagerAdapter.jav
  import androidx.fragment.app.FragmentManager;
  import androidx.fragment.app.FragmentPagerAdapter;
  
--import com.zorona.liverooms.models.GiftCategory_dummy;
-+import com.zorona.liverooms.modelclass.GiftCategoryRoot;
+-import com.app.liverooms.models.GiftCategory_dummy;
++import com.app.liverooms.modelclass.GiftCategoryRoot;
  
 +import java.util.ArrayList;
  import java.util.List;
@@ -309,11 +309,11 @@ diff --git a/app/src/main/java/com/example/rayzi/emoji/OnEmojiSelectLister.java 
 --- a/app/src/main/java/com/example/rayzi/emoji/OnEmojiSelectLister.java	(revision c0b07bfc7054239eaec9ad52c22212e4b91b1737)
 +++ b/app/src/main/java/com/example/rayzi/emoji/OnEmojiSelectLister.java	(revision 17c897182b8a66ed628101080bb9c66c1efd7e5e)
 @@ -1,8 +1,8 @@
- package com.zorona.liverooms.emoji;
+ package com.app.liverooms.emoji;
  
- import com.zorona.liverooms.databinding.ItemEmojiGridBinding;
--import com.zorona.liverooms.models.GiftRoot_dummy;
-+import com.zorona.liverooms.modelclass.GiftRoot;
+ import com.app.liverooms.databinding.ItemEmojiGridBinding;
+-import com.app.liverooms.models.GiftRoot_dummy;
++import com.app.liverooms.modelclass.GiftRoot;
  
  public interface OnEmojiSelectLister {
 -    void onEmojiSelect(ItemEmojiGridBinding binding, GiftRoot_dummy giftRootDummy);
@@ -341,9 +341,9 @@ diff --git a/app/src/main/java/com/example/rayzi/liveStreamming/HostLiveActivity
          initView();
 +        getGiftCategories();
          joinChannel();
--        mVideoDimension = com.zorona.liverooms.agora.rtc.Constants.VIDEO_DIMENSIONS[
+-        mVideoDimension = com.app.liverooms.agora.rtc.Constants.VIDEO_DIMENSIONS[
 -                config().getVideoDimenIndex()];
-+        mVideoDimension = com.zorona.liverooms.agora.rtc.Constants.VIDEO_DIMENSIONS[config().getVideoDimenIndex()];
++        mVideoDimension = com.app.liverooms.agora.rtc.Constants.VIDEO_DIMENSIONS[config().getVideoDimenIndex()];
  
          initLister();
  
@@ -383,7 +383,7 @@ new file mode 100644
 --- /dev/null	(revision 17c897182b8a66ed628101080bb9c66c1efd7e5e)
 +++ b/app/src/main/java/com/example/rayzi/modelclass/GiftCategoryRoot.java	(revision 17c897182b8a66ed628101080bb9c66c1efd7e5e)
 @@ -0,0 +1,67 @@
-+package com.zorona.liverooms.modelclass;
++package com.app.liverooms.modelclass;
 +
 +import com.google.gson.annotations.SerializedName;
 +
@@ -458,7 +458,7 @@ new file mode 100644
 --- /dev/null	(revision 17c897182b8a66ed628101080bb9c66c1efd7e5e)
 +++ b/app/src/main/java/com/example/rayzi/modelclass/GiftRoot.java	(revision 17c897182b8a66ed628101080bb9c66c1efd7e5e)
 @@ -0,0 +1,81 @@
-+package com.zorona.liverooms.modelclass;
++package com.app.liverooms.modelclass;
 +
 +import com.google.gson.annotations.SerializedName;
 +
@@ -635,14 +635,14 @@ diff --git a/app/src/main/java/com/example/rayzi/retrofit/RetrofitService.java b
 --- a/app/src/main/java/com/example/rayzi/retrofit/RetrofitService.java	(revision c0b07bfc7054239eaec9ad52c22212e4b91b1737)
 +++ b/app/src/main/java/com/example/rayzi/retrofit/RetrofitService.java	(revision 17c897182b8a66ed628101080bb9c66c1efd7e5e)
 @@ -3,6 +3,8 @@
- import com.zorona.liverooms.modelclass.BannerRoot;
- import com.zorona.liverooms.modelclass.ComplainRoot;
- import com.zorona.liverooms.modelclass.DiamondPlanRoot;
-+import com.zorona.liverooms.modelclass.GiftCategoryRoot;
-+import com.zorona.liverooms.modelclass.GiftRoot;
- import com.zorona.liverooms.modelclass.GuestProfileRoot;
- import com.zorona.liverooms.modelclass.GuestUsersListRoot;
- import com.zorona.liverooms.modelclass.HeshtagsRoot;
+ import com.app.liverooms.modelclass.BannerRoot;
+ import com.app.liverooms.modelclass.ComplainRoot;
+ import com.app.liverooms.modelclass.DiamondPlanRoot;
++import com.app.liverooms.modelclass.GiftCategoryRoot;
++import com.app.liverooms.modelclass.GiftRoot;
+ import com.app.liverooms.modelclass.GuestProfileRoot;
+ import com.app.liverooms.modelclass.GuestUsersListRoot;
+ import com.app.liverooms.modelclass.HeshtagsRoot;
 @@ -31,6 +33,7 @@
  import retrofit2.http.POST;
  import retrofit2.http.Part;

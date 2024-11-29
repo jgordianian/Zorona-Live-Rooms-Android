@@ -1,4 +1,4 @@
-package com.zorona.liverooms.chat;
+package com.app.liverooms.chat;
 
 import android.Manifest;
 import android.content.Context;
@@ -30,24 +30,24 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.zorona.liverooms.BuildConfig;
-import com.zorona.liverooms.R;
-import com.zorona.liverooms.activity.BaseActivity;
-import com.zorona.liverooms.bottomsheets.BottomSheetMessageDetails;
-import com.zorona.liverooms.bottomsheets.BottomSheetReport_g;
-import com.zorona.liverooms.modelclass.ChatItem;
-import com.zorona.liverooms.modelclass.ChatUserListRoot;
-import com.zorona.liverooms.modelclass.GuestProfileRoot;
-import com.zorona.liverooms.modelclass.UploadImageRoot;
-import com.zorona.liverooms.retrofit.Const;
-import com.zorona.liverooms.retrofit.RetrofitBuilder;
-import com.zorona.liverooms.retrofit.UserApiCall;
-import com.zorona.liverooms.user.guestUser.GuestActivity;
-import com.zorona.liverooms.videocall.CallRequestActivity;
-import com.zorona.liverooms.viewModel.ChatViewModel;
-import com.zorona.liverooms.viewModel.ViewModelFactory;
-import com.zorona.liverooms.SessionManager;
-import com.zorona.liverooms.databinding.ActivityChatBinding;
+import com.app.liverooms.BuildConfig;
+import com.app.liverooms.R;
+import com.app.liverooms.activity.BaseActivity;
+import com.app.liverooms.bottomsheets.BottomSheetMessageDetails;
+import com.app.liverooms.bottomsheets.BottomSheetReport_g;
+import com.app.liverooms.modelclass.ChatItem;
+import com.app.liverooms.modelclass.ChatUserListRoot;
+import com.app.liverooms.modelclass.GuestProfileRoot;
+import com.app.liverooms.modelclass.UploadImageRoot;
+import com.app.liverooms.retrofit.Const;
+import com.app.liverooms.retrofit.RetrofitBuilder;
+import com.app.liverooms.retrofit.UserApiCall;
+import com.app.liverooms.user.guestUser.GuestActivity;
+import com.app.liverooms.videocall.CallRequestActivity;
+import com.app.liverooms.viewModel.ChatViewModel;
+import com.app.liverooms.viewModel.ViewModelFactory;
+import com.app.liverooms.SessionManager;
+import com.app.liverooms.databinding.ActivityChatBinding;
 import com.google.gson.Gson;
 import com.yalantis.ucrop.UCrop;
 

@@ -1,4 +1,4 @@
-package com.zorona.liverooms.posts;
+package com.app.liverooms.posts;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,11 +7,11 @@ import android.text.TextWatcher;
 
 import androidx.databinding.DataBindingUtil;
 
-import com.zorona.liverooms.R;
-import com.zorona.liverooms.activity.BaseActivity;
-import com.zorona.liverooms.retrofit.Const;
-import com.zorona.liverooms.z_demo.Demo_contents;
-import com.zorona.liverooms.databinding.ActivityHashtagsBinding;
+import com.app.liverooms.R;
+import com.app.liverooms.activity.BaseActivity;
+import com.app.liverooms.retrofit.Const;
+import com.app.liverooms.z_demo.Demo_contents;
+import com.app.liverooms.databinding.ActivityHashtagsBinding;
 
 import java.util.ArrayList;
 import java.util.List;

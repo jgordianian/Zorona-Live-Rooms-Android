@@ -1,4 +1,4 @@
-package com.zorona.liverooms.user.freeCoins;
+package com.app.liverooms.user.freeCoins;
 
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -10,13 +10,13 @@ import android.widget.Toast;
 
 import androidx.databinding.DataBindingUtil;
 
-import com.zorona.liverooms.BuildConfig;
-import com.zorona.liverooms.R;
-import com.zorona.liverooms.activity.BaseActivity;
-import com.zorona.liverooms.ads.MyRewardAds;
-import com.zorona.liverooms.databinding.ActivityFreeDimondsBinding;
-import com.zorona.liverooms.modelclass.UserRoot;
-import com.zorona.liverooms.retrofit.RetrofitBuilder;
+import com.app.liverooms.BuildConfig;
+import com.app.liverooms.R;
+import com.app.liverooms.activity.BaseActivity;
+import com.app.liverooms.ads.MyRewardAds;
+import com.app.liverooms.databinding.ActivityFreeDimondsBinding;
+import com.app.liverooms.modelclass.UserRoot;
+import com.app.liverooms.retrofit.RetrofitBuilder;
 import com.google.gson.JsonObject;
 
 import java.util.Locale;

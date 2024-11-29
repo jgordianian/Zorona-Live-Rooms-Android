@@ -1,4 +1,4 @@
-package com.zorona.liverooms.reels.record.filters;
+package com.app.liverooms.reels.record.filters;
 
 import android.opengl.GLES20;
 

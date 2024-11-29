@@ -102,7 +102,7 @@
                                     android:layout_height="match_parent" />
                             </RelativeLayout>
 
-                            <com.zorona.liverooms.utils.socialView.SocialEditText
+                            <com.app.liverooms.utils.socialView.SocialEditText
                                 android:id="@+id/decriptionView"
                                 android:layout_marginStart="20dp"
                                 android:layout_width="match_parent"

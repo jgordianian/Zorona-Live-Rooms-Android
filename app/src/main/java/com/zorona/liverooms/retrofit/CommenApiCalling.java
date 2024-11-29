@@ -1,9 +1,9 @@
-package com.zorona.liverooms.retrofit;
+package com.app.liverooms.retrofit;
 
 import android.content.Context;
 
-import com.zorona.liverooms.modelclass.RestResponse;
-import com.zorona.liverooms.SessionManager;
+import com.app.liverooms.modelclass.RestResponse;
+import com.app.liverooms.SessionManager;
 import com.google.gson.JsonObject;
 
 import retrofit2.Call;

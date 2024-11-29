@@ -34,7 +34,7 @@
 
                     android:layout_height="45dp">
 
-                    <com.zorona.liverooms.utils.UserProfileImageView
+                    <com.app.liverooms.utils.UserProfileImageView
                         android:id="@+id/imgUser"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -82,7 +82,7 @@
 
             </LinearLayout>
 
-            <com.zorona.liverooms.utils.socialView.SocialTextView
+            <com.app.liverooms.utils.socialView.SocialTextView
                 android:id="@+id/tvCaption"
                 android:layout_width="wrap_content"
 

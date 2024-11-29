@@ -1,4 +1,4 @@
-package com.zorona.liverooms.activity;
+package com.app.liverooms.activity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -22,20 +22,20 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.ViewCompat;
 
-import com.zorona.liverooms.BuildConfig;
-import com.zorona.liverooms.agora.rtc.EventHandler;
-import com.zorona.liverooms.modelclass.AdsRoot;
-import com.zorona.liverooms.modelclass.RestResponse;
-import com.zorona.liverooms.modelclass.StickerRoot;
-import com.zorona.liverooms.retrofit.Const;
-import com.zorona.liverooms.retrofit.RetrofitBuilder;
-import com.zorona.liverooms.retrofit.UserApiCall;
-import com.zorona.liverooms.videocall.CallIncomeActivity;
-import com.zorona.liverooms.MainApplication;
-import com.zorona.liverooms.NetWorkChangeReceiver;
-import com.zorona.liverooms.R;
-import com.zorona.liverooms.RayziUtils;
-import com.zorona.liverooms.SessionManager;
+import com.app.liverooms.BuildConfig;
+import com.app.liverooms.agora.rtc.EventHandler;
+import com.app.liverooms.modelclass.AdsRoot;
+import com.app.liverooms.modelclass.RestResponse;
+import com.app.liverooms.modelclass.StickerRoot;
+import com.app.liverooms.retrofit.Const;
+import com.app.liverooms.retrofit.RetrofitBuilder;
+import com.app.liverooms.retrofit.UserApiCall;
+import com.app.liverooms.videocall.CallIncomeActivity;
+import com.app.liverooms.MainApplication;
+import com.app.liverooms.NetWorkChangeReceiver;
+import com.app.liverooms.R;
+import com.app.liverooms.RayziUtils;
+import com.app.liverooms.SessionManager;
 import com.google.gson.JsonObject;
 
 import org.json.JSONException;

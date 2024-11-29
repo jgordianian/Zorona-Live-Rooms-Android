@@ -1,4 +1,4 @@
-package com.zorona.liverooms.providers;
+package com.app.liverooms.providers;
 
 import android.content.Context;
 
@@ -7,7 +7,7 @@ import androidx.room.Room;
 import androidx.room.migration.Migration;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
-import com.zorona.liverooms.ClientDatabase;
+import com.app.liverooms.ClientDatabase;
 import com.vaibhavpandey.katora.contracts.MutableContainer;
 import com.vaibhavpandey.katora.contracts.Provider;
 

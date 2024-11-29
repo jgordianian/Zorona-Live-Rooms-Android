@@ -1,4 +1,4 @@
-package com.zorona.liverooms;
+package com.app.liverooms;
 
 import androidx.room.Dao;
 import androidx.room.Delete;

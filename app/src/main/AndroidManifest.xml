@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.zorona.liverooms">
+    package="com.app.liverooms">
 
     <uses-sdk tools:overrideLibrary="com.otaliastudios.transcoder" />
 
@@ -73,7 +73,7 @@
             <intent-filter>
                 <data
                     android:host="open"
-                    android:scheme="com.zorona.liverooms" />
+                    android:scheme="com.app.liverooms" />
 
                 <action android:name="android.intent.action.VIEW" />
 

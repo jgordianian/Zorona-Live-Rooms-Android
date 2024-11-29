@@ -1,4 +1,4 @@
-package com.zorona.liverooms.liveStreamming;
+package com.app.liverooms.liveStreamming;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;

@@ -1,9 +1,9 @@
-package com.zorona.liverooms;
+package com.app.liverooms;
 
 import android.widget.TextView;
 
-import com.zorona.liverooms.R;
-import com.zorona.liverooms.modelclass.StickerRoot;
+import com.app.liverooms.R;
+import com.app.liverooms.modelclass.StickerRoot;
 
 import java.util.ArrayList;
 import java.util.List;

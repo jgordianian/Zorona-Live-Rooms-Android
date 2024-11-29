@@ -1,4 +1,4 @@
-package com.zorona.liverooms.providers;
+package com.app.liverooms.providers;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;

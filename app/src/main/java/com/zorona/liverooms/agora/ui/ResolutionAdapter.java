@@ -1,4 +1,4 @@
-package com.zorona.liverooms.agora.ui;
+package com.app.liverooms.agora.ui;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,8 +9,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.zorona.liverooms.R;
-import com.zorona.liverooms.agora.rtc.Constants;
+import com.app.liverooms.R;
+import com.app.liverooms.agora.rtc.Constants;
 
 import java.util.ArrayList;
 

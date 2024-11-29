@@ -1,4 +1,4 @@
-package com.zorona.liverooms.bottomsheets;
+package com.app.liverooms.bottomsheets;
 
 import android.content.Context;
 import android.text.Editable;
@@ -12,12 +12,12 @@ import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ObservableBoolean;
 
-import com.zorona.liverooms.R;
-import com.zorona.liverooms.activity.LoginActivityActivity;
-import com.zorona.liverooms.databinding.BottomSheetGenderBinding;
-import com.zorona.liverooms.modelclass.RestResponse;
-import com.zorona.liverooms.retrofit.Const;
-import com.zorona.liverooms.retrofit.RetrofitBuilder;
+import com.app.liverooms.R;
+import com.app.liverooms.activity.LoginActivityActivity;
+import com.app.liverooms.databinding.BottomSheetGenderBinding;
+import com.app.liverooms.modelclass.RestResponse;
+import com.app.liverooms.retrofit.Const;
+import com.app.liverooms.retrofit.RetrofitBuilder;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 

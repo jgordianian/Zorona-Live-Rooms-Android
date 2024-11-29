@@ -1,4 +1,4 @@
-package com.zorona.liverooms.reels.record.trimmer;
+package com.app.liverooms.reels.record.trimmer;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -6,7 +6,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.view.MotionEvent;
 
-import com.zorona.liverooms.R;
+import com.app.liverooms.R;
 
 
 public class TrimTimeBar extends TimeBar {

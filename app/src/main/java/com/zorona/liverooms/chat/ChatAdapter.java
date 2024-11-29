@@ -1,4 +1,4 @@
-package com.zorona.liverooms.chat;
+package com.app.liverooms.chat;
 
 import android.content.Context;
 import android.util.Log;
@@ -10,13 +10,13 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.zorona.liverooms.BuildConfig;
-import com.zorona.liverooms.modelclass.ChatItem;
-import com.zorona.liverooms.MainApplication;
-import com.zorona.liverooms.R;
-import com.zorona.liverooms.databinding.ItemChatImageBinding;
-import com.zorona.liverooms.databinding.ItemChatStikerBinding;
-import com.zorona.liverooms.databinding.ItemChatTextBinding;
+import com.app.liverooms.BuildConfig;
+import com.app.liverooms.modelclass.ChatItem;
+import com.app.liverooms.MainApplication;
+import com.app.liverooms.R;
+import com.app.liverooms.databinding.ItemChatImageBinding;
+import com.app.liverooms.databinding.ItemChatStikerBinding;
+import com.app.liverooms.databinding.ItemChatTextBinding;
 
 import java.util.ArrayList;
 import java.util.List;

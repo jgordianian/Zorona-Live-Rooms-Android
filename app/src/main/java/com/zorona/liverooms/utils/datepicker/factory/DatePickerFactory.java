@@ -1,8 +1,8 @@
-package com.zorona.liverooms.utils.datepicker.factory;
+package com.app.liverooms.utils.datepicker.factory;
 
 
-import com.zorona.liverooms.utils.datepicker.model.DateModel;
-import com.zorona.liverooms.utils.datepicker.utils.DateUtils;
+import com.app.liverooms.utils.datepicker.model.DateModel;
+import com.app.liverooms.utils.datepicker.utils.DateUtils;
 
 import java.text.DateFormatSymbols;
 import java.util.ArrayList;

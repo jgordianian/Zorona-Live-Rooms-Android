@@ -1,4 +1,4 @@
-package com.zorona.liverooms.utils.datepicker.view.popup;
+package com.app.liverooms.utils.datepicker.view.popup;
 
 import android.content.Context;
 import android.view.View;
@@ -7,7 +7,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
-import com.zorona.liverooms.R;
+import com.app.liverooms.R;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 

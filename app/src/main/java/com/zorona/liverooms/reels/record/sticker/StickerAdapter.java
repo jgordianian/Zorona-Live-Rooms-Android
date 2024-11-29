@@ -1,4 +1,4 @@
-package com.zorona.liverooms.reels.record.sticker;
+package com.app.liverooms.reels.record.sticker;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,9 +7,9 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.zorona.liverooms.R;
-import com.zorona.liverooms.databinding.ItemStickerGridBinding;
-import com.zorona.liverooms.modelclass.StickerRoot;
+import com.app.liverooms.R;
+import com.app.liverooms.databinding.ItemStickerGridBinding;
+import com.app.liverooms.modelclass.StickerRoot;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,6 +1,6 @@
-package com.zorona.liverooms.retrofit;
+package com.app.liverooms.retrofit;
 
-import com.zorona.liverooms.BuildConfig;
+import com.app.liverooms.BuildConfig;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 

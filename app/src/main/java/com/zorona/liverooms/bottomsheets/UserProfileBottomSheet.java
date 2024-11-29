@@ -1,4 +1,4 @@
-package com.zorona.liverooms.bottomsheets;
+package com.app.liverooms.bottomsheets;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,11 +10,11 @@ import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 
 import com.bumptech.glide.Glide;
-import com.zorona.liverooms.MainApplication;
-import com.zorona.liverooms.R;
-import com.zorona.liverooms.databinding.BottomSheetUserProfileBinding;
-import com.zorona.liverooms.modelclass.GuestProfileRoot;
-import com.zorona.liverooms.retrofit.UserApiCall;
+import com.app.liverooms.MainApplication;
+import com.app.liverooms.R;
+import com.app.liverooms.databinding.BottomSheetUserProfileBinding;
+import com.app.liverooms.modelclass.GuestProfileRoot;
+import com.app.liverooms.retrofit.UserApiCall;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 

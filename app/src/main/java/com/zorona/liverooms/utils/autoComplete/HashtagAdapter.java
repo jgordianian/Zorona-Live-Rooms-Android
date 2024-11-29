@@ -1,4 +1,4 @@
-package com.zorona.liverooms.utils.autoComplete;
+package com.app.liverooms.utils.autoComplete;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -10,9 +10,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.zorona.liverooms.R;
-import com.zorona.liverooms.modelclass.HeshtagsRoot;
-import com.zorona.liverooms.utils.TextFormatUtil;
+import com.app.liverooms.R;
+import com.app.liverooms.modelclass.HeshtagsRoot;
+import com.app.liverooms.utils.TextFormatUtil;
 
 import java.util.List;
 

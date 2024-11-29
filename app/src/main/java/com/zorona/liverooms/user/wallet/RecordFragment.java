@@ -1,4 +1,4 @@
-package com.zorona.liverooms.user.wallet;
+package com.app.liverooms.user.wallet;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,15 +9,15 @@ import android.view.ViewGroup;
 
 import androidx.databinding.DataBindingUtil;
 
-import com.zorona.liverooms.R;
-import com.zorona.liverooms.activity.BaseFragment;
-import com.zorona.liverooms.databinding.FragmentMyRecordBinding;
-import com.zorona.liverooms.modelclass.CoinRecordRoot;
-import com.zorona.liverooms.modelclass.CustomDate;
-import com.zorona.liverooms.retrofit.Const;
-import com.zorona.liverooms.retrofit.RetrofitBuilder;
-import com.zorona.liverooms.utils.datepicker.utils.DateUtils;
-import com.zorona.liverooms.utils.datepicker.view.datePicker.DatePicker;
+import com.app.liverooms.R;
+import com.app.liverooms.activity.BaseFragment;
+import com.app.liverooms.databinding.FragmentMyRecordBinding;
+import com.app.liverooms.modelclass.CoinRecordRoot;
+import com.app.liverooms.modelclass.CustomDate;
+import com.app.liverooms.retrofit.Const;
+import com.app.liverooms.retrofit.RetrofitBuilder;
+import com.app.liverooms.utils.datepicker.utils.DateUtils;
+import com.app.liverooms.utils.datepicker.view.datePicker.DatePicker;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.gson.Gson;
 

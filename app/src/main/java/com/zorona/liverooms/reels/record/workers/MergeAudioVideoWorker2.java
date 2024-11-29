@@ -1,4 +1,4 @@
-package com.zorona.liverooms.reels.record.workers;
+package com.app.liverooms.reels.record.workers;
 
 import android.content.Context;
 import android.net.Uri;
@@ -9,7 +9,7 @@ import androidx.concurrent.futures.CallbackToFutureAdapter;
 import androidx.work.ListenableWorker;
 import androidx.work.WorkerParameters;
 
-import com.zorona.liverooms.utils.VideoUtil;
+import com.app.liverooms.utils.VideoUtil;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.otaliastudios.transcoder.Transcoder;
 import com.otaliastudios.transcoder.TranscoderListener;

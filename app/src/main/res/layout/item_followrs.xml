@@ -17,7 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <com.zorona.liverooms.utils.UserProfileImageView
+            <com.app.liverooms.utils.UserProfileImageView
                 android:layout_width="65dp"
                 android:layout_height="65dp"
                 android:id="@+id/imguser"

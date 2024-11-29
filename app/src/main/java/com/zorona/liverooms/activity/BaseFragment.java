@@ -1,13 +1,13 @@
-package com.zorona.liverooms.activity;
+package com.app.liverooms.activity;
 
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.zorona.liverooms.R;
-import com.zorona.liverooms.retrofit.Const;
-import com.zorona.liverooms.SessionManager;
+import com.app.liverooms.R;
+import com.app.liverooms.retrofit.Const;
+import com.app.liverooms.SessionManager;
 
 public abstract class BaseFragment extends Fragment {
     public SessionManager sessionManager;

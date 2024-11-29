@@ -1,10 +1,10 @@
-package com.zorona.liverooms.emoji;
+package com.app.liverooms.emoji;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
-import com.zorona.liverooms.modelclass.GiftCategoryRoot;
+import com.app.liverooms.modelclass.GiftCategoryRoot;
 
 import java.util.ArrayList;
 import java.util.List;

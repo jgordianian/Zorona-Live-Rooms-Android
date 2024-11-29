@@ -1,4 +1,4 @@
-package com.zorona.liverooms.dilog;
+package com.app.liverooms.dilog;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -11,9 +11,9 @@ import android.view.animation.AnimationUtils;
 
 import androidx.databinding.DataBindingUtil;
 
-import com.zorona.liverooms.R;
-import com.zorona.liverooms.databinding.DailogLoaderBinding;
-import com.zorona.liverooms.databinding.LoutPopupBinding;
+import com.app.liverooms.R;
+import com.app.liverooms.databinding.DailogLoaderBinding;
+import com.app.liverooms.databinding.LoutPopupBinding;
 
 
 public class CustomDialogBuilder {

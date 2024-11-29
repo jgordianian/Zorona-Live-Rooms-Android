@@ -1,4 +1,4 @@
-package com.zorona.liverooms.popups;
+package com.app.liverooms.popups;
 
 import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 
@@ -9,9 +9,9 @@ import android.widget.Toast;
 
 import androidx.databinding.DataBindingUtil;
 
-import com.zorona.liverooms.R;
-import com.zorona.liverooms.SessionManager;
-import com.zorona.liverooms.databinding.ItemPrivacypopupBinding;
+import com.app.liverooms.R;
+import com.app.liverooms.SessionManager;
+import com.app.liverooms.databinding.ItemPrivacypopupBinding;
 
 
 public class PrivacyPopup_g {

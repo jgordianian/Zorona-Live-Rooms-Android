@@ -1,7 +1,7 @@
-package com.zorona.liverooms.utils.datepicker.model;
+package com.app.liverooms.utils.datepicker.model;
 
 
-import com.zorona.liverooms.utils.datepicker.utils.DateUtils;
+import com.app.liverooms.utils.datepicker.utils.DateUtils;
 
 public class DateModel {
 

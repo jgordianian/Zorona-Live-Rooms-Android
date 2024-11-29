@@ -1,4 +1,4 @@
-package com.zorona.liverooms.utils.socialView;
+package com.app.liverooms.utils.socialView;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
@@ -9,7 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatEditText;
 
-import com.zorona.liverooms.R;
+import com.app.liverooms.R;
 
 import java.util.List;
 import java.util.regex.Pattern;

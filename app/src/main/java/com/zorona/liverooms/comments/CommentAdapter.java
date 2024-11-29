@@ -1,4 +1,4 @@
-package com.zorona.liverooms.comments;
+package com.app.liverooms.comments;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -8,9 +8,9 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.zorona.liverooms.R;
-import com.zorona.liverooms.databinding.ItemCommentBinding;
-import com.zorona.liverooms.modelclass.PostCommentRoot;
+import com.app.liverooms.R;
+import com.app.liverooms.databinding.ItemCommentBinding;
+import com.app.liverooms.modelclass.PostCommentRoot;
 
 import java.util.ArrayList;
 import java.util.List;

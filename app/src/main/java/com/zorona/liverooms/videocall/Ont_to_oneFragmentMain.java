@@ -1,4 +1,4 @@
-package com.zorona.liverooms.videocall;
+package com.app.liverooms.videocall;
 
 import static android.view.View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN;
 
@@ -27,13 +27,13 @@ import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 
-import com.zorona.liverooms.R;
-import com.zorona.liverooms.liveStreamming.LiveFragmentMain;
-import com.zorona.liverooms.activity.BaseFragment;
-import com.zorona.liverooms.databinding.FragmentOntToOneMainBinding;
-import com.zorona.liverooms.home.HomeFragment;
-import com.zorona.liverooms.reels.VideoListFragment;
-import com.zorona.liverooms.utils.AutoFitPreviewBuilder;
+import com.app.liverooms.R;
+import com.app.liverooms.liveStreamming.LiveFragmentMain;
+import com.app.liverooms.activity.BaseFragment;
+import com.app.liverooms.databinding.FragmentOntToOneMainBinding;
+import com.app.liverooms.home.HomeFragment;
+import com.app.liverooms.reels.VideoListFragment;
+import com.app.liverooms.utils.AutoFitPreviewBuilder;
 
 
 public class Ont_to_oneFragmentMain extends BaseFragment {

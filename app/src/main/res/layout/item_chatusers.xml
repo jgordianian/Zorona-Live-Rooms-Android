@@ -18,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <com.zorona.liverooms.utils.UserProfileImageView
+            <com.app.liverooms.utils.UserProfileImageView
                 custom:backColor="@color/pink"
                 android:id="@+id/imguser"
                 android:layout_width="65dp"

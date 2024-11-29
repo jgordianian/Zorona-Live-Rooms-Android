@@ -1,4 +1,4 @@
-package com.zorona.liverooms.activity;
+package com.app.liverooms.activity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -10,9 +10,9 @@ import android.webkit.WebViewClient;
 
 import androidx.databinding.DataBindingUtil;
 
-import com.zorona.liverooms.R;
-import com.zorona.liverooms.databinding.ActivityWebBinding;
-import com.zorona.liverooms.retrofit.Const;
+import com.app.liverooms.R;
+import com.app.liverooms.databinding.ActivityWebBinding;
+import com.app.liverooms.retrofit.Const;
 
 public class WebActivity extends BaseActivity {
 

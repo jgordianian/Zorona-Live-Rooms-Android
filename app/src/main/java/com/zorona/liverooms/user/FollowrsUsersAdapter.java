@@ -1,4 +1,4 @@
-package com.zorona.liverooms.user;
+package com.app.liverooms.user;
 
 import android.content.Context;
 import android.content.Intent;
@@ -8,11 +8,11 @@ import android.view.ViewGroup;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.zorona.liverooms.R;
-import com.zorona.liverooms.databinding.ItemFollowrsBinding;
-import com.zorona.liverooms.modelclass.GuestProfileRoot;
-import com.zorona.liverooms.retrofit.Const;
-import com.zorona.liverooms.user.guestUser.GuestActivity;
+import com.app.liverooms.R;
+import com.app.liverooms.databinding.ItemFollowrsBinding;
+import com.app.liverooms.modelclass.GuestProfileRoot;
+import com.app.liverooms.retrofit.Const;
+import com.app.liverooms.user.guestUser.GuestActivity;
 
 import java.util.ArrayList;
 import java.util.List;

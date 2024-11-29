@@ -1,4 +1,4 @@
-package com.zorona.liverooms.reels;
+package com.app.liverooms.reels;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,10 +7,10 @@ import android.view.ViewGroup;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.zorona.liverooms.modelclass.ReliteRoot;
-import com.zorona.liverooms.MainApplication;
-import com.zorona.liverooms.R;
-import com.zorona.liverooms.databinding.ItemVidProfileListBinding;
+import com.app.liverooms.modelclass.ReliteRoot;
+import com.app.liverooms.MainApplication;
+import com.app.liverooms.R;
+import com.app.liverooms.databinding.ItemVidProfileListBinding;
 
 import java.util.ArrayList;
 import java.util.List;

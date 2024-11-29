@@ -1,4 +1,4 @@
-package com.zorona.liverooms.bottomsheets;
+package com.app.liverooms.bottomsheets;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -7,9 +7,9 @@ import android.widget.FrameLayout;
 
 import androidx.databinding.DataBindingUtil;
 
-import com.zorona.liverooms.R;
-import com.zorona.liverooms.SessionManager;
-import com.zorona.liverooms.databinding.BottomSheetPaymentBinding;
+import com.app.liverooms.R;
+import com.app.liverooms.SessionManager;
+import com.app.liverooms.databinding.BottomSheetPaymentBinding;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 

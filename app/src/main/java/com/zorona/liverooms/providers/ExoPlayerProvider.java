@@ -1,4 +1,4 @@
-package com.zorona.liverooms.providers;
+package com.app.liverooms.providers;
 
 import android.content.Context;
 

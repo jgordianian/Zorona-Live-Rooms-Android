@@ -1,4 +1,4 @@
-package com.zorona.liverooms.agora.token;
+package com.app.liverooms.agora.token;
 
 
 import org.apache.commons.codec.binary.Base64;

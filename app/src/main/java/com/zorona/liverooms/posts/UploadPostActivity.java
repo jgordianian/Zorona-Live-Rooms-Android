@@ -1,8 +1,8 @@
-package com.zorona.liverooms.posts;
+package com.app.liverooms.posts;
 
 
 import static android.provider.MediaStore.MediaColumns.DATA;
-import static com.zorona.liverooms.posts.LocationChooseActivity.REQ_CODE_LOCATION;
+import static com.app.liverooms.posts.LocationChooseActivity.REQ_CODE_LOCATION;
 
 import android.Manifest;
 import android.content.Context;
@@ -29,18 +29,18 @@ import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.bumptech.glide.Glide;
-import com.zorona.liverooms.R;
-import com.zorona.liverooms.activity.BaseActivity;
-import com.zorona.liverooms.modelclass.RestResponse;
-import com.zorona.liverooms.modelclass.SearchLocationRoot;
-import com.zorona.liverooms.retrofit.Const;
-import com.zorona.liverooms.retrofit.RetrofitBuilder;
-import com.zorona.liverooms.utils.SocialSpanUtil;
-import com.zorona.liverooms.utils.autoComplete.AutocompleteUtil;
-import com.zorona.liverooms.utils.socialView.SocialEditText;
-import com.zorona.liverooms.RayziUtils;
-import com.zorona.liverooms.databinding.ActivityUploadPostBinding;
-import com.zorona.liverooms.databinding.BottomSheetPrivacyBinding;
+import com.app.liverooms.R;
+import com.app.liverooms.activity.BaseActivity;
+import com.app.liverooms.modelclass.RestResponse;
+import com.app.liverooms.modelclass.SearchLocationRoot;
+import com.app.liverooms.retrofit.Const;
+import com.app.liverooms.retrofit.RetrofitBuilder;
+import com.app.liverooms.utils.SocialSpanUtil;
+import com.app.liverooms.utils.autoComplete.AutocompleteUtil;
+import com.app.liverooms.utils.socialView.SocialEditText;
+import com.app.liverooms.RayziUtils;
+import com.app.liverooms.databinding.ActivityUploadPostBinding;
+import com.app.liverooms.databinding.BottomSheetPrivacyBinding;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.gson.Gson;
 import com.jakewharton.rxbinding4.widget.RxTextView;

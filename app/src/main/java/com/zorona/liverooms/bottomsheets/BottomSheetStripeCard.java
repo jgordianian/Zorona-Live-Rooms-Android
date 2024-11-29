@@ -1,12 +1,12 @@
-package com.zorona.liverooms.bottomsheets;
+package com.app.liverooms.bottomsheets;
 
 import android.content.Context;
 import android.view.LayoutInflater;
 
 import androidx.databinding.DataBindingUtil;
 
-import com.zorona.liverooms.R;
-import com.zorona.liverooms.databinding.BottomSheetCardBinding;
+import com.app.liverooms.R;
+import com.app.liverooms.databinding.BottomSheetCardBinding;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.stripe.android.model.PaymentMethodCreateParams;
 import com.stripe.android.view.CardInputWidget;

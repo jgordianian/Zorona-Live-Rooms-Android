@@ -64,7 +64,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical">
 
-                        <com.zorona.liverooms.utils.UserProfileImageView
+                        <com.app.liverooms.utils.UserProfileImageView
                             android:id="@+id/imgUser"
                             android:layout_width="45dp"
                             android:layout_height="45dp"
@@ -91,7 +91,7 @@
                     </LinearLayout>
 
 
-                    <com.zorona.liverooms.utils.socialView.SocialTextView
+                    <com.app.liverooms.utils.socialView.SocialTextView
                         android:id="@+id/tv_descreption"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

@@ -1,4 +1,4 @@
-package com.zorona.liverooms.user.complain;
+package com.app.liverooms.user.complain;
 
 import android.content.Context;
 import android.content.Intent;
@@ -10,9 +10,9 @@ import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.zorona.liverooms.R;
-import com.zorona.liverooms.databinding.ItemTikitBinding;
-import com.zorona.liverooms.modelclass.ComplainRoot;
+import com.app.liverooms.R;
+import com.app.liverooms.databinding.ItemTikitBinding;
+import com.app.liverooms.modelclass.ComplainRoot;
 import com.google.gson.Gson;
 
 import java.util.List;

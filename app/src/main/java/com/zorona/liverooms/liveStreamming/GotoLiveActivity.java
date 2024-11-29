@@ -1,4 +1,4 @@
-package com.zorona.liverooms.liveStreamming;
+package com.app.liverooms.liveStreamming;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -21,15 +21,15 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 
-import com.zorona.liverooms.R;
-import com.zorona.liverooms.activity.BaseActivity;
-import com.zorona.liverooms.agora.token.RtcTokenBuilder;
-import com.zorona.liverooms.databinding.ActivityGotoLiveBinding;
-import com.zorona.liverooms.modelclass.LiveStreamRoot;
-import com.zorona.liverooms.modelclass.LiveUserRoot;
-import com.zorona.liverooms.retrofit.Const;
-import com.zorona.liverooms.retrofit.RetrofitBuilder;
-import com.zorona.liverooms.utils.AutoFitPreviewBuilder;
+import com.app.liverooms.R;
+import com.app.liverooms.activity.BaseActivity;
+import com.app.liverooms.agora.token.RtcTokenBuilder;
+import com.app.liverooms.databinding.ActivityGotoLiveBinding;
+import com.app.liverooms.modelclass.LiveStreamRoot;
+import com.app.liverooms.modelclass.LiveUserRoot;
+import com.app.liverooms.retrofit.Const;
+import com.app.liverooms.retrofit.RetrofitBuilder;
+import com.app.liverooms.utils.AutoFitPreviewBuilder;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 

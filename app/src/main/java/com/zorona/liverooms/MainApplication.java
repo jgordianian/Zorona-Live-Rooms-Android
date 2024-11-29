@@ -1,4 +1,4 @@
-package com.zorona.liverooms;
+package com.app.liverooms;
 
 import android.app.ActivityManager;
 import android.app.Application;
@@ -21,19 +21,19 @@ import androidx.multidex.MultiDex;
 
 import com.arthenica.mobileffmpeg.Config;
 import com.bumptech.glide.request.RequestOptions;
-import com.zorona.liverooms.R;
-import com.zorona.liverooms.activity.BaseActivity;
-import com.zorona.liverooms.agora.rtc.AgoraEventHandler;
-import com.zorona.liverooms.agora.rtc.Constants;
-import com.zorona.liverooms.agora.rtc.EngineConfig;
-import com.zorona.liverooms.agora.rtc.EventHandler;
-import com.zorona.liverooms.agora.stats.StatsManager;
-import com.zorona.liverooms.providers.ExoPlayerProvider;
-import com.zorona.liverooms.providers.JacksonProvider;
-import com.zorona.liverooms.providers.RoomProvider;
-import com.zorona.liverooms.retrofit.Const;
-import com.zorona.liverooms.utils.TempUtil;
-import com.zorona.liverooms.videocall.CallIncomeActivity;
+import com.app.liverooms.R;
+import com.app.liverooms.activity.BaseActivity;
+import com.app.liverooms.agora.rtc.AgoraEventHandler;
+import com.app.liverooms.agora.rtc.Constants;
+import com.app.liverooms.agora.rtc.EngineConfig;
+import com.app.liverooms.agora.rtc.EventHandler;
+import com.app.liverooms.agora.stats.StatsManager;
+import com.app.liverooms.providers.ExoPlayerProvider;
+import com.app.liverooms.providers.JacksonProvider;
+import com.app.liverooms.providers.RoomProvider;
+import com.app.liverooms.retrofit.Const;
+import com.app.liverooms.utils.TempUtil;
+import com.app.liverooms.videocall.CallIncomeActivity;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.google.android.exoplayer2.database.ExoDatabaseProvider;
 import com.google.android.exoplayer2.upstream.cache.LeastRecentlyUsedCacheEvictor;

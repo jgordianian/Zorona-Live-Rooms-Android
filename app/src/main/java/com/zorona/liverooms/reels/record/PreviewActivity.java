@@ -1,4 +1,4 @@
-package com.zorona.liverooms.reels.record;
+package com.app.liverooms.reels.record;
 
 import android.net.Uri;
 import android.os.Bundle;
@@ -7,8 +7,8 @@ import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.zorona.liverooms.R;
-import com.zorona.liverooms.activity.BaseActivity;
+import com.app.liverooms.R;
+import com.app.liverooms.activity.BaseActivity;
 import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.source.LoopingMediaSource;

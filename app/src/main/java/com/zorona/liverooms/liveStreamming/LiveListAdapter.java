@@ -1,4 +1,4 @@
-package com.zorona.liverooms.liveStreamming;
+package com.app.liverooms.liveStreamming;
 
 import android.content.Context;
 import android.content.Intent;
@@ -9,11 +9,11 @@ import android.view.ViewGroup;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.zorona.liverooms.MainApplication;
-import com.zorona.liverooms.R;
-import com.zorona.liverooms.databinding.ItemVideoGridBinding;
-import com.zorona.liverooms.modelclass.LiveUserRoot;
-import com.zorona.liverooms.retrofit.Const;
+import com.app.liverooms.MainApplication;
+import com.app.liverooms.R;
+import com.app.liverooms.databinding.ItemVideoGridBinding;
+import com.app.liverooms.modelclass.LiveUserRoot;
+import com.app.liverooms.retrofit.Const;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;

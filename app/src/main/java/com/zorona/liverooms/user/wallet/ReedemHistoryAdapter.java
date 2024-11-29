@@ -1,4 +1,4 @@
-package com.zorona.liverooms.user.wallet;
+package com.app.liverooms.user.wallet;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -7,10 +7,10 @@ import android.view.ViewGroup;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.zorona.liverooms.R;
-import com.zorona.liverooms.databinding.ItemReedemHistoryBinding;
-import com.zorona.liverooms.modelclass.ReedemListRoot;
-import com.zorona.liverooms.retrofit.Const;
+import com.app.liverooms.R;
+import com.app.liverooms.databinding.ItemReedemHistoryBinding;
+import com.app.liverooms.modelclass.ReedemListRoot;
+import com.app.liverooms.retrofit.Const;
 
 import java.util.List;
 

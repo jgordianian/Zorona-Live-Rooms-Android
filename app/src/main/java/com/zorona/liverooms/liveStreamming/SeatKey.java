@@ -1,4 +1,4 @@
-package com.zorona.liverooms.liveStreamming;
+package com.app.liverooms.liveStreamming;
 
 import java.util.Objects;
 

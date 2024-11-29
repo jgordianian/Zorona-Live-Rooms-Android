@@ -1,4 +1,4 @@
-package com.zorona.liverooms.posts;
+package com.app.liverooms.posts;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,12 +8,12 @@ import android.view.View;
 
 import androidx.databinding.DataBindingUtil;
 
-import com.zorona.liverooms.R;
-import com.zorona.liverooms.activity.BaseActivity;
-import com.zorona.liverooms.modelclass.SearchLocationRoot;
-import com.zorona.liverooms.retrofit.Const;
-import com.zorona.liverooms.retrofit.RetrofitBuilder;
-import com.zorona.liverooms.databinding.ActivityLocationChooseBinding;
+import com.app.liverooms.R;
+import com.app.liverooms.activity.BaseActivity;
+import com.app.liverooms.modelclass.SearchLocationRoot;
+import com.app.liverooms.retrofit.Const;
+import com.app.liverooms.retrofit.RetrofitBuilder;
+import com.app.liverooms.databinding.ActivityLocationChooseBinding;
 import com.google.gson.Gson;
 
 import retrofit2.Call;

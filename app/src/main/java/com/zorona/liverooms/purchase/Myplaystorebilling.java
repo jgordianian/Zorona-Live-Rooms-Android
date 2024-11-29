@@ -1,4 +1,4 @@
-package com.zorona.liverooms.purchase;
+package com.app.liverooms.purchase;
 
 import android.app.Activity;
 import android.util.Log;

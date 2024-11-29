@@ -7,7 +7,7 @@
 
         <variable
             name="viewmodel"
-            type="com.zorona.liverooms.viewModel.ChatViewModel" />
+            type="com.app.liverooms.viewModel.ChatViewModel" />
     </data>
 
     <RelativeLayout
@@ -43,7 +43,7 @@
                 android:gravity="center"
                 android:orientation="horizontal">
 
-                <com.zorona.liverooms.utils.UserProfileImageView
+                <com.app.liverooms.utils.UserProfileImageView
                     android:id="@+id/imgUser"
                     android:layout_width="40dp"
                     android:layout_height="40dp"

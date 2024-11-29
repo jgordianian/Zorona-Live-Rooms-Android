@@ -1,4 +1,4 @@
-package com.zorona.liverooms.user.wallet;
+package com.app.liverooms.user.wallet;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -11,14 +11,14 @@ import android.widget.Toast;
 import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 
-import com.zorona.liverooms.R;
-import com.zorona.liverooms.activity.BaseActivity;
-import com.zorona.liverooms.databinding.ActivityCashOutBinding;
-import com.zorona.liverooms.modelclass.ReedemListRoot;
-import com.zorona.liverooms.modelclass.RestResponse;
-import com.zorona.liverooms.modelclass.UserRoot;
-import com.zorona.liverooms.retrofit.Const;
-import com.zorona.liverooms.retrofit.RetrofitBuilder;
+import com.app.liverooms.R;
+import com.app.liverooms.activity.BaseActivity;
+import com.app.liverooms.databinding.ActivityCashOutBinding;
+import com.app.liverooms.modelclass.ReedemListRoot;
+import com.app.liverooms.modelclass.RestResponse;
+import com.app.liverooms.modelclass.UserRoot;
+import com.app.liverooms.retrofit.Const;
+import com.app.liverooms.retrofit.RetrofitBuilder;
 import com.google.gson.JsonObject;
 
 import java.util.ArrayList;

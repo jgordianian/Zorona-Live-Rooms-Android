@@ -1,4 +1,4 @@
-package com.zorona.liverooms.dilog;
+package com.app.liverooms.dilog;
 
 public class Dialog1 {
     private String title;

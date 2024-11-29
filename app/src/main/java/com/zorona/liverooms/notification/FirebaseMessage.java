@@ -1,4 +1,4 @@
-package com.zorona.liverooms.notification;
+package com.app.liverooms.notification;
 
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -17,16 +17,16 @@ import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
 
-//import com.zorona.liverooms.liveStreamming.WatchLiveActivity;
-import com.zorona.liverooms.liveStreamming.HostLiveActivity;
-import com.zorona.liverooms.user.guestUser.GuestActivity;
-import com.zorona.liverooms.MainApplication;
-import com.zorona.liverooms.R;
-import com.zorona.liverooms.activity.SpleshActivity;
-import com.zorona.liverooms.chat.ChatActivity;
-import com.zorona.liverooms.posts.FeedListActivity;
-import com.zorona.liverooms.reels.ReelsActivity;
-import com.zorona.liverooms.retrofit.Const;
+//import com.app.liverooms.liveStreamming.WatchLiveActivity;
+import com.app.liverooms.liveStreamming.HostLiveActivity;
+import com.app.liverooms.user.guestUser.GuestActivity;
+import com.app.liverooms.MainApplication;
+import com.app.liverooms.R;
+import com.app.liverooms.activity.SpleshActivity;
+import com.app.liverooms.chat.ChatActivity;
+import com.app.liverooms.posts.FeedListActivity;
+import com.app.liverooms.reels.ReelsActivity;
+import com.app.liverooms.retrofit.Const;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 

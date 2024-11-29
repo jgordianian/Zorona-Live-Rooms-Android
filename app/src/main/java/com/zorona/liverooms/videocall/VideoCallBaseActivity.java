@@ -1,12 +1,12 @@
-package com.zorona.liverooms.videocall;
+package com.app.liverooms.videocall;
 
 import android.os.Bundle;
 import android.util.Log;
 
 import androidx.annotation.Nullable;
 
-import com.zorona.liverooms.BuildConfig;
-import com.zorona.liverooms.activity.BaseActivity;
+import com.app.liverooms.BuildConfig;
+import com.app.liverooms.activity.BaseActivity;
 
 import java.net.URI;
 

@@ -1,4 +1,4 @@
-package com.zorona.liverooms.viewModel;
+package com.app.liverooms.viewModel;
 
 import android.content.Context;
 import android.util.Log;
@@ -7,10 +7,10 @@ import androidx.databinding.ObservableBoolean;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.zorona.liverooms.modelclass.PostRoot;
-import com.zorona.liverooms.posts.FeedAdapter;
-import com.zorona.liverooms.retrofit.Const;
-import com.zorona.liverooms.retrofit.RetrofitBuilder;
+import com.app.liverooms.modelclass.PostRoot;
+import com.app.liverooms.posts.FeedAdapter;
+import com.app.liverooms.retrofit.Const;
+import com.app.liverooms.retrofit.RetrofitBuilder;
 
 import retrofit2.Call;
 import retrofit2.Callback;

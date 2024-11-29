@@ -1,4 +1,4 @@
-package com.zorona.liverooms.user;
+package com.app.liverooms.user;
 
 import android.content.Context;
 import android.util.Log;
@@ -8,9 +8,9 @@ import android.view.ViewGroup;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.zorona.liverooms.R;
-import com.zorona.liverooms.databinding.ItemSearchUsersHistoryBinding;
-import com.zorona.liverooms.modelclass.GuestProfileRoot;
+import com.app.liverooms.R;
+import com.app.liverooms.databinding.ItemSearchUsersHistoryBinding;
+import com.app.liverooms.modelclass.GuestProfileRoot;
 
 import java.util.ArrayList;
 import java.util.List;

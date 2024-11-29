@@ -1,4 +1,4 @@
-package com.zorona.liverooms.utils.socialView;
+package com.app.liverooms.utils.socialView;
 
 import android.content.res.ColorStateList;
 import android.widget.TextView;

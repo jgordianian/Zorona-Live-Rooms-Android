@@ -1,4 +1,4 @@
-package com.zorona.liverooms.reels.record;
+package com.app.liverooms.reels.record;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -11,7 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.zorona.liverooms.R;
+import com.app.liverooms.R;
 
 import java.util.Arrays;
 import java.util.List;

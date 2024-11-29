@@ -1,4 +1,4 @@
-package com.zorona.liverooms.models;
+package com.app.liverooms.models;
 
 public class Comment_dummy {
     User_dummy userDummy;

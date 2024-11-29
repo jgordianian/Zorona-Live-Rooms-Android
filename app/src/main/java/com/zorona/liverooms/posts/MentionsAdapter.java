@@ -1,4 +1,4 @@
-package com.zorona.liverooms.posts;
+package com.app.liverooms.posts;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,10 +9,10 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.zorona.liverooms.modelclass.GuestProfileRoot;
-import com.zorona.liverooms.MainApplication;
-import com.zorona.liverooms.R;
-import com.zorona.liverooms.databinding.ItemMentionsBinding;
+import com.app.liverooms.modelclass.GuestProfileRoot;
+import com.app.liverooms.MainApplication;
+import com.app.liverooms.R;
+import com.app.liverooms.databinding.ItemMentionsBinding;
 
 import java.util.ArrayList;
 import java.util.List;

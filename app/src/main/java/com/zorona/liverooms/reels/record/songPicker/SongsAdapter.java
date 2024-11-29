@@ -1,4 +1,4 @@
-package com.zorona.liverooms.reels.record.songPicker;
+package com.app.liverooms.reels.record.songPicker;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,11 +8,11 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.zorona.liverooms.BuildConfig;
-import com.zorona.liverooms.MainApplication;
-import com.zorona.liverooms.modelclass.SongRoot;
-import com.zorona.liverooms.R;
-import com.zorona.liverooms.databinding.ItemSongBinding;
+import com.app.liverooms.BuildConfig;
+import com.app.liverooms.MainApplication;
+import com.app.liverooms.modelclass.SongRoot;
+import com.app.liverooms.R;
+import com.app.liverooms.databinding.ItemSongBinding;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,11 +1,11 @@
-package com.zorona.liverooms.utils.datepicker.view.popup;
+package com.app.liverooms.utils.datepicker.view.popup;
 
 import android.content.Context;
 
 import androidx.annotation.NonNull;
 
-import com.zorona.liverooms.utils.datepicker.model.DateModel;
-import com.zorona.liverooms.utils.datepicker.view.datePicker.DatePicker;
+import com.app.liverooms.utils.datepicker.model.DateModel;
+import com.app.liverooms.utils.datepicker.view.datePicker.DatePicker;
 
 
 public class DatePickerPopup extends PickerPopup {

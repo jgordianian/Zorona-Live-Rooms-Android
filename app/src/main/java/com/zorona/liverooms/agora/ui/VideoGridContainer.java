@@ -1,4 +1,4 @@
-package com.zorona.liverooms.agora.ui;
+package com.app.liverooms.agora.ui;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -11,9 +11,9 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.zorona.liverooms.R;
-import com.zorona.liverooms.agora.stats.StatsData;
-import com.zorona.liverooms.agora.stats.StatsManager;
+import com.app.liverooms.R;
+import com.app.liverooms.agora.stats.StatsData;
+import com.app.liverooms.agora.stats.StatsManager;
 
 import java.util.ArrayList;
 import java.util.List;

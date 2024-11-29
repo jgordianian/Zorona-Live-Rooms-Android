@@ -1,4 +1,4 @@
-package com.zorona.liverooms.utils.progressbar;
+package com.app.liverooms.utils.progressbar;
 
 public interface ProgressBarListener {
 

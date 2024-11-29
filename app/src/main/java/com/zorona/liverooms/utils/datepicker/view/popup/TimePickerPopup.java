@@ -1,10 +1,10 @@
-package com.zorona.liverooms.utils.datepicker.view.popup;
+package com.app.liverooms.utils.datepicker.view.popup;
 
 import android.content.Context;
 
 import androidx.annotation.NonNull;
 
-import com.zorona.liverooms.utils.datepicker.view.timePicker.TimePicker;
+import com.app.liverooms.utils.datepicker.view.timePicker.TimePicker;
 
 
 public class TimePickerPopup extends PickerPopup {

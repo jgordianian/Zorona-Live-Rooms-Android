@@ -9,7 +9,7 @@
 
         <variable
             name="loader"
-            type="com.zorona.liverooms.MyLoader" />
+            type="com.app.liverooms.MyLoader" />
     </data>
 
     <FrameLayout

@@ -1,4 +1,4 @@
-package com.zorona.liverooms.emoji;
+package com.app.liverooms.emoji;
 
 import android.app.Dialog;
 import android.content.Intent;
@@ -17,13 +17,13 @@ import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProviders;
 
-import com.zorona.liverooms.R;
-import com.zorona.liverooms.modelclass.GiftCategoryRoot;
-import com.zorona.liverooms.user.wallet.MyWalletActivity;
-import com.zorona.liverooms.viewModel.EmojiSheetViewModel;
-import com.zorona.liverooms.SessionManager;
-import com.zorona.liverooms.databinding.FragmentEmojiBottomsheetBinding;
-import com.zorona.liverooms.databinding.ItemEmojiGridBinding;
+import com.app.liverooms.R;
+import com.app.liverooms.modelclass.GiftCategoryRoot;
+import com.app.liverooms.user.wallet.MyWalletActivity;
+import com.app.liverooms.viewModel.EmojiSheetViewModel;
+import com.app.liverooms.SessionManager;
+import com.app.liverooms.databinding.FragmentEmojiBottomsheetBinding;
+import com.app.liverooms.databinding.ItemEmojiGridBinding;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.tabs.TabLayout;

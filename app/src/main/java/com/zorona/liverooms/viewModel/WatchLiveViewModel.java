@@ -1,4 +1,4 @@
-package com.zorona.liverooms.viewModel;
+package com.app.liverooms.viewModel;
 
 import androidx.camera.core.CameraX;
 import androidx.camera.core.Preview;
@@ -8,9 +8,9 @@ import androidx.camera.core.VideoCaptureConfig;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.zorona.liverooms.liveStreamming.LiveStramCommentAdapter;
-import com.zorona.liverooms.liveStreamming.LiveViewUserAdapter;
-import com.zorona.liverooms.modelclass.UserRoot;
+import com.app.liverooms.liveStreamming.LiveStramCommentAdapter;
+import com.app.liverooms.liveStreamming.LiveViewUserAdapter;
+import com.app.liverooms.modelclass.UserRoot;
 
 import org.json.JSONObject;
 

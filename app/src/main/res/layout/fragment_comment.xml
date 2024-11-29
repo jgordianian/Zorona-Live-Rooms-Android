@@ -9,7 +9,7 @@
 
         <variable
             name="viewModel"
-            type="com.zorona.liverooms.viewModel.CommentLikeListViewModel" />
+            type="com.app.liverooms.viewModel.CommentLikeListViewModel" />
     </data>
 <RelativeLayout
     android:layout_width="match_parent"

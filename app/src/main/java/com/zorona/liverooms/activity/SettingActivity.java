@@ -1,4 +1,4 @@
-package com.zorona.liverooms.activity;
+package com.app.liverooms.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,12 +6,12 @@ import android.view.View;
 
 import androidx.databinding.DataBindingUtil;
 
-import com.zorona.liverooms.R;
-import com.zorona.liverooms.databinding.ActivitySettingBinding;
-import com.zorona.liverooms.modelclass.UserRoot;
-import com.zorona.liverooms.retrofit.Const;
-import com.zorona.liverooms.retrofit.RetrofitBuilder;
-import com.zorona.liverooms.popups.PopupBuilder;
+import com.app.liverooms.R;
+import com.app.liverooms.databinding.ActivitySettingBinding;
+import com.app.liverooms.modelclass.UserRoot;
+import com.app.liverooms.retrofit.Const;
+import com.app.liverooms.retrofit.RetrofitBuilder;
+import com.app.liverooms.popups.PopupBuilder;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;

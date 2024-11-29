@@ -9,7 +9,7 @@
 
         <variable
             name="viewModel"
-            type="com.zorona.liverooms.liveStreamming.LiveFragmentMain.LiveFragmentViewModel" />
+            type="com.app.liverooms.liveStreamming.LiveFragmentMain.LiveFragmentViewModel" />
     </data>
 
     <LinearLayout

@@ -1,4 +1,4 @@
-package com.zorona.liverooms.user.wallet;
+package com.app.liverooms.user.wallet;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;

@@ -1,4 +1,4 @@
-package com.zorona.liverooms.retrofit;
+package com.app.liverooms.retrofit;
 
 public class Const {
 

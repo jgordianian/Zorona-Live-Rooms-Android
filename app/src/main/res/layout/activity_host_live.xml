@@ -9,7 +9,7 @@
 
         <variable
             name="viewModel"
-            type="com.zorona.liverooms.viewModel.HostLiveViewModel" />
+            type="com.app.liverooms.viewModel.HostLiveViewModel" />
     </data>
 
     <RelativeLayout

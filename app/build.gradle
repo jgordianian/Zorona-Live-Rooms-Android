@@ -18,7 +18,7 @@ android {
         versionCode 1
         versionName "1.0.0"
         multiDexEnabled true
-        applicationId "com.zorona.liverooms"
+        applicationId "com.app.liverooms"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         /* packagingOptions {
              exclude 'lib/x86/*'

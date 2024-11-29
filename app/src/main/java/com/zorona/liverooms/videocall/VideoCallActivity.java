@@ -1,4 +1,4 @@
-package com.zorona.liverooms.videocall;
+package com.app.liverooms.videocall;
 
 import android.Manifest;
 import android.content.Intent;
@@ -21,13 +21,13 @@ import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProviders;
 
-import com.zorona.liverooms.R;
-import com.zorona.liverooms.modelclass.UserRoot;
-import com.zorona.liverooms.viewModel.VideoCallViewModel;
-import com.zorona.liverooms.viewModel.ViewModelFactory;
-import com.zorona.liverooms.activity.BaseActivity;
-import com.zorona.liverooms.databinding.ActivityVideoCallBinding;
-import com.zorona.liverooms.retrofit.Const;
+import com.app.liverooms.R;
+import com.app.liverooms.modelclass.UserRoot;
+import com.app.liverooms.viewModel.VideoCallViewModel;
+import com.app.liverooms.viewModel.ViewModelFactory;
+import com.app.liverooms.activity.BaseActivity;
+import com.app.liverooms.databinding.ActivityVideoCallBinding;
+import com.app.liverooms.retrofit.Const;
 import com.google.gson.Gson;
 
 import org.json.JSONException;

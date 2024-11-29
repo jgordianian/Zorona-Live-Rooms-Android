@@ -1,4 +1,4 @@
-package com.zorona.liverooms.videocall;
+package com.app.liverooms.videocall;
 
 import android.content.Context;
 import android.content.Intent;
@@ -13,11 +13,11 @@ import android.util.Log;
 import androidx.databinding.DataBindingUtil;
 
 import com.bumptech.glide.Glide;
-import com.zorona.liverooms.MainApplication;
-import com.zorona.liverooms.R;
-import com.zorona.liverooms.activity.BaseActivity;
-import com.zorona.liverooms.databinding.ActivityCallIncomeBinding;
-import com.zorona.liverooms.retrofit.Const;
+import com.app.liverooms.MainApplication;
+import com.app.liverooms.R;
+import com.app.liverooms.activity.BaseActivity;
+import com.app.liverooms.databinding.ActivityCallIncomeBinding;
+import com.app.liverooms.retrofit.Const;
 
 import org.json.JSONException;
 import org.json.JSONObject;

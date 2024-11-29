@@ -1,4 +1,4 @@
-package com.zorona.liverooms.utils.autoComplete;
+package com.app.liverooms.utils.autoComplete;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -6,9 +6,9 @@ import android.graphics.drawable.ColorDrawable;
 import android.text.Editable;
 import android.widget.EditText;
 
-import com.zorona.liverooms.R;
-import com.zorona.liverooms.modelclass.GuestProfileRoot;
-import com.zorona.liverooms.modelclass.HeshtagsRoot;
+import com.app.liverooms.R;
+import com.app.liverooms.modelclass.GuestProfileRoot;
+import com.app.liverooms.modelclass.HeshtagsRoot;
 import com.google.android.material.color.MaterialColors;
 import com.otaliastudios.autocomplete.Autocomplete;
 import com.otaliastudios.autocomplete.AutocompleteCallback;

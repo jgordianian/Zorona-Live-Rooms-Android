@@ -1,4 +1,4 @@
-package com.zorona.liverooms.liveStreamming;
+package com.app.liverooms.liveStreamming;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -7,8 +7,8 @@ import android.view.ViewGroup;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.zorona.liverooms.R;
-import com.zorona.liverooms.databinding.ItemViewUsersBinding;
+import com.app.liverooms.R;
+import com.app.liverooms.databinding.ItemViewUsersBinding;
 
 import org.json.JSONArray;
 import org.json.JSONException;

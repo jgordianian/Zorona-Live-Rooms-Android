@@ -1,4 +1,4 @@
-package com.zorona.liverooms.agora;
+package com.app.liverooms.agora;
 
 import android.content.res.AssetFileDescriptor;
 import android.media.MediaPlayer;
@@ -7,12 +7,12 @@ import android.util.Log;
 
 import androidx.annotation.Nullable;
 
-import com.zorona.liverooms.BuildConfig;
-import com.zorona.liverooms.activity.BaseActivity;
-import com.zorona.liverooms.agora.rtc.EventHandler;
-import com.zorona.liverooms.agora.stats.StatsManager;
-import com.zorona.liverooms.MainApplication;
-import com.zorona.liverooms.SessionManager;
+import com.app.liverooms.BuildConfig;
+import com.app.liverooms.activity.BaseActivity;
+import com.app.liverooms.agora.rtc.EventHandler;
+import com.app.liverooms.agora.stats.StatsManager;
+import com.app.liverooms.MainApplication;
+import com.app.liverooms.SessionManager;
 
 import org.json.JSONException;
 import org.json.JSONObject;

@@ -1,4 +1,4 @@
-package com.zorona.liverooms.posts;
+package com.app.liverooms.posts;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -8,9 +8,9 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.zorona.liverooms.R;
-import com.zorona.liverooms.databinding.ItemHashtagsBinding;
-import com.zorona.liverooms.modelclass.HeshtagsRoot;
+import com.app.liverooms.R;
+import com.app.liverooms.databinding.ItemHashtagsBinding;
+import com.app.liverooms.modelclass.HeshtagsRoot;
 
 import java.util.ArrayList;
 import java.util.List;

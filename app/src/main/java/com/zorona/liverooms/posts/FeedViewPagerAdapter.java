@@ -1,4 +1,4 @@
-package com.zorona.liverooms.posts;
+package com.app.liverooms.posts;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;

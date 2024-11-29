@@ -1,4 +1,4 @@
-package com.zorona.liverooms.notification;
+package com.app.liverooms.notification;
 
 import android.app.KeyguardManager;
 import android.app.Notification;
@@ -36,9 +36,9 @@ import android.widget.RemoteViews;
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 
-import com.zorona.liverooms.MainApplication;
-import com.zorona.liverooms.R;
-import com.zorona.liverooms.retrofit.Const;
+import com.app.liverooms.MainApplication;
+import com.app.liverooms.R;
+import com.app.liverooms.retrofit.Const;
 
 import java.io.IOException;
 import java.net.URL;

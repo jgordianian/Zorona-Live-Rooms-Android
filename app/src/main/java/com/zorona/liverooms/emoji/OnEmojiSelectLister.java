@@ -1,7 +1,7 @@
-package com.zorona.liverooms.emoji;
+package com.app.liverooms.emoji;
 
-import com.zorona.liverooms.databinding.ItemEmojiGridBinding;
-import com.zorona.liverooms.modelclass.GiftRoot;
+import com.app.liverooms.databinding.ItemEmojiGridBinding;
+import com.app.liverooms.modelclass.GiftRoot;
 
 public interface OnEmojiSelectLister {
     void onEmojiSelect(ItemEmojiGridBinding binding, GiftRoot.GiftItem giftRootDummy);

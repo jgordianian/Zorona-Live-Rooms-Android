@@ -1,4 +1,4 @@
-package com.zorona.liverooms.models;
+package com.app.liverooms.models;
 
 public class CoinPlan_dummy {
     int coin;

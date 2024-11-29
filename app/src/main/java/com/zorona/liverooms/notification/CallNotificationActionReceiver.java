@@ -1,4 +1,4 @@
-package com.zorona.liverooms.notification;
+package com.app.liverooms.notification;
 
 import static android.content.Context.NOTIFICATION_SERVICE;
 
@@ -12,9 +12,9 @@ import android.util.Log;
 
 import androidx.core.content.ContextCompat;
 
-import com.zorona.liverooms.MainApplication;
-import com.zorona.liverooms.retrofit.Const;
-import com.zorona.liverooms.videocall.CallIncomeActivity;
+import com.app.liverooms.MainApplication;
+import com.app.liverooms.retrofit.Const;
+import com.app.liverooms.videocall.CallIncomeActivity;
 
 public class CallNotificationActionReceiver extends BroadcastReceiver {
 

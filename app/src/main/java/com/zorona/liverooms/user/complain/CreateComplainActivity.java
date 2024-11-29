@@ -1,4 +1,4 @@
-package com.zorona.liverooms.user.complain;
+package com.app.liverooms.user.complain;
 
 import static android.provider.MediaStore.MediaColumns.DATA;
 
@@ -20,11 +20,11 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
-import com.zorona.liverooms.R;
-import com.zorona.liverooms.activity.BaseActivity;
-import com.zorona.liverooms.databinding.ActivityCreateComplainBinding;
-import com.zorona.liverooms.modelclass.RestResponse;
-import com.zorona.liverooms.retrofit.RetrofitBuilder;
+import com.app.liverooms.R;
+import com.app.liverooms.activity.BaseActivity;
+import com.app.liverooms.databinding.ActivityCreateComplainBinding;
+import com.app.liverooms.modelclass.RestResponse;
+import com.app.liverooms.retrofit.RetrofitBuilder;
 
 import java.io.File;
 import java.util.HashMap;

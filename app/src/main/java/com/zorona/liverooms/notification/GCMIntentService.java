@@ -1,4 +1,4 @@
-package com.zorona.liverooms.notification;
+package com.app.liverooms.notification;
 
 public class GCMIntentService {
 }

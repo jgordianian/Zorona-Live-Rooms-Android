@@ -1,4 +1,4 @@
-package com.zorona.liverooms.user.guestUser;
+package com.app.liverooms.user.guestUser;
 
 import android.app.Dialog;
 import android.content.Intent;
@@ -12,17 +12,17 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 
-import com.zorona.liverooms.MyLoader;
-import com.zorona.liverooms.R;
-import com.zorona.liverooms.activity.BaseFragment;
-import com.zorona.liverooms.databinding.FragmentGuestUserReelsBinding;
-import com.zorona.liverooms.modelclass.GuestProfileRoot;
-import com.zorona.liverooms.modelclass.ReliteRoot;
-import com.zorona.liverooms.modelclass.RestResponse;
-import com.zorona.liverooms.reels.ProfileVideoGridAdapter;
-import com.zorona.liverooms.reels.ReelsActivity;
-import com.zorona.liverooms.retrofit.Const;
-import com.zorona.liverooms.retrofit.RetrofitBuilder;
+import com.app.liverooms.MyLoader;
+import com.app.liverooms.R;
+import com.app.liverooms.activity.BaseFragment;
+import com.app.liverooms.databinding.FragmentGuestUserReelsBinding;
+import com.app.liverooms.modelclass.GuestProfileRoot;
+import com.app.liverooms.modelclass.ReliteRoot;
+import com.app.liverooms.modelclass.RestResponse;
+import com.app.liverooms.reels.ProfileVideoGridAdapter;
+import com.app.liverooms.reels.ReelsActivity;
+import com.app.liverooms.retrofit.Const;
+import com.app.liverooms.retrofit.RetrofitBuilder;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;

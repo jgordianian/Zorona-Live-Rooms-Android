@@ -1,4 +1,4 @@
-package com.zorona.liverooms.models;
+package com.app.liverooms.models;
 
 public class Chat_dummy {
     public static int USER1 = 1, ME = 0, PHOTO = 1, EMOJI = 2, TEXT = 3;

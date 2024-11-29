@@ -1,4 +1,4 @@
-package com.zorona.liverooms.user;
+package com.app.liverooms.user;
 
 import android.os.Bundle;
 import android.view.View;
@@ -6,13 +6,13 @@ import android.view.View;
 import androidx.databinding.DataBindingUtil;
 
 import com.bumptech.glide.Glide;
-import com.zorona.liverooms.BuildConfig;
-import com.zorona.liverooms.R;
-import com.zorona.liverooms.activity.BaseActivity;
-import com.zorona.liverooms.modelclass.LevelRoot;
-import com.zorona.liverooms.retrofit.Const;
-import com.zorona.liverooms.retrofit.RetrofitBuilder;
-import com.zorona.liverooms.databinding.ActivityMyLevelListBinding;
+import com.app.liverooms.BuildConfig;
+import com.app.liverooms.R;
+import com.app.liverooms.activity.BaseActivity;
+import com.app.liverooms.modelclass.LevelRoot;
+import com.app.liverooms.retrofit.Const;
+import com.app.liverooms.retrofit.RetrofitBuilder;
+import com.app.liverooms.databinding.ActivityMyLevelListBinding;
 
 import retrofit2.Call;
 import retrofit2.Callback;

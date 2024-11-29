@@ -1,16 +1,16 @@
-package com.zorona.liverooms.z_demo;
+package com.app.liverooms.z_demo;
 
-import com.zorona.liverooms.R;
-import com.zorona.liverooms.models.Song_dummy;
-import com.zorona.liverooms.models.User_dummy;
-import com.zorona.liverooms.models.ChatUser_dummy;
-import com.zorona.liverooms.models.Chat_dummy;
-import com.zorona.liverooms.models.CoinPlan_dummy;
-import com.zorona.liverooms.models.Comment_dummy;
-import com.zorona.liverooms.models.GiftCategory_dummy;
-import com.zorona.liverooms.models.GiftRoot_dummy;
-import com.zorona.liverooms.models.Post_dummy;
-import com.zorona.liverooms.models.Reels_dummy;
+import com.app.liverooms.R;
+import com.app.liverooms.models.Song_dummy;
+import com.app.liverooms.models.User_dummy;
+import com.app.liverooms.models.ChatUser_dummy;
+import com.app.liverooms.models.Chat_dummy;
+import com.app.liverooms.models.CoinPlan_dummy;
+import com.app.liverooms.models.Comment_dummy;
+import com.app.liverooms.models.GiftCategory_dummy;
+import com.app.liverooms.models.GiftRoot_dummy;
+import com.app.liverooms.models.Post_dummy;
+import com.app.liverooms.models.Reels_dummy;
 
 import java.util.ArrayList;
 import java.util.Arrays;

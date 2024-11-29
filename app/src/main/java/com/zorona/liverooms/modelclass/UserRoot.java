@@ -1,7 +1,7 @@
-package com.zorona.liverooms.modelclass;
+package com.app.liverooms.modelclass;
 
 import com.google.gson.annotations.SerializedName;
-import com.zorona.liverooms.activity.LoginActivityActivity;
+import com.app.liverooms.activity.LoginActivityActivity;
 
 import java.util.Random;
 

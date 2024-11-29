@@ -1,4 +1,4 @@
-package com.zorona.liverooms.bottomsheets;
+package com.app.liverooms.bottomsheets;
 
 import android.content.Context;
 import android.text.Editable;
@@ -9,11 +9,11 @@ import android.widget.FrameLayout;
 import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 
-import com.zorona.liverooms.R;
-import com.zorona.liverooms.SessionManager;
-import com.zorona.liverooms.databinding.BottomSheetReportBinding;
-import com.zorona.liverooms.modelclass.RestResponse;
-import com.zorona.liverooms.retrofit.RetrofitBuilder;
+import com.app.liverooms.R;
+import com.app.liverooms.SessionManager;
+import com.app.liverooms.databinding.BottomSheetReportBinding;
+import com.app.liverooms.modelclass.RestResponse;
+import com.app.liverooms.retrofit.RetrofitBuilder;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.gson.JsonObject;

@@ -1,7 +1,7 @@
-package com.zorona.liverooms.utils.Filters;
+package com.app.liverooms.utils.Filters;
 
 
-import com.zorona.liverooms.R;
+import com.app.liverooms.R;
 
 import java.util.ArrayList;
 import java.util.List;

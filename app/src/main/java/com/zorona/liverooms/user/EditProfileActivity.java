@@ -1,4 +1,4 @@
-package com.zorona.liverooms.user;
+package com.app.liverooms.user;
 
 import static android.provider.MediaStore.MediaColumns.DATA;
 
@@ -20,16 +20,16 @@ import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 
 import com.bumptech.glide.Glide;
-import com.zorona.liverooms.BuildConfig;
-import com.zorona.liverooms.activity.BaseActivity;
-import com.zorona.liverooms.activity.MainActivity;
-import com.zorona.liverooms.modelclass.RestResponse;
-import com.zorona.liverooms.modelclass.UserRoot;
-import com.zorona.liverooms.retrofit.Const;
-import com.zorona.liverooms.retrofit.RetrofitBuilder;
-import com.zorona.liverooms.MainApplication;
-import com.zorona.liverooms.R;
-import com.zorona.liverooms.databinding.ActivityEditProfileBinding;
+import com.app.liverooms.BuildConfig;
+import com.app.liverooms.activity.BaseActivity;
+import com.app.liverooms.activity.MainActivity;
+import com.app.liverooms.modelclass.RestResponse;
+import com.app.liverooms.modelclass.UserRoot;
+import com.app.liverooms.retrofit.Const;
+import com.app.liverooms.retrofit.RetrofitBuilder;
+import com.app.liverooms.MainApplication;
+import com.app.liverooms.R;
+import com.app.liverooms.databinding.ActivityEditProfileBinding;
 
 import org.jetbrains.annotations.NotNull;
 

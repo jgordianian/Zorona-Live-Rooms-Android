@@ -1,4 +1,4 @@
-package com.zorona.liverooms.utils.datepicker.view;
+package com.app.liverooms.utils.datepicker.view;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -18,7 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.zorona.liverooms.R;
+import com.app.liverooms.R;
 
 import java.util.ArrayList;
 import java.util.List;

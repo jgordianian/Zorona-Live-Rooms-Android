@@ -1,4 +1,4 @@
-package com.zorona.liverooms.reels.record;
+package com.app.liverooms.reels.record;
 
 import android.content.Intent;
 import android.content.res.Resources;
@@ -40,14 +40,14 @@ import com.daasuu.gpuv.egl.filter.GlSolarizeFilter;
 import com.daasuu.gpuv.egl.filter.GlVignetteFilter;
 import com.daasuu.gpuv.player.GPUPlayerView;
 import com.daasuu.mp4compose.filter.GlWatermarkFilter;
-import com.zorona.liverooms.R;
-import com.zorona.liverooms.activity.BaseActivity;
-import com.zorona.liverooms.databinding.ActivityFilterBinding;
-import com.zorona.liverooms.dilog.CustomDialogClass;
-import com.zorona.liverooms.reels.record.workers.VideoFilterWorker;
-import com.zorona.liverooms.utils.BitmapUtil;
-import com.zorona.liverooms.utils.TempUtil;
-import com.zorona.liverooms.utils.VideoUtil;
+import com.app.liverooms.R;
+import com.app.liverooms.activity.BaseActivity;
+import com.app.liverooms.databinding.ActivityFilterBinding;
+import com.app.liverooms.dilog.CustomDialogClass;
+import com.app.liverooms.reels.record.workers.VideoFilterWorker;
+import com.app.liverooms.utils.BitmapUtil;
+import com.app.liverooms.utils.TempUtil;
+import com.app.liverooms.utils.VideoUtil;
 import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.source.ProgressiveMediaSource;

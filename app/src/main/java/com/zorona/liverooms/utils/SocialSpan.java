@@ -1,4 +1,4 @@
-package com.zorona.liverooms.utils;
+package com.app.liverooms.utils;
 
 import android.text.Editable;
 import android.text.Spannable;

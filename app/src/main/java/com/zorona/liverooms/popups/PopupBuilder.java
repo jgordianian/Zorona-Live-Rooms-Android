@@ -1,4 +1,4 @@
-package com.zorona.liverooms.popups;
+package com.app.liverooms.popups;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -16,12 +16,12 @@ import android.widget.Toast;
 import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 
-import com.zorona.liverooms.R;
-import com.zorona.liverooms.retrofit.Const;
-import com.zorona.liverooms.SessionManager;
-import com.zorona.liverooms.databinding.ItemPopup4Binding;
-import com.zorona.liverooms.databinding.ItemSimplepopupBinding;
-import com.zorona.liverooms.databinding.PopupRcoinConvertBinding;
+import com.app.liverooms.R;
+import com.app.liverooms.retrofit.Const;
+import com.app.liverooms.SessionManager;
+import com.app.liverooms.databinding.ItemPopup4Binding;
+import com.app.liverooms.databinding.ItemSimplepopupBinding;
+import com.app.liverooms.databinding.PopupRcoinConvertBinding;
 
 public class PopupBuilder {
     private final Context mContext;

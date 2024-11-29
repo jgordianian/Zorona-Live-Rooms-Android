@@ -1,4 +1,4 @@
-package com.zorona.liverooms.reels.record.workers;
+package com.app.liverooms.reels.record.workers;
 
 import android.app.Notification;
 import android.app.PendingIntent;
@@ -14,9 +14,9 @@ import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
 import com.beak.gifmakerlib.GifMaker;
-import com.zorona.liverooms.R;
-import com.zorona.liverooms.SharedConstants;
-import com.zorona.liverooms.utils.VideoUtil;
+import com.app.liverooms.R;
+import com.app.liverooms.SharedConstants;
+import com.app.liverooms.utils.VideoUtil;
 
 import java.io.File;
 import java.io.FileOutputStream;

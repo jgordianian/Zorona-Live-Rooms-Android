@@ -1,4 +1,4 @@
-package com.zorona.liverooms.utils.datepicker.view.datePicker;
+package com.app.liverooms.utils.datepicker.view.datePicker;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -13,11 +13,11 @@ import android.widget.LinearLayout;
 
 import androidx.annotation.Nullable;
 
-import com.zorona.liverooms.R;
-import com.zorona.liverooms.utils.datepicker.factory.DateFactoryListener;
-import com.zorona.liverooms.utils.datepicker.factory.DatePickerFactory;
-import com.zorona.liverooms.utils.datepicker.model.DateModel;
-import com.zorona.liverooms.utils.datepicker.view.WheelView;
+import com.app.liverooms.R;
+import com.app.liverooms.utils.datepicker.factory.DateFactoryListener;
+import com.app.liverooms.utils.datepicker.factory.DatePickerFactory;
+import com.app.liverooms.utils.datepicker.model.DateModel;
+import com.app.liverooms.utils.datepicker.view.WheelView;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.zorona.liverooms.models;
+package com.app.liverooms.models;
 
 public class GiftRoot_dummy {
     public static int IMAGE = 1, LOTTIE = 2, GIF = 3;

@@ -1,4 +1,4 @@
-package com.zorona.liverooms.posts;
+package com.app.liverooms.posts;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,11 +10,11 @@ import android.widget.TextView;
 import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 
-import com.zorona.liverooms.R;
-import com.zorona.liverooms.activity.BaseFragment;
-import com.zorona.liverooms.retrofit.Const;
-import com.zorona.liverooms.databinding.FragmentFeedMainBinding;
-import com.zorona.liverooms.user.SearchActivity;
+import com.app.liverooms.R;
+import com.app.liverooms.activity.BaseFragment;
+import com.app.liverooms.retrofit.Const;
+import com.app.liverooms.databinding.FragmentFeedMainBinding;
+import com.app.liverooms.user.SearchActivity;
 import com.google.android.material.tabs.TabLayout;
 
 

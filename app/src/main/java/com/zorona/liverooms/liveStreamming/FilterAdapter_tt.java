@@ -1,4 +1,4 @@
-package com.zorona.liverooms.liveStreamming;
+package com.app.liverooms.liveStreamming;
 
 import android.content.Context;
 import android.util.Log;
@@ -10,11 +10,11 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.zorona.liverooms.utils.Filters.FilterRoot;
-import com.zorona.liverooms.utils.Filters.FilterUtils;
-import com.zorona.liverooms.MainApplication;
-import com.zorona.liverooms.R;
-import com.zorona.liverooms.databinding.ItemFiltersBinding;
+import com.app.liverooms.utils.Filters.FilterRoot;
+import com.app.liverooms.utils.Filters.FilterUtils;
+import com.app.liverooms.MainApplication;
+import com.app.liverooms.R;
+import com.app.liverooms.databinding.ItemFiltersBinding;
 
 import java.util.List;
 

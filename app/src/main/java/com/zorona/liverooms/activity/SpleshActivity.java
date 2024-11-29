@@ -1,4 +1,4 @@
-package com.zorona.liverooms.activity;
+package com.app.liverooms.activity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -19,16 +19,16 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
-import com.zorona.liverooms.modelclass.IpAddressRoot_e;
-import com.zorona.liverooms.modelclass.SettingRoot;
-import com.zorona.liverooms.modelclass.UserRoot;
-import com.zorona.liverooms.retrofit.Const;
-import com.zorona.liverooms.retrofit.RetrofitBuilder;
-import com.zorona.liverooms.retrofit.UserApiCall;
-import com.zorona.liverooms.MainApplication;
-import com.zorona.liverooms.R;
-import com.zorona.liverooms.SessionManager;
-import com.zorona.liverooms.popups.PopupBuilder;
+import com.app.liverooms.modelclass.IpAddressRoot_e;
+import com.app.liverooms.modelclass.SettingRoot;
+import com.app.liverooms.modelclass.UserRoot;
+import com.app.liverooms.retrofit.Const;
+import com.app.liverooms.retrofit.RetrofitBuilder;
+import com.app.liverooms.retrofit.UserApiCall;
+import com.app.liverooms.MainApplication;
+import com.app.liverooms.R;
+import com.app.liverooms.SessionManager;
+import com.app.liverooms.popups.PopupBuilder;
 import com.facebook.FacebookSdk;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;

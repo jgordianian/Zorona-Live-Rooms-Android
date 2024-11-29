@@ -1,4 +1,4 @@
-package com.zorona.liverooms.utils.autoComplete;
+package com.app.liverooms.utils.autoComplete;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -12,9 +12,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.zorona.liverooms.MainApplication;
-import com.zorona.liverooms.R;
-import com.zorona.liverooms.modelclass.GuestProfileRoot;
+import com.app.liverooms.MainApplication;
+import com.app.liverooms.R;
+import com.app.liverooms.modelclass.GuestProfileRoot;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.zorona.liverooms.bottomsheets;
+package com.app.liverooms.bottomsheets;
 
 import static android.content.Context.CLIPBOARD_SERVICE;
 
@@ -12,10 +12,10 @@ import android.widget.Toast;
 
 import androidx.databinding.DataBindingUtil;
 
-import com.zorona.liverooms.R;
-import com.zorona.liverooms.SessionManager;
-import com.zorona.liverooms.databinding.BottomSheetMessagedetailBinding;
-import com.zorona.liverooms.modelclass.ChatItem;
+import com.app.liverooms.R;
+import com.app.liverooms.SessionManager;
+import com.app.liverooms.databinding.BottomSheetMessagedetailBinding;
+import com.app.liverooms.modelclass.ChatItem;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 

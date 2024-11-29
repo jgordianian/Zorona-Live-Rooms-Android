@@ -1,4 +1,4 @@
-package com.zorona.liverooms.utils.socialView;
+package com.app.liverooms.utils.socialView;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -17,15 +17,15 @@ import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.GridLayoutManager;
 
-import com.zorona.liverooms.R;
-import com.zorona.liverooms.SessionManager;
-import com.zorona.liverooms.databinding.ItemHashtagMentionViewBinding;
-import com.zorona.liverooms.modelclass.GuestUsersListRoot;
-import com.zorona.liverooms.modelclass.HeshtagsRoot;
-import com.zorona.liverooms.posts.HashtagsAdapter;
-import com.zorona.liverooms.posts.MentionsAdapter;
-import com.zorona.liverooms.retrofit.Const;
-import com.zorona.liverooms.retrofit.RetrofitBuilder;
+import com.app.liverooms.R;
+import com.app.liverooms.SessionManager;
+import com.app.liverooms.databinding.ItemHashtagMentionViewBinding;
+import com.app.liverooms.modelclass.GuestUsersListRoot;
+import com.app.liverooms.modelclass.HeshtagsRoot;
+import com.app.liverooms.posts.HashtagsAdapter;
+import com.app.liverooms.posts.MentionsAdapter;
+import com.app.liverooms.retrofit.Const;
+import com.app.liverooms.retrofit.RetrofitBuilder;
 import com.google.gson.JsonObject;
 
 import java.util.List;

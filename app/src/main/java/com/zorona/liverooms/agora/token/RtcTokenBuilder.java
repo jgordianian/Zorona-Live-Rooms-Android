@@ -1,4 +1,4 @@
-package com.zorona.liverooms.agora.token;
+package com.app.liverooms.agora.token;
 
 import java.util.Random;
 

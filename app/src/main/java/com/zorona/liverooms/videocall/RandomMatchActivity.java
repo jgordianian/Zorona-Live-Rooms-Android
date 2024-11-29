@@ -1,4 +1,4 @@
-package com.zorona.liverooms.videocall;
+package com.app.liverooms.videocall;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,12 +9,12 @@ import android.widget.Toast;
 
 import androidx.databinding.DataBindingUtil;
 
-import com.zorona.liverooms.R;
-import com.zorona.liverooms.modelclass.GuestProfileRoot;
-import com.zorona.liverooms.activity.BaseActivity;
-import com.zorona.liverooms.databinding.ActivityRandomMatchBinding;
-import com.zorona.liverooms.retrofit.Const;
-import com.zorona.liverooms.retrofit.RetrofitBuilder;
+import com.app.liverooms.R;
+import com.app.liverooms.modelclass.GuestProfileRoot;
+import com.app.liverooms.activity.BaseActivity;
+import com.app.liverooms.databinding.ActivityRandomMatchBinding;
+import com.app.liverooms.retrofit.Const;
+import com.app.liverooms.retrofit.RetrofitBuilder;
 import com.google.gson.Gson;
 
 import retrofit2.Call;

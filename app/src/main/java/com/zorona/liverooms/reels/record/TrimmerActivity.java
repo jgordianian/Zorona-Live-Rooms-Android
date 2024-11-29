@@ -1,4 +1,4 @@
-package com.zorona.liverooms.reels.record;
+package com.app.liverooms.reels.record;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -16,15 +16,15 @@ import androidx.work.OneTimeWorkRequest;
 import androidx.work.WorkInfo;
 import androidx.work.WorkManager;
 
-import com.zorona.liverooms.R;
-import com.zorona.liverooms.SharedConstants;
-import com.zorona.liverooms.activity.BaseActivity;
-import com.zorona.liverooms.dilog.CustomDialogClass;
-import com.zorona.liverooms.reels.record.trimmer.TrimTimeBar;
-import com.zorona.liverooms.reels.record.workers.VideoTrimmerWorker3;
-import com.zorona.liverooms.utils.TempUtil;
-import com.zorona.liverooms.utils.TextFormatUtil;
-import com.zorona.liverooms.utils.VideoUtil;
+import com.app.liverooms.R;
+import com.app.liverooms.SharedConstants;
+import com.app.liverooms.activity.BaseActivity;
+import com.app.liverooms.dilog.CustomDialogClass;
+import com.app.liverooms.reels.record.trimmer.TrimTimeBar;
+import com.app.liverooms.reels.record.workers.VideoTrimmerWorker3;
+import com.app.liverooms.utils.TempUtil;
+import com.app.liverooms.utils.TextFormatUtil;
+import com.app.liverooms.utils.VideoUtil;
 import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.analytics.AnalyticsListener;

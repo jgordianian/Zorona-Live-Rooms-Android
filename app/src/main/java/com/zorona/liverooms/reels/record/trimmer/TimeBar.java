@@ -1,4 +1,4 @@
-package com.zorona.liverooms.reels.record.trimmer;
+package com.app.liverooms.reels.record.trimmer;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -12,7 +12,7 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 
-import com.zorona.liverooms.R;
+import com.app.liverooms.R;
 
 
 public class TimeBar extends View {

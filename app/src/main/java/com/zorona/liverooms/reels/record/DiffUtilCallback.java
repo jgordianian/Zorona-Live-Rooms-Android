@@ -1,4 +1,4 @@
-package com.zorona.liverooms.reels.record;
+package com.app.liverooms.reels.record;
 
 import android.text.TextUtils;
 

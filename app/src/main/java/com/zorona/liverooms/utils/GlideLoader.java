@@ -1,4 +1,4 @@
-package com.zorona.liverooms.utils;
+package com.app.liverooms.utils;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -11,7 +11,7 @@ import androidx.swiperefreshlayout.widget.CircularProgressDrawable;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
 import com.bumptech.glide.request.RequestOptions;
-import com.zorona.liverooms.R;
+import com.app.liverooms.R;
 
 import java.io.File;
 

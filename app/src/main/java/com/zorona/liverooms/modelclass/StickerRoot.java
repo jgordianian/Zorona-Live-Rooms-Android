@@ -1,9 +1,9 @@
-package com.zorona.liverooms.modelclass;
+package com.app.liverooms.modelclass;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.zorona.liverooms.BuildConfig;
+import com.app.liverooms.BuildConfig;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;

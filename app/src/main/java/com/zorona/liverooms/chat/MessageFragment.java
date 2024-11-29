@@ -1,4 +1,4 @@
-package com.zorona.liverooms.chat;
+package com.app.liverooms.chat;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -7,13 +7,13 @@ import android.view.ViewGroup;
 
 import androidx.databinding.DataBindingUtil;
 
-import com.zorona.liverooms.activity.BaseFragment;
-import com.zorona.liverooms.modelclass.ChatUserListRoot;
-import com.zorona.liverooms.retrofit.Const;
-import com.zorona.liverooms.retrofit.RetrofitBuilder;
-import com.zorona.liverooms.MyLoader;
-import com.zorona.liverooms.R;
-import com.zorona.liverooms.databinding.FragmentMessageBinding;
+import com.app.liverooms.activity.BaseFragment;
+import com.app.liverooms.modelclass.ChatUserListRoot;
+import com.app.liverooms.retrofit.Const;
+import com.app.liverooms.retrofit.RetrofitBuilder;
+import com.app.liverooms.MyLoader;
+import com.app.liverooms.R;
+import com.app.liverooms.databinding.FragmentMessageBinding;
 
 import retrofit2.Call;
 import retrofit2.Callback;

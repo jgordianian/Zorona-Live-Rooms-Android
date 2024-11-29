@@ -1,4 +1,4 @@
-package com.zorona.liverooms.user.guestUser;
+package com.app.liverooms.user.guestUser;
 
 import android.app.Dialog;
 import android.content.Intent;
@@ -13,17 +13,17 @@ import android.widget.Toast;
 
 import androidx.databinding.DataBindingUtil;
 
-import com.zorona.liverooms.MyLoader;
-import com.zorona.liverooms.R;
-import com.zorona.liverooms.activity.BaseFragment;
-import com.zorona.liverooms.databinding.FragmentGuestUserPostsBinding;
-import com.zorona.liverooms.modelclass.GuestProfileRoot;
-import com.zorona.liverooms.modelclass.PostRoot;
-import com.zorona.liverooms.modelclass.RestResponse;
-import com.zorona.liverooms.posts.FeedGridAdapter;
-import com.zorona.liverooms.posts.FeedListActivity;
-import com.zorona.liverooms.retrofit.Const;
-import com.zorona.liverooms.retrofit.RetrofitBuilder;
+import com.app.liverooms.MyLoader;
+import com.app.liverooms.R;
+import com.app.liverooms.activity.BaseFragment;
+import com.app.liverooms.databinding.FragmentGuestUserPostsBinding;
+import com.app.liverooms.modelclass.GuestProfileRoot;
+import com.app.liverooms.modelclass.PostRoot;
+import com.app.liverooms.modelclass.RestResponse;
+import com.app.liverooms.posts.FeedGridAdapter;
+import com.app.liverooms.posts.FeedListActivity;
+import com.app.liverooms.retrofit.Const;
+import com.app.liverooms.retrofit.RetrofitBuilder;
 import com.google.gson.Gson;
 
 import retrofit2.Call;

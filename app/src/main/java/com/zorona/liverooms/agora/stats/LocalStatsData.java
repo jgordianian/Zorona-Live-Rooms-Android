@@ -1,4 +1,4 @@
-package com.zorona.liverooms.agora.stats;
+package com.app.liverooms.agora.stats;
 
 import java.util.Locale;
 

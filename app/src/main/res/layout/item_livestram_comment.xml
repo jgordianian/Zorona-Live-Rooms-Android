@@ -20,7 +20,7 @@
             android:paddingVertical="3dp"
             android:paddingEnd="10dp">
 
-            <com.zorona.liverooms.utils.UserProfileImageView
+            <com.app.liverooms.utils.UserProfileImageView
                 android:id="@+id/imgUser"
                 android:layout_width="30dp"
                 android:layout_height="30dp"

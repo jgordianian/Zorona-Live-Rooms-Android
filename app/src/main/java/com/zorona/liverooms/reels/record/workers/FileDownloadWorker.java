@@ -1,4 +1,4 @@
-package com.zorona.liverooms.reels.record.workers;
+package com.app.liverooms.reels.record.workers;
 
 import android.app.Notification;
 import android.content.Context;
@@ -10,8 +10,8 @@ import androidx.work.ForegroundInfo;
 import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
-import com.zorona.liverooms.R;
-import com.zorona.liverooms.SharedConstants;
+import com.app.liverooms.R;
+import com.app.liverooms.SharedConstants;
 
 import org.apache.commons.io.FileUtils;
 

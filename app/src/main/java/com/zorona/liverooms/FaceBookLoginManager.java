@@ -1,4 +1,4 @@
-package com.zorona.liverooms;
+package com.app.liverooms;
 
 import android.app.Activity;
 import android.os.Bundle;

@@ -1,4 +1,4 @@
-package com.zorona.liverooms.liveStreamming;
+package com.app.liverooms.liveStreamming;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -18,17 +18,17 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.zorona.liverooms.R;
-import com.zorona.liverooms.home.adapter.BannerAdapter;
-import com.zorona.liverooms.activity.BaseFragment;
-import com.zorona.liverooms.adapter.DotAdaptr;
-import com.zorona.liverooms.databinding.FragmentLiveBinding;
-import com.zorona.liverooms.home.HomeFragment;
-import com.zorona.liverooms.modelclass.BannerRoot;
-import com.zorona.liverooms.reels.VideoListFragment;
-import com.zorona.liverooms.retrofit.RetrofitBuilder;
-import com.zorona.liverooms.videocall.Ont_to_oneFragmentMain;
-import com.zorona.liverooms.viewModel.ViewModelFactory;
+import com.app.liverooms.R;
+import com.app.liverooms.home.adapter.BannerAdapter;
+import com.app.liverooms.activity.BaseFragment;
+import com.app.liverooms.adapter.DotAdaptr;
+import com.app.liverooms.databinding.FragmentLiveBinding;
+import com.app.liverooms.home.HomeFragment;
+import com.app.liverooms.modelclass.BannerRoot;
+import com.app.liverooms.reels.VideoListFragment;
+import com.app.liverooms.retrofit.RetrofitBuilder;
+import com.app.liverooms.videocall.Ont_to_oneFragmentMain;
+import com.app.liverooms.viewModel.ViewModelFactory;
 import com.google.android.material.tabs.TabLayout;
 
 import retrofit2.Call;

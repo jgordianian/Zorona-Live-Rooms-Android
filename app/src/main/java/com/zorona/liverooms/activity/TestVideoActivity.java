@@ -1,4 +1,4 @@
-package com.zorona.liverooms.activity;
+package com.app.liverooms.activity;
 
 import static com.google.android.exoplayer2.Player.STATE_BUFFERING;
 import static com.google.android.exoplayer2.Player.STATE_ENDED;
@@ -14,9 +14,9 @@ import android.util.Log;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
-import com.zorona.liverooms.R;
-import com.zorona.liverooms.databinding.ActivityTestVideoBinding;
-import com.zorona.liverooms.reels.record.FilterActivity;
+import com.app.liverooms.R;
+import com.app.liverooms.databinding.ActivityTestVideoBinding;
+import com.app.liverooms.reels.record.FilterActivity;
 import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.source.MediaSource;

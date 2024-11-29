@@ -1,4 +1,4 @@
-package com.zorona.liverooms.user.vip;
+package com.app.liverooms.user.vip;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -8,9 +8,9 @@ import android.view.ViewGroup;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.zorona.liverooms.R;
-import com.zorona.liverooms.databinding.ItemVipPlanBinding;
-import com.zorona.liverooms.modelclass.VipPlanRoot;
+import com.app.liverooms.R;
+import com.app.liverooms.databinding.ItemVipPlanBinding;
+import com.app.liverooms.modelclass.VipPlanRoot;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.zorona.liverooms;
+package com.app.liverooms;
 
 import androidx.room.Database;
 import androidx.room.RoomDatabase;

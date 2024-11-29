@@ -1,4 +1,4 @@
-package com.zorona.liverooms.liveStreamming;
+package com.app.liverooms.liveStreamming;
 
 import android.content.Context;
 import android.util.Log;
@@ -9,10 +9,10 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.zorona.liverooms.R;
-import com.zorona.liverooms.RayziUtils;
-import com.zorona.liverooms.databinding.ItemStickerBinding;
-import com.zorona.liverooms.modelclass.StickerRoot;
+import com.app.liverooms.R;
+import com.app.liverooms.RayziUtils;
+import com.app.liverooms.databinding.ItemStickerBinding;
+import com.app.liverooms.modelclass.StickerRoot;
 
 import java.util.List;
 

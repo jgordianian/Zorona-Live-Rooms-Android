@@ -1,4 +1,4 @@
-package com.zorona.liverooms.reels;
+package com.app.liverooms.reels;
 
 import android.content.Context;
 import android.util.Log;
@@ -13,10 +13,10 @@ import android.view.animation.AnimationUtils;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.zorona.liverooms.BuildConfig;
-import com.zorona.liverooms.R;
-import com.zorona.liverooms.databinding.ItemReelsBinding;
-import com.zorona.liverooms.modelclass.ReliteRoot;
+import com.app.liverooms.BuildConfig;
+import com.app.liverooms.R;
+import com.app.liverooms.databinding.ItemReelsBinding;
+import com.app.liverooms.modelclass.ReliteRoot;
 import com.like.LikeButton;
 import com.like.OnLikeListener;
 

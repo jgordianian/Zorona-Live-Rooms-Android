@@ -1,4 +1,4 @@
-package com.zorona.liverooms;
+package com.app.liverooms;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -6,12 +6,12 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.zorona.liverooms.modelclass.AdsRoot;
-import com.zorona.liverooms.modelclass.GuestProfileRoot;
-import com.zorona.liverooms.modelclass.SettingRoot;
-import com.zorona.liverooms.modelclass.UserRoot;
-import com.zorona.liverooms.reels.record.UploadActivity;
-import com.zorona.liverooms.retrofit.Const;
+import com.app.liverooms.modelclass.AdsRoot;
+import com.app.liverooms.modelclass.GuestProfileRoot;
+import com.app.liverooms.modelclass.SettingRoot;
+import com.app.liverooms.modelclass.UserRoot;
+import com.app.liverooms.reels.record.UploadActivity;
+import com.app.liverooms.retrofit.Const;
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
 

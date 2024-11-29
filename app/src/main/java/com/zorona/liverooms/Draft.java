@@ -1,4 +1,4 @@
-package com.zorona.liverooms;
+package com.app.liverooms;
 
 import android.os.Parcel;
 import android.os.Parcelable;

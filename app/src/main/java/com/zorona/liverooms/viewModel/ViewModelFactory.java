@@ -1,4 +1,4 @@
-package com.zorona.liverooms.viewModel;
+package com.app.liverooms.viewModel;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;

@@ -1,4 +1,4 @@
-package com.zorona.liverooms.user.guestUser;
+package com.app.liverooms.user.guestUser;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,17 +14,17 @@ import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 
 import com.bumptech.glide.Glide;
-import com.zorona.liverooms.MyLoader;
-import com.zorona.liverooms.R;
-import com.zorona.liverooms.RayziUtils;
-import com.zorona.liverooms.activity.BaseActivity;
-import com.zorona.liverooms.bottomsheets.BottomSheetReport_g;
-import com.zorona.liverooms.chat.ChatActivity;
-import com.zorona.liverooms.databinding.ActivityGuestBinding;
-import com.zorona.liverooms.modelclass.GuestProfileRoot;
-import com.zorona.liverooms.retrofit.Const;
-import com.zorona.liverooms.retrofit.UserApiCall;
-import com.zorona.liverooms.user.FollowrsListActivity;
+import com.app.liverooms.MyLoader;
+import com.app.liverooms.R;
+import com.app.liverooms.RayziUtils;
+import com.app.liverooms.activity.BaseActivity;
+import com.app.liverooms.bottomsheets.BottomSheetReport_g;
+import com.app.liverooms.chat.ChatActivity;
+import com.app.liverooms.databinding.ActivityGuestBinding;
+import com.app.liverooms.modelclass.GuestProfileRoot;
+import com.app.liverooms.retrofit.Const;
+import com.app.liverooms.retrofit.UserApiCall;
+import com.app.liverooms.user.FollowrsListActivity;
 import com.google.android.material.tabs.TabLayout;
 import com.google.gson.Gson;
 

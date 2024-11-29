@@ -11,7 +11,7 @@
         android:layout_height="35dp"
         android:layout_marginStart="10dp">
 
-        <com.zorona.liverooms.utils.UserProfileImageView
+        <com.app.liverooms.utils.UserProfileImageView
             custom:backColor="@color/pink"
             android:padding="1dp"
             android:id="@+id/imgview"

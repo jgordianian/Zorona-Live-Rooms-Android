@@ -1,4 +1,4 @@
-package com.zorona.liverooms.posts;
+package com.app.liverooms.posts;
 
 import android.content.Context;
 import android.content.Intent;
@@ -10,14 +10,14 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.zorona.liverooms.BuildConfig;
-import com.zorona.liverooms.modelclass.PostRoot;
-import com.zorona.liverooms.retrofit.Const;
-import com.zorona.liverooms.user.guestUser.GuestActivity;
-import com.zorona.liverooms.MainApplication;
-import com.zorona.liverooms.R;
-import com.zorona.liverooms.SessionManager;
-import com.zorona.liverooms.databinding.ItemFeedBinding;
+import com.app.liverooms.BuildConfig;
+import com.app.liverooms.modelclass.PostRoot;
+import com.app.liverooms.retrofit.Const;
+import com.app.liverooms.user.guestUser.GuestActivity;
+import com.app.liverooms.MainApplication;
+import com.app.liverooms.R;
+import com.app.liverooms.SessionManager;
+import com.app.liverooms.databinding.ItemFeedBinding;
 import com.like.LikeButton;
 import com.like.OnLikeListener;
 

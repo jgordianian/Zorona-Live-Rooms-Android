@@ -1,4 +1,4 @@
-package com.zorona.liverooms.emoji;
+package com.app.liverooms.emoji;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -8,11 +8,11 @@ import android.view.ViewGroup;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.zorona.liverooms.BuildConfig;
-import com.zorona.liverooms.modelclass.GiftRoot;
-import com.zorona.liverooms.MainApplication;
-import com.zorona.liverooms.R;
-import com.zorona.liverooms.databinding.ItemEmojiGridBinding;
+import com.app.liverooms.BuildConfig;
+import com.app.liverooms.modelclass.GiftRoot;
+import com.app.liverooms.MainApplication;
+import com.app.liverooms.R;
+import com.app.liverooms.databinding.ItemEmojiGridBinding;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.zorona.liverooms.reels.record.workers;
+package com.app.liverooms.reels.record.workers;
 
 import android.app.Notification;
 import android.app.PendingIntent;
@@ -15,16 +15,16 @@ import androidx.work.WorkManager;
 import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
-import com.zorona.liverooms.ClientDatabase;
-import com.zorona.liverooms.Draft;
-import com.zorona.liverooms.MainApplication;
-import com.zorona.liverooms.SessionManager;
-import com.zorona.liverooms.SharedConstants;
-import com.zorona.liverooms.modelclass.RestResponse;
-import com.zorona.liverooms.reels.record.UploadActivity;
-import com.zorona.liverooms.retrofit.RetrofitBuilder;
-import com.zorona.liverooms.utils.VideoUtil;
-import com.zorona.liverooms.R;
+import com.app.liverooms.ClientDatabase;
+import com.app.liverooms.Draft;
+import com.app.liverooms.MainApplication;
+import com.app.liverooms.SessionManager;
+import com.app.liverooms.SharedConstants;
+import com.app.liverooms.modelclass.RestResponse;
+import com.app.liverooms.reels.record.UploadActivity;
+import com.app.liverooms.retrofit.RetrofitBuilder;
+import com.app.liverooms.utils.VideoUtil;
+import com.app.liverooms.R;
 
 import org.greenrobot.eventbus.EventBus;
 

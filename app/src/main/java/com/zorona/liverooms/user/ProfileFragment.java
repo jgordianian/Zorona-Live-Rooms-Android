@@ -1,4 +1,4 @@
-package com.zorona.liverooms.user;
+package com.app.liverooms.user;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -13,22 +13,22 @@ import androidx.databinding.ObservableBoolean;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProviders;
 
-import com.zorona.liverooms.R;
-import com.zorona.liverooms.activity.BaseFragment;
-import com.zorona.liverooms.activity.SettingActivity;
-import com.zorona.liverooms.modelclass.UserRoot;
-import com.zorona.liverooms.posts.FeedGridActivity;
-import com.zorona.liverooms.reels.VideoListGridActivity;
-import com.zorona.liverooms.retrofit.Const;
-import com.zorona.liverooms.retrofit.UserApiCall;
-import com.zorona.liverooms.user.complain.ComplainListActivity;
-import com.zorona.liverooms.user.complain.CreateComplainActivity;
-import com.zorona.liverooms.user.freeCoins.FreeDimondsActivity;
-import com.zorona.liverooms.user.vip.VipPlanActivity;
-import com.zorona.liverooms.user.wallet.MyWalletActivity;
-import com.zorona.liverooms.viewModel.ViewModelFactory;
-import com.zorona.liverooms.SessionManager;
-import com.zorona.liverooms.databinding.FragmentProfileBinding;
+import com.app.liverooms.R;
+import com.app.liverooms.activity.BaseFragment;
+import com.app.liverooms.activity.SettingActivity;
+import com.app.liverooms.modelclass.UserRoot;
+import com.app.liverooms.posts.FeedGridActivity;
+import com.app.liverooms.reels.VideoListGridActivity;
+import com.app.liverooms.retrofit.Const;
+import com.app.liverooms.retrofit.UserApiCall;
+import com.app.liverooms.user.complain.ComplainListActivity;
+import com.app.liverooms.user.complain.CreateComplainActivity;
+import com.app.liverooms.user.freeCoins.FreeDimondsActivity;
+import com.app.liverooms.user.vip.VipPlanActivity;
+import com.app.liverooms.user.wallet.MyWalletActivity;
+import com.app.liverooms.viewModel.ViewModelFactory;
+import com.app.liverooms.SessionManager;
+import com.app.liverooms.databinding.FragmentProfileBinding;
 import com.google.gson.Gson;
 
 

@@ -1,4 +1,4 @@
-package com.zorona.liverooms.liveStreamming;
+package com.app.liverooms.liveStreamming;
 
 import android.Manifest;
 import android.content.Intent;
@@ -20,29 +20,29 @@ import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.bumptech.glide.Glide;
-import com.zorona.liverooms.BuildConfig;
-import com.zorona.liverooms.MainApplication;
-import com.zorona.liverooms.R;
-import com.zorona.liverooms.RayziUtils;
-import com.zorona.liverooms.SessionManager;
-import com.zorona.liverooms.agora.AgoraBaseActivity;
-import com.zorona.liverooms.agora.stats.LocalStatsData;
-import com.zorona.liverooms.agora.stats.RemoteStatsData;
-import com.zorona.liverooms.agora.stats.StatsData;
-import com.zorona.liverooms.bottomsheets.UserProfileBottomSheet;
-import com.zorona.liverooms.databinding.ActivityHostLiveBinding;
-import com.zorona.liverooms.emoji.EmojiBottomsheetFragment;
-import com.zorona.liverooms.modelclass.GiftRoot;
-import com.zorona.liverooms.modelclass.GuestProfileRoot;
-import com.zorona.liverooms.modelclass.LiveStramComment;
-import com.zorona.liverooms.modelclass.LiveStreamRoot;
-import com.zorona.liverooms.modelclass.LiveUserRoot;
-import com.zorona.liverooms.modelclass.UserRoot;
-import com.zorona.liverooms.retrofit.Const;
-import com.zorona.liverooms.retrofit.UserApiCall;
-import com.zorona.liverooms.viewModel.EmojiSheetViewModel;
-import com.zorona.liverooms.viewModel.HostLiveViewModel;
-import com.zorona.liverooms.viewModel.ViewModelFactory;
+import com.app.liverooms.BuildConfig;
+import com.app.liverooms.MainApplication;
+import com.app.liverooms.R;
+import com.app.liverooms.RayziUtils;
+import com.app.liverooms.SessionManager;
+import com.app.liverooms.agora.AgoraBaseActivity;
+import com.app.liverooms.agora.stats.LocalStatsData;
+import com.app.liverooms.agora.stats.RemoteStatsData;
+import com.app.liverooms.agora.stats.StatsData;
+import com.app.liverooms.bottomsheets.UserProfileBottomSheet;
+import com.app.liverooms.databinding.ActivityHostLiveBinding;
+import com.app.liverooms.emoji.EmojiBottomsheetFragment;
+import com.app.liverooms.modelclass.GiftRoot;
+import com.app.liverooms.modelclass.GuestProfileRoot;
+import com.app.liverooms.modelclass.LiveStramComment;
+import com.app.liverooms.modelclass.LiveStreamRoot;
+import com.app.liverooms.modelclass.LiveUserRoot;
+import com.app.liverooms.modelclass.UserRoot;
+import com.app.liverooms.retrofit.Const;
+import com.app.liverooms.retrofit.UserApiCall;
+import com.app.liverooms.viewModel.EmojiSheetViewModel;
+import com.app.liverooms.viewModel.HostLiveViewModel;
+import com.app.liverooms.viewModel.ViewModelFactory;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
@@ -85,7 +85,7 @@ import io.agora.rtm.RtmClient;
 
 import io.agora.rtm.RtmChannel;
 
-import com.zorona.liverooms.agora.token.RtcTokenBuilder;
+import com.app.liverooms.agora.token.RtcTokenBuilder;
 
 public class HostLiveActivity extends AgoraBaseActivity {
     public static final String TAG = "hostliveactivity";

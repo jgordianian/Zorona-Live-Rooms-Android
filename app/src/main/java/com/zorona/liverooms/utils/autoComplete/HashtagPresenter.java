@@ -1,12 +1,12 @@
-package com.zorona.liverooms.utils.autoComplete;
+package com.app.liverooms.utils.autoComplete;
 
 import android.content.Context;
 import android.util.Log;
 
 import androidx.annotation.Nullable;
 
-import com.zorona.liverooms.modelclass.HeshtagsRoot;
-import com.zorona.liverooms.retrofit.RetrofitBuilder;
+import com.app.liverooms.modelclass.HeshtagsRoot;
+import com.app.liverooms.retrofit.RetrofitBuilder;
 import com.otaliastudios.autocomplete.RecyclerViewPresenter;
 
 import retrofit2.Call;

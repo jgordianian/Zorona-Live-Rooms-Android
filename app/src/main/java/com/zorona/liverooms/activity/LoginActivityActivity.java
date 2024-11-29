@@ -1,4 +1,4 @@
-package com.zorona.liverooms.activity;
+package com.app.liverooms.activity;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -7,14 +7,14 @@ import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 
-import com.zorona.liverooms.BuildConfig;
-import com.zorona.liverooms.FaceBookLoginManager;
-import com.zorona.liverooms.GoogleLoginManager;
-import com.zorona.liverooms.R;
-import com.zorona.liverooms.modelclass.UserRoot;
-import com.zorona.liverooms.retrofit.Const;
-import com.zorona.liverooms.retrofit.RetrofitBuilder;
-import com.zorona.liverooms.user.EditProfileActivity;
+import com.app.liverooms.BuildConfig;
+import com.app.liverooms.FaceBookLoginManager;
+import com.app.liverooms.GoogleLoginManager;
+import com.app.liverooms.R;
+import com.app.liverooms.modelclass.UserRoot;
+import com.app.liverooms.retrofit.Const;
+import com.app.liverooms.retrofit.RetrofitBuilder;
+import com.app.liverooms.user.EditProfileActivity;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.tasks.Task;

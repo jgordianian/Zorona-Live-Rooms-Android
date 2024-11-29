@@ -1,4 +1,4 @@
-package com.zorona.liverooms.adapter;
+package com.app.liverooms.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,8 +9,8 @@ import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.zorona.liverooms.R;
-import com.zorona.liverooms.databinding.ItemDotsBinding;
+import com.app.liverooms.R;
+import com.app.liverooms.databinding.ItemDotsBinding;
 
 
 public class DotAdaptr extends RecyclerView.Adapter<DotAdaptr.DotViewHolder> {

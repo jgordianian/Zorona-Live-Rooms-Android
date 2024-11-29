@@ -1,4 +1,4 @@
-package com.zorona.liverooms.utils.datepicker.view.timePicker;
+package com.app.liverooms.utils.datepicker.view.timePicker;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -12,10 +12,10 @@ import android.widget.LinearLayout;
 
 import androidx.annotation.Nullable;
 
-import com.zorona.liverooms.R;
-import com.zorona.liverooms.utils.datepicker.factory.TimeFactory;
-import com.zorona.liverooms.utils.datepicker.factory.TimeFactoryListener;
-import com.zorona.liverooms.utils.datepicker.view.WheelView;
+import com.app.liverooms.R;
+import com.app.liverooms.utils.datepicker.factory.TimeFactory;
+import com.app.liverooms.utils.datepicker.factory.TimeFactoryListener;
+import com.app.liverooms.utils.datepicker.view.WheelView;
 
 import java.util.ArrayList;
 import java.util.List;

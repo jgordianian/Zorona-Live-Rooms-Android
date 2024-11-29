@@ -1,4 +1,4 @@
-package com.zorona.liverooms.agora.rtc;
+package com.app.liverooms.agora.rtc;
 
 import java.util.ArrayList;
 

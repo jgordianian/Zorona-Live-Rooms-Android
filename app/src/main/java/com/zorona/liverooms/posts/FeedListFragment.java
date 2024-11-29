@@ -1,4 +1,4 @@
-package com.zorona.liverooms.posts;
+package com.app.liverooms.posts;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,18 +10,18 @@ import android.view.ViewGroup;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProviders;
 
-import com.zorona.liverooms.BuildConfig;
-import com.zorona.liverooms.R;
-import com.zorona.liverooms.activity.BaseFragment;
-import com.zorona.liverooms.comments.CommentLikeListActivity;
-import com.zorona.liverooms.modelclass.PostRoot;
-import com.zorona.liverooms.retrofit.CommenApiCalling;
-import com.zorona.liverooms.retrofit.Const;
-import com.zorona.liverooms.user.guestUser.GuestActivity;
-import com.zorona.liverooms.viewModel.FeedListViewModel;
-import com.zorona.liverooms.viewModel.ViewModelFactory;
-import com.zorona.liverooms.databinding.FragmentFeedListBinding;
-import com.zorona.liverooms.databinding.ItemFeedBinding;
+import com.app.liverooms.BuildConfig;
+import com.app.liverooms.R;
+import com.app.liverooms.activity.BaseFragment;
+import com.app.liverooms.comments.CommentLikeListActivity;
+import com.app.liverooms.modelclass.PostRoot;
+import com.app.liverooms.retrofit.CommenApiCalling;
+import com.app.liverooms.retrofit.Const;
+import com.app.liverooms.user.guestUser.GuestActivity;
+import com.app.liverooms.viewModel.FeedListViewModel;
+import com.app.liverooms.viewModel.ViewModelFactory;
+import com.app.liverooms.databinding.FragmentFeedListBinding;
+import com.app.liverooms.databinding.ItemFeedBinding;
 import com.google.gson.Gson;
 
 import java.util.Calendar;

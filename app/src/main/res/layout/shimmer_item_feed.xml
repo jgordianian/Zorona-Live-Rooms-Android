@@ -85,7 +85,7 @@
 
             </LinearLayout>
 
-            <com.zorona.liverooms.utils.socialView.SocialTextView
+            <com.app.liverooms.utils.socialView.SocialTextView
                 android:id="@+id/tvCaption"
                 android:layout_width="wrap_content"
 

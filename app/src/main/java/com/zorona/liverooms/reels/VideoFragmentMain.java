@@ -1,4 +1,4 @@
-package com.zorona.liverooms.reels;
+package com.app.liverooms.reels;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,12 +10,12 @@ import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 
-import com.zorona.liverooms.R;
-import com.zorona.liverooms.activity.BaseFragment;
-import com.zorona.liverooms.liveStreamming.LiveFragmentMain;
-import com.zorona.liverooms.videocall.Ont_to_oneFragmentMain;
-import com.zorona.liverooms.databinding.FragmentVideoMainBinding;
-import com.zorona.liverooms.home.HomeFragment;
+import com.app.liverooms.R;
+import com.app.liverooms.activity.BaseFragment;
+import com.app.liverooms.liveStreamming.LiveFragmentMain;
+import com.app.liverooms.videocall.Ont_to_oneFragmentMain;
+import com.app.liverooms.databinding.FragmentVideoMainBinding;
+import com.app.liverooms.home.HomeFragment;
 import com.google.android.material.tabs.TabLayout;
 
 

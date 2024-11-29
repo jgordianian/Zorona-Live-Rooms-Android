@@ -1,4 +1,4 @@
-package com.zorona.liverooms.reels.record.sticker;
+package com.app.liverooms.reels.record.sticker;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,11 +6,11 @@ import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 
-import com.zorona.liverooms.R;
-import com.zorona.liverooms.RayziUtils;
-import com.zorona.liverooms.activity.BaseActivity;
-import com.zorona.liverooms.modelclass.StickerRoot;
-import com.zorona.liverooms.databinding.ActivityStickerPickerBinding;
+import com.app.liverooms.R;
+import com.app.liverooms.RayziUtils;
+import com.app.liverooms.activity.BaseActivity;
+import com.app.liverooms.modelclass.StickerRoot;
+import com.app.liverooms.databinding.ActivityStickerPickerBinding;
 
 public class StickerPickerActivity extends BaseActivity {
 

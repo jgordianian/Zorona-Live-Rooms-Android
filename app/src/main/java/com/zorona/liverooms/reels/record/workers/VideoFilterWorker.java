@@ -1,4 +1,4 @@
-package com.zorona.liverooms.reels.record.workers;
+package com.app.liverooms.reels.record.workers;
 
 import android.content.Context;
 import android.util.Log;
@@ -25,9 +25,9 @@ import com.daasuu.mp4compose.filter.GlSepiaFilter;
 import com.daasuu.mp4compose.filter.GlSharpenFilter;
 import com.daasuu.mp4compose.filter.GlSolarizeFilter;
 import com.daasuu.mp4compose.filter.GlVignetteFilter;
-import com.zorona.liverooms.SharedConstants;
-import com.zorona.liverooms.reels.record.VideoFilter;
-import com.zorona.liverooms.utils.VideoUtil;
+import com.app.liverooms.SharedConstants;
+import com.app.liverooms.reels.record.VideoFilter;
+import com.app.liverooms.utils.VideoUtil;
 import com.google.common.util.concurrent.ListenableFuture;
 
 import java.io.File;

@@ -1,4 +1,4 @@
-package com.zorona.liverooms.emoji;
+package com.app.liverooms.emoji;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -9,12 +9,12 @@ import android.view.ViewGroup;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 
-import com.zorona.liverooms.R;
-import com.zorona.liverooms.activity.BaseFragment;
-import com.zorona.liverooms.modelclass.GiftCategoryRoot;
-import com.zorona.liverooms.modelclass.GiftRoot;
-import com.zorona.liverooms.retrofit.RetrofitBuilder;
-import com.zorona.liverooms.databinding.FragmentEmojiBinding;
+import com.app.liverooms.R;
+import com.app.liverooms.activity.BaseFragment;
+import com.app.liverooms.modelclass.GiftCategoryRoot;
+import com.app.liverooms.modelclass.GiftRoot;
+import com.app.liverooms.retrofit.RetrofitBuilder;
+import com.app.liverooms.databinding.FragmentEmojiBinding;
 
 import retrofit2.Call;
 import retrofit2.Callback;

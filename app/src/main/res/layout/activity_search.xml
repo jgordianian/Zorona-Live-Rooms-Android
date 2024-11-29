@@ -9,7 +9,7 @@
 
         <variable
             name="viewModel"
-            type="com.zorona.liverooms.user.SearchActivity.SearchViewModel" />
+            type="com.app.liverooms.user.SearchActivity.SearchViewModel" />
     </data>
 
     <RelativeLayout

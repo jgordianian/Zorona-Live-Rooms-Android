@@ -1,4 +1,4 @@
-package com.zorona.liverooms.utils.socialView;
+package com.app.liverooms.utils.socialView;
 
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
@@ -24,7 +24,7 @@ import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.core.util.PatternsCompat;
 
-import com.zorona.liverooms.R;
+import com.app.liverooms.R;
 
 import java.util.ArrayList;
 import java.util.List;

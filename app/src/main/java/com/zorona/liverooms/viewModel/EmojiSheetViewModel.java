@@ -1,12 +1,12 @@
-package com.zorona.liverooms.viewModel;
+package com.app.liverooms.viewModel;
 
 import androidx.databinding.ObservableBoolean;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.zorona.liverooms.modelclass.GiftCategoryRoot;
-import com.zorona.liverooms.modelclass.GiftRoot;
-import com.zorona.liverooms.retrofit.RetrofitBuilder;
+import com.app.liverooms.modelclass.GiftCategoryRoot;
+import com.app.liverooms.modelclass.GiftRoot;
+import com.app.liverooms.retrofit.RetrofitBuilder;
 
 import java.util.List;
 

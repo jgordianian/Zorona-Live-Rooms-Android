@@ -1,4 +1,4 @@
-package com.zorona.liverooms.viewModel;
+package com.app.liverooms.viewModel;
 
 import android.content.Context;
 import android.util.Log;
@@ -7,13 +7,13 @@ import androidx.databinding.ObservableBoolean;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.zorona.liverooms.modelclass.PostCommentRoot;
-import com.zorona.liverooms.modelclass.RestResponse;
-import com.zorona.liverooms.SessionManager;
-import com.zorona.liverooms.comments.CommentAdapter;
-import com.zorona.liverooms.retrofit.Const;
-import com.zorona.liverooms.retrofit.RetrofitBuilder;
-import com.zorona.liverooms.user.SearchUserAdapter;
+import com.app.liverooms.modelclass.PostCommentRoot;
+import com.app.liverooms.modelclass.RestResponse;
+import com.app.liverooms.SessionManager;
+import com.app.liverooms.comments.CommentAdapter;
+import com.app.liverooms.retrofit.Const;
+import com.app.liverooms.retrofit.RetrofitBuilder;
+import com.app.liverooms.user.SearchUserAdapter;
 
 import retrofit2.Call;
 import retrofit2.Callback;

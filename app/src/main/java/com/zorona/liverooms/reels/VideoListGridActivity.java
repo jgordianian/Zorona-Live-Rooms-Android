@@ -1,4 +1,4 @@
-package com.zorona.liverooms.reels;
+package com.app.liverooms.reels;
 
 import android.app.Dialog;
 import android.content.Intent;
@@ -8,15 +8,15 @@ import android.widget.Toast;
 
 import androidx.databinding.DataBindingUtil;
 
-import com.zorona.liverooms.activity.BaseActivity;
-import com.zorona.liverooms.modelclass.ReliteRoot;
-import com.zorona.liverooms.modelclass.RestResponse;
-import com.zorona.liverooms.retrofit.Const;
-import com.zorona.liverooms.retrofit.RetrofitBuilder;
-import com.zorona.liverooms.MyLoader;
-import com.zorona.liverooms.R;
-import com.zorona.liverooms.SessionManager;
-import com.zorona.liverooms.databinding.ActivityVideoListGridBinding;
+import com.app.liverooms.activity.BaseActivity;
+import com.app.liverooms.modelclass.ReliteRoot;
+import com.app.liverooms.modelclass.RestResponse;
+import com.app.liverooms.retrofit.Const;
+import com.app.liverooms.retrofit.RetrofitBuilder;
+import com.app.liverooms.MyLoader;
+import com.app.liverooms.R;
+import com.app.liverooms.SessionManager;
+import com.app.liverooms.databinding.ActivityVideoListGridBinding;
 import com.google.gson.Gson;
 
 import retrofit2.Call;

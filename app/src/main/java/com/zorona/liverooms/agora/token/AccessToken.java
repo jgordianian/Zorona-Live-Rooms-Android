@@ -1,7 +1,7 @@
-package com.zorona.liverooms.agora.token;
+package com.app.liverooms.agora.token;
 
 
-import static com.zorona.liverooms.agora.token.Utils.crc32;
+import static com.app.liverooms.agora.token.Utils.crc32;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;

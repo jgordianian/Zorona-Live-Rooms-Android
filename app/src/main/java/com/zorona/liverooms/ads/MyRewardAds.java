@@ -1,4 +1,4 @@
-package com.zorona.liverooms.ads;
+package com.app.liverooms.ads;
 
 import android.app.Activity;
 import android.content.Context;
@@ -6,7 +6,7 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
-import com.zorona.liverooms.SessionManager;
+import com.app.liverooms.SessionManager;
 import com.google.android.gms.ads.AdError;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.FullScreenContentCallback;

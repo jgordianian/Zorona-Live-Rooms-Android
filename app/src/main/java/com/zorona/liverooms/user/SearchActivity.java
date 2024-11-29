@@ -1,4 +1,4 @@
-package com.zorona.liverooms.user;
+package com.app.liverooms.user;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,18 +12,18 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProviders;
 
-import com.zorona.liverooms.R;
-import com.zorona.liverooms.activity.BaseActivity;
-import com.zorona.liverooms.modelclass.GuestProfileRoot;
-import com.zorona.liverooms.modelclass.GuestUsersListRoot;
-import com.zorona.liverooms.retrofit.Const;
-import com.zorona.liverooms.retrofit.RetrofitBuilder;
-import com.zorona.liverooms.retrofit.UserApiCall;
-import com.zorona.liverooms.user.guestUser.GuestActivity;
-import com.zorona.liverooms.viewModel.ViewModelFactory;
-import com.zorona.liverooms.databinding.ActivitySearchBinding;
-import com.zorona.liverooms.databinding.ItemSearchUsersBinding;
-import com.zorona.liverooms.databinding.ItemSearchUsersHistoryBinding;
+import com.app.liverooms.R;
+import com.app.liverooms.activity.BaseActivity;
+import com.app.liverooms.modelclass.GuestProfileRoot;
+import com.app.liverooms.modelclass.GuestUsersListRoot;
+import com.app.liverooms.retrofit.Const;
+import com.app.liverooms.retrofit.RetrofitBuilder;
+import com.app.liverooms.retrofit.UserApiCall;
+import com.app.liverooms.user.guestUser.GuestActivity;
+import com.app.liverooms.viewModel.ViewModelFactory;
+import com.app.liverooms.databinding.ActivitySearchBinding;
+import com.app.liverooms.databinding.ItemSearchUsersBinding;
+import com.app.liverooms.databinding.ItemSearchUsersHistoryBinding;
 import com.google.gson.JsonObject;
 
 import retrofit2.Call;

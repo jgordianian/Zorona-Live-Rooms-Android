@@ -1,4 +1,4 @@
-package com.zorona.liverooms.reels;
+package com.app.liverooms.reels;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;

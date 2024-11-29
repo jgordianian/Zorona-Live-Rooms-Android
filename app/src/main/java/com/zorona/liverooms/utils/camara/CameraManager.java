@@ -1,4 +1,4 @@
-package com.zorona.liverooms.utils.camara;
+package com.app.liverooms.utils.camara;
 
 import android.content.Context;
 import android.content.pm.PackageManager;

@@ -1,4 +1,4 @@
-package com.zorona.liverooms.reels;
+package com.app.liverooms.reels;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -22,18 +22,18 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.zorona.liverooms.R;
-import com.zorona.liverooms.activity.BaseActivity;
-import com.zorona.liverooms.bottomsheets.BottomSheetReport_g;
-import com.zorona.liverooms.comments.CommentLikeListActivity;
-import com.zorona.liverooms.modelclass.ReliteRoot;
-import com.zorona.liverooms.retrofit.CommenApiCalling;
-import com.zorona.liverooms.retrofit.Const;
-import com.zorona.liverooms.user.guestUser.GuestActivity;
-import com.zorona.liverooms.viewModel.ReelsViewModel;
-import com.zorona.liverooms.viewModel.ViewModelFactory;
-import com.zorona.liverooms.databinding.ActivityReelsBinding;
-import com.zorona.liverooms.databinding.ItemReelsBinding;
+import com.app.liverooms.R;
+import com.app.liverooms.activity.BaseActivity;
+import com.app.liverooms.bottomsheets.BottomSheetReport_g;
+import com.app.liverooms.comments.CommentLikeListActivity;
+import com.app.liverooms.modelclass.ReliteRoot;
+import com.app.liverooms.retrofit.CommenApiCalling;
+import com.app.liverooms.retrofit.Const;
+import com.app.liverooms.user.guestUser.GuestActivity;
+import com.app.liverooms.viewModel.ReelsViewModel;
+import com.app.liverooms.viewModel.ViewModelFactory;
+import com.app.liverooms.databinding.ActivityReelsBinding;
+import com.app.liverooms.databinding.ItemReelsBinding;
 import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.source.MediaSource;
